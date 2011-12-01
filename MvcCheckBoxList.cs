@@ -328,7 +328,7 @@ public static class MvcCheckBoxList {
 					w.wrap_rowbreak = "</" + wrapRow + "> " +
 					                  wrapHtml_builder.ToString(TagRenderMode.StartTag);
 					w.wrap_close = wrapHtml_builder.ToString(TagRenderMode.EndTag) +
-					               " <div style=\"clear:both;\" />";
+					               " <div style=\"clear:both;\"></div>";
 					w.append_to_element = "<br/>";
 				}
 					break;
