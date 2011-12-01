@@ -311,9 +311,15 @@ public static class MvcCheckBoxList {
 					// vertically sorted checkboxes
 				case HtmlTag.vertical_columns: {
 					if (wrapInfo.Columns <= 0) wrapInfo.Columns = 1;
-					var rows = Convert.ToDecimal(numberOfItems) / Convert.ToDecimal(wrapInfo.Columns);
-					w.separator_max_counter = Convert.ToInt32(Math.Ceiling(rows));
 
+					var rows = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(numberOfItems)
+					                                        / Convert.ToDecimal(wrapInfo.Columns)));
+					if (numberOfItems <= 4 &&
+						(numberOfItems <= wrapInfo.Columns || numberOfItems - wrapInfo.Columns == 1))
+						rows = numberOfItems;
+					
+					w.separator_max_counter = rows;
+					
 					var wrapRow = htmlElementTag.div;
 					var defaultSectionStyle = "float:left; margin-right:30px; line-height:25px;";
 					var wrapHtml_builder = new TagBuilder(wrapRow.ToString());
