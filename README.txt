@@ -1,5 +1,15 @@
-
-MVC3 @Html.CheckBoxList() custom extension
+/////////////////////////////////////////////////////////////////////////////
+//
+// MVC3 @Html.CheckBoxList() custom extension v.1.2
+// by devnoob, 2011
+// http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
+//
+// Since version 1.2 contains portions of code from article:
+// 'Better ASP MVC Select HtmlHelper'
+// by Sacha Barber, 2011
+// http://sachabarber.net/?p=1007
+//
+/////////////////////////////////////////////////////////////////////////////
 
 Introduction
 
