@@ -100,7 +100,7 @@ public static class MvcCheckBoxList {
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 Position position = Position.Horizontal) {
 		return htmlHelper.CheckBoxList
-			(getPropertyName(listNameExpr), sourceDataExpr, valueExpr,
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr,
 			 textToDisplayExpr, selectedValuesExpr, null, null, null, position);
 	}
 	// 1.1
@@ -127,7 +127,7 @@ public static class MvcCheckBoxList {
 		 object htmlAttributes,
 		 Position position = Position.Horizontal) {
 		return htmlHelper.CheckBoxList
-			(getPropertyName(listNameExpr), sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes,
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes,
 			 null, null, position);
 	}
 	// 2.1
@@ -156,7 +156,7 @@ public static class MvcCheckBoxList {
 		 string[] disabledValues,
 		 Position position = Position.Horizontal) {
 		return htmlHelper.CheckBoxList
-			(getPropertyName(listNameExpr), sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes,
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes,
 			 null, disabledValues, position);
 	}
 	// 3.1
@@ -185,7 +185,7 @@ public static class MvcCheckBoxList {
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 HtmlListInfo wrapInfo) {
 		return htmlHelper.CheckBoxList
-			(getPropertyName(listNameExpr), sourceDataExpr, valueExpr, textToDisplayExpr,
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
 			 selectedValuesExpr, null, wrapInfo, null);
 	}
 	// 4.1
@@ -213,7 +213,7 @@ public static class MvcCheckBoxList {
 		 HtmlListInfo wrapInfo,
 		 string[] disabledValues) {
 		return htmlHelper.CheckBoxList
-			(getPropertyName(listNameExpr), sourceDataExpr, valueExpr, textToDisplayExpr,
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
 			 selectedValuesExpr, null, wrapInfo, disabledValues);
 	}
 	// 5.1
@@ -244,7 +244,7 @@ public static class MvcCheckBoxList {
 		 string[] disabledValues,
 		 Position position = Position.Horizontal) {
 		return htmlHelper.CheckBoxList
-			(getPropertyName(listNameExpr), sourceDataExpr, valueExpr, textToDisplayExpr,
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
 			 selectedValuesExpr, htmlAttributes, wrapInfo, disabledValues);
 	}
 	// main
@@ -435,8 +435,8 @@ public static class MvcCheckBoxList {
 		}
 		return dictionary;
 	}
-	private static string getPropertyName<TModel, TItem>(
-		Expression<Func<TModel, TItem>> propertyExpression) {
+	private static string toProperty<TModel, TItem>
+		(this Expression<Func<TModel, TItem>> propertyExpression) {
 		var lambda = propertyExpression as LambdaExpression;
 		MemberExpression memberExpression;
 		if (lambda.Body is UnaryExpression) {
