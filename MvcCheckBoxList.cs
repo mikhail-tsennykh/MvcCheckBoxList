@@ -1,10 +1,10 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 //
-// MVC3 @Html.CheckBoxList() custom extension v.1.2
+// MVC3 @Html.CheckBoxList() custom extension v.1.3
 // by devnoob, 2011
 // http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
 //
-// Since version 1.2 contains portions of code from article:
+// Since version 1.2, contains portions of code from article:
 // 'Better ASP MVC Select HtmlHelper'
 // by Sacha Barber, 2011
 // http://sachabarber.net/?p=1007
@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
 
@@ -268,7 +267,7 @@ public static class MvcCheckBoxList {
 			selectedItems = selectedValuesExpr.Compile()(model).ToList();
 
 		// validation
-		if (sourceData.Count() == 0) return MvcHtmlString.Empty;
+		if (!sourceData.Any()) return MvcHtmlString.Empty;
 		if (string.IsNullOrEmpty(listName)) throw new ArgumentException("The argument must have a value", "listName");
 		var numberOfItems = sourceData.Count;
 
@@ -438,18 +437,8 @@ public static class MvcCheckBoxList {
 	private static string toProperty<TModel, TItem>
 		(this Expression<Func<TModel, TItem>> propertyExpression) {
 		var lambda = propertyExpression as LambdaExpression;
-		MemberExpression memberExpression;
-		if (lambda.Body is UnaryExpression) {
-			var unaryExpression = lambda.Body as UnaryExpression;
-			memberExpression = unaryExpression.Operand as MemberExpression;
-		}
-		else {
-			memberExpression = lambda.Body as MemberExpression;
-		}
-
-		var propertyInfo = memberExpression.Member as PropertyInfo;
-
-		return propertyInfo.Name;
+		var expression = lambda.Body.ToString();
+		return expression.Substring(expression.IndexOf('.') + 1);
 	}
 
 
