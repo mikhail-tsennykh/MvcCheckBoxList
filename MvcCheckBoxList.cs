@@ -1,7 +1,7 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 //
-// MVC3 @Html.CheckBoxList() custom extension v.1.3
-// by devnoob, 2011
+// MVC3 @Html.CheckBoxList() custom extension v.1.3a
+// by devnoob, 2011-2012
 // http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
 //
 // Since version 1.2, contains portions of code from article:
@@ -21,7 +21,7 @@ using System.Web.Mvc;
 
 // @Html.CheckBoxList(...)
 public static class MvcCheckBoxList {
-	/// model-independent functions
+	/// model-independent functions (older way, depends on 'SelectListItem' system class)
 	public static MvcHtmlString CheckBoxList
 		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
 		 Position position = Position.Horizontal) {
@@ -72,7 +72,7 @@ public static class MvcCheckBoxList {
 		// create checkbox list
 		var sb = new StringBuilder();
 		sb.Append(htmlWrapper.wrap_open);
-		counter = 0;
+		htmlwrap_rowbreak_counter = 0;
 
 		foreach (var r in dataList) {
 			// create list of selected values
@@ -277,7 +277,7 @@ public static class MvcCheckBoxList {
 		// create checkbox list
 		var sb = new StringBuilder();
 		sb.Append(htmlWrapper.wrap_open);
-		counter = 0;
+		htmlwrap_rowbreak_counter = 0;
 
 		foreach (var item in sourceData) {
 			// get checkbox value and text
@@ -298,7 +298,7 @@ public static class MvcCheckBoxList {
 	}
 
 
-	// list creation functions
+	// Creates an HTML wrapper for the checkbox list
 	private static htmlWrapperInfo createHtmlWrapper
 		(HtmlListInfo wrapInfo, int numberOfItems, Position position) {
 		var w = new htmlWrapperInfo();
@@ -376,18 +376,27 @@ public static class MvcCheckBoxList {
 
 		return w;
 	}
-	private static int counter { get; set; }
+	// Creates an an individual checkbox
+	private static int htmlwrap_rowbreak_counter { get; set; }
+	private static int linked_label_counter { get; set; }
 	private static StringBuilder createCheckBoxListElement
-		(StringBuilder sb, htmlWrapperInfo htmlWrapper, object htmlAttributes,
+		(StringBuilder sb, htmlWrapperInfo htmlWrapper, object htmlAttributesForCheckBox,
 		 IEnumerable<string> selectedValues, IEnumerable<string> disabledValues,
 		 string name, string itemValue, string itemText) {
+		// create checkbox tag
 		var builder = new TagBuilder("input");
 		if (selectedValues.Any(x => x == itemValue)) builder.MergeAttribute("checked", "checked");
-		builder.MergeAttributes(htmlAttributes.toDictionary());
-		builder.InnerHtml = itemText;
+		builder.MergeAttributes(htmlAttributesForCheckBox.toDictionary());
 		builder.MergeAttribute("type", "checkbox");
 		builder.MergeAttribute("value", itemValue);
 		builder.MergeAttribute("name", name);
+
+		// create linked label tag
+		var link_name = name + linked_label_counter++;
+		builder.MergeAttribute("id", link_name);
+		var linked_label_builder = new TagBuilder("label");
+		linked_label_builder.MergeAttribute("for", link_name);
+		linked_label_builder.InnerHtml = itemText;
 
 		// open checkbox tag wrapper
 		sb.Append(htmlWrapper.wrap_element != htmlElementTag.None ? "<" + htmlWrapper.wrap_element + ">" : "");
@@ -404,6 +413,7 @@ public static class MvcCheckBoxList {
 
 		// create checkbox tag
 		sb.Append(builder.ToString(TagRenderMode.Normal));
+		sb.Append(linked_label_builder.ToString(TagRenderMode.Normal));
 
 		// close checkbox tag wrapper
 		sb.Append(htmlWrapper.wrap_element != htmlElementTag.None ? "</" + htmlWrapper.wrap_element + ">" : "");
@@ -412,10 +422,10 @@ public static class MvcCheckBoxList {
 		sb.Append(htmlWrapper.append_to_element);
 
 		// add table column break, if applicable
-		counter += 1;
-		if (counter == htmlWrapper.separator_max_counter) {
+		htmlwrap_rowbreak_counter += 1;
+		if (htmlwrap_rowbreak_counter == htmlWrapper.separator_max_counter) {
 			sb.Append(htmlWrapper.wrap_rowbreak);
-			counter = 0;
+			htmlwrap_rowbreak_counter = 0;
 		}
 
 		return sb;
