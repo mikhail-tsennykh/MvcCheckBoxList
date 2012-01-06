@@ -1,7 +1,7 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 //
-// MVC3 @Html.CheckBoxList() custom extension v.1.3a
-// by devnoob, 2011-2012
+// MVC3 @Html.CheckBoxList() custom extension v.1.3b
+// by Mikhail T. (devnoob), 2011-2012
 // http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
 //
 // Since version 1.2, contains portions of code from article:
@@ -19,46 +19,25 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
 
-// @Html.CheckBoxList(...)
-public static class MvcCheckBoxList {
-	/// model-independent functions (older way, depends on 'SelectListItem' system class)
-	public static MvcHtmlString CheckBoxList
-		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
-		 Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listName, dataList, null, null, null, position);
-	}
+/// <summary>
+/// @Html.CheckBoxList(...) main functions
+/// </summary>
+internal static class MvcCheckBoxList_Main {
+	// Main functions
 
-	public static MvcHtmlString CheckBoxList
-		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
-		 object htmlAttributes, Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listName, dataList, htmlAttributes, null, null, position);
-	}
-
-	public static MvcHtmlString CheckBoxList
-		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
-		 object htmlAttributes, string[] disabledValues, Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listName, dataList, htmlAttributes, null, disabledValues, position);
-	}
-
-	public static MvcHtmlString CheckBoxList
-		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
-		 HtmlListInfo wrapInfo) {
-		return htmlHelper.CheckBoxList
-			(listName, dataList, null, wrapInfo, null);
-	}
-
-	public static MvcHtmlString CheckBoxList
-		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
-		 HtmlListInfo wrapInfo, string[] disabledValues) {
-		return htmlHelper.CheckBoxList
-			(listName, dataList, null, wrapInfo, disabledValues);
-	}
-
-	public static MvcHtmlString CheckBoxList
-		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
+	/// <summary>
+	/// Model-Independent main function
+	/// </summary>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	internal static MvcHtmlString CheckBoxList
+		(HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
 		 object htmlAttributes, HtmlListInfo wrapInfo, string[] disabledValues,
 		 Position position = Position.Horizontal) {
 		// validation
@@ -74,10 +53,10 @@ public static class MvcCheckBoxList {
 		sb.Append(htmlWrapper.wrap_open);
 		htmlwrap_rowbreak_counter = 0;
 
-		foreach (var r in dataList) {
-			// create list of selected values
-			var selectedValues = dataList.Where(x => x.Selected).Select(s => s.Value);
+		// create list of selected values
+		var selectedValues = dataList.Where(x => x.Selected).Select(s => s.Value);
 
+		foreach (var r in dataList) {
 			// create checkbox element
 			sb = createCheckBoxListElement(sb, htmlWrapper, htmlAttributes, selectedValues,
 			                               disabledValues, listName, r.Value, r.Text);
@@ -88,167 +67,26 @@ public static class MvcCheckBoxList {
 		return MvcHtmlString.Create(sb.ToString());
 	}
 
-	/// model-specific functions
-	// 1
-	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 Expression<Func<TModel, object>> listNameExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listNameExpr.toProperty(), sourceDataExpr, valueExpr,
-			 textToDisplayExpr, selectedValuesExpr, null, null, null, position);
-	}
-	// 1.1
-	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 string listName,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, null, null, null, position);
-	}
-
-	// 2
-	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 Expression<Func<TModel, object>> listNameExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 object htmlAttributes,
-		 Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes,
-			 null, null, position);
-	}
-	// 2.1
-	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 string listName,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 object htmlAttributes,
-		 Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes, null, null, position);
-	}
-
-	// 3
-	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 Expression<Func<TModel, object>> listNameExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 object htmlAttributes,
-		 string[] disabledValues,
-		 Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes,
-			 null, disabledValues, position);
-	}
-	// 3.1
-	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 string listName,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 object htmlAttributes,
-		 string[] disabledValues,
-		 Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes, null, disabledValues,
-			 position);
-	}
-
-	// 4
-	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 Expression<Func<TModel, object>> listNameExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 HtmlListInfo wrapInfo) {
-		return htmlHelper.CheckBoxList
-			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
-			 selectedValuesExpr, null, wrapInfo, null);
-	}
-	// 4.1
-	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 string listName,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 HtmlListInfo wrapInfo) {
-		return htmlHelper.CheckBoxList
-			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr,
-			null, wrapInfo, null);
-	}
-
-	// 5
-	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 Expression<Func<TModel, object>> listNameExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 HtmlListInfo wrapInfo,
-		 string[] disabledValues) {
-		return htmlHelper.CheckBoxList
-			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
-			 selectedValuesExpr, null, wrapInfo, disabledValues);
-	}
-	// 5.1
-	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 string listName,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 HtmlListInfo wrapInfo,
-		 string[] disabledValues) {
-		return htmlHelper.CheckBoxList
-			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr,
-			null, wrapInfo, disabledValues);
-	}
-
-	// main for
-	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
-		 Expression<Func<TModel, object>> listNameExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
-		 Expression<Func<TItem, TValue>> valueExpr,
-		 Expression<Func<TItem, TKey>> textToDisplayExpr,
-		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 object htmlAttributes,
-		 HtmlListInfo wrapInfo,
-		 string[] disabledValues,
-		 Position position = Position.Horizontal) {
-		return htmlHelper.CheckBoxList
-			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
-			 selectedValuesExpr, htmlAttributes, wrapInfo, disabledValues);
-	}
-	// main
-	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
-		(this HtmlHelper<TModel> htmlHelper,
+	/// <summary>
+	/// Model-Based main function
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	internal static MvcHtmlString CheckBoxList_ModelBased<TModel, TItem, TValue, TKey>
+		(HtmlHelper<TModel> htmlHelper,
 		 string listName,
 		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
 		 Expression<Func<TItem, TValue>> valueExpr,
@@ -279,13 +117,13 @@ public static class MvcCheckBoxList {
 		sb.Append(htmlWrapper.wrap_open);
 		htmlwrap_rowbreak_counter = 0;
 
+		// create list of selected values
+		var selectedValues = selectedItems.Select(s => valueFunc(s).ToString()).ToList();
+
 		foreach (var item in sourceData) {
 			// get checkbox value and text
 			var itemValue = valueFunc(item).ToString();
 			var itemText = textToDisplayFunc(item).ToString();
-
-			// create list of selected values
-			var selectedValues = selectedItems.Select(s => valueFunc(s).ToString()).ToList();
 
 			// create checkbox element
 			sb = createCheckBoxListElement(sb, htmlWrapper, htmlAttributes, selectedValues,
@@ -297,8 +135,13 @@ public static class MvcCheckBoxList {
 		return MvcHtmlString.Create(sb.ToString());
 	}
 
-
-	// Creates an HTML wrapper for the checkbox list
+	/// <summary>
+	/// Creates an HTML wrapper for the checkbox list
+	/// </summary>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="numberOfItems">Count of all items in the list</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML wrapper information</returns>
 	private static htmlWrapperInfo createHtmlWrapper
 		(HtmlListInfo wrapInfo, int numberOfItems, Position position) {
 		var w = new htmlWrapperInfo();
@@ -314,11 +157,11 @@ public static class MvcCheckBoxList {
 					var rows = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(numberOfItems)
 					                                        / Convert.ToDecimal(wrapInfo.Columns)));
 					if (numberOfItems <= 4 &&
-						(numberOfItems <= wrapInfo.Columns || numberOfItems - wrapInfo.Columns == 1))
+					    (numberOfItems <= wrapInfo.Columns || numberOfItems - wrapInfo.Columns == 1))
 						rows = numberOfItems;
-					
+
 					w.separator_max_counter = rows;
-					
+
 					var wrapRow = htmlElementTag.div;
 					var defaultSectionStyle = "float:left; margin-right:30px; line-height:25px;";
 					var wrapHtml_builder = new TagBuilder(wrapRow.ToString());
@@ -376,9 +219,26 @@ public static class MvcCheckBoxList {
 
 		return w;
 	}
-	// Creates an an individual checkbox
+	/// <summary>
+	/// Counter to count when to insert HTML code that brakes checkbox list
+	/// </summary>
 	private static int htmlwrap_rowbreak_counter { get; set; }
+	/// <summary>
+	/// Counter to be used on a label linked to each checkbox in the list
+	/// </summary>
 	private static int linked_label_counter { get; set; }
+	/// <summary>
+	/// Creates an an individual checkbox
+	/// </summary>
+	/// <param name="sb">String builder of checkbox list</param>
+	/// <param name="htmlWrapper">MVC Html helper class that is being extended</param>
+	/// <param name="htmlAttributesForCheckBox">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="selectedValues">List of strings of selected values</param>
+	/// <param name="disabledValues">List of strings of disabled values</param>
+	/// <param name="name">Name of the checkbox list (same for all checkboxes)</param>
+	/// <param name="itemValue">Value of the checkbox</param>
+	/// <param name="itemText">Text to be displayed next to checkbox</param>
+	/// <returns>String builder of checkbox list</returns>
 	private static StringBuilder createCheckBoxListElement
 		(StringBuilder sb, htmlWrapperInfo htmlWrapper, object htmlAttributesForCheckBox,
 		 IEnumerable<string> selectedValues, IEnumerable<string> disabledValues,
@@ -430,9 +290,15 @@ public static class MvcCheckBoxList {
 
 		return sb;
 	}
+	
 
+	// Additional functions
 
-	// convert object to Dictionary<string, object>
+	/// <summary>
+	/// Convert object to Dictionary of strings and objects
+	/// </summary>
+	/// <param name="_object">Object of Dictionary of strings and objects (e.g. 'new { name="value" }')</param>
+	/// <returns>Dictionary of strings and objects</returns>
 	private static Dictionary<string, object> toDictionary(this object _object) {
 		if (_object == null) return new Dictionary<string, object>();
 		var object_properties = TypeDescriptor.GetProperties(_object);
@@ -444,36 +310,518 @@ public static class MvcCheckBoxList {
 		}
 		return dictionary;
 	}
+}
+
+/// <summary>
+/// @Html.CheckBoxList(...) extensions/overloads
+/// </summary>
+public static class MvcCheckBoxList_Extensions {
+	// Regular CheckBoxList extensions
+
+	/// <summary>
+	/// Model-Independent function
+	/// </summary>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>	
+	public static MvcHtmlString CheckBoxList
+		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
+		 Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listName, dataList, null, null, null, position);
+	}
+	/// <summary>
+	/// Model-Independent function
+	/// </summary>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList
+		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
+		 object htmlAttributes, Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listName, dataList, htmlAttributes, null, null, position);
+	}
+	/// <summary>
+	/// Model-Independent function
+	/// </summary>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList
+		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
+		 object htmlAttributes, string[] disabledValues, Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listName, dataList, htmlAttributes, null, disabledValues, position);
+	}
+	/// <summary>
+	/// Model-Independent function
+	/// </summary>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList
+		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
+		 HtmlListInfo wrapInfo) {
+		return htmlHelper.CheckBoxList
+			(listName, dataList, null, wrapInfo, null);
+	}
+	/// <summary>
+	/// Model-Independent function
+	/// </summary>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList
+		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
+		 HtmlListInfo wrapInfo, string[] disabledValues) {
+		return htmlHelper.CheckBoxList
+			(listName, dataList, null, wrapInfo, disabledValues);
+	}
+	/// <summary>
+	/// Model-Independent function
+	/// </summary>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList
+		(this HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
+		 object htmlAttributes, HtmlListInfo wrapInfo, string[] disabledValues,
+		 Position position = Position.Horizontal) {
+		return MvcCheckBoxList_Main.CheckBoxList
+			(htmlHelper, listName, dataList, htmlAttributes, wrapInfo, disabledValues, position);
+	}
+	
+
+	// Model-based CheckBoxList extensions
+
+	/// <summary>
+	/// Model-Based function (For...)
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listNameExpr">ViewModel Item type to serve as a name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 Expression<Func<TModel, object>> listNameExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr,
+			 textToDisplayExpr, selectedValuesExpr, null, null, null, position);
+	}
+	/// <summary>
+	/// Model-Based function
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 string listName,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, null, null, null, position);
+	}
+	
+	/// <summary>
+	/// Model-Based function (For...)
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listNameExpr">ViewModel Item type to serve as a name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 Expression<Func<TModel, object>> listNameExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 object htmlAttributes,
+		 Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes,
+			 null, null, position);
+	}
+	/// <summary>
+	/// Model-Based function
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 string listName,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 object htmlAttributes,
+		 Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes, null, null, position);
+	}
+
+	/// <summary>
+	/// Model-Based function (For...)
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listNameExpr">ViewModel Item type to serve as a name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 Expression<Func<TModel, object>> listNameExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 object htmlAttributes,
+		 string[] disabledValues,
+		 Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes,
+			 null, disabledValues, position);
+	}
+	/// <summary>
+	/// Model-Based function
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 string listName,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 object htmlAttributes,
+		 string[] disabledValues,
+		 Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr, htmlAttributes, null, disabledValues,
+			 position);
+	}
+
+	/// <summary>
+	/// Model-Based function (For...)
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listNameExpr">ViewModel Item type to serve as a name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 Expression<Func<TModel, object>> listNameExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 HtmlListInfo wrapInfo) {
+		return htmlHelper.CheckBoxList
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
+			 selectedValuesExpr, null, wrapInfo, null);
+	}
+	/// <summary>
+	/// Model-Based function
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 string listName,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 HtmlListInfo wrapInfo) {
+		return htmlHelper.CheckBoxList
+			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr,
+			 null, wrapInfo, null);
+	}
+
+	/// <summary>
+	/// Model-Based function (For...)
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listNameExpr">ViewModel Item type to serve as a name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 Expression<Func<TModel, object>> listNameExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 HtmlListInfo wrapInfo,
+		 string[] disabledValues) {
+		return htmlHelper.CheckBoxList
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
+			 selectedValuesExpr, null, wrapInfo, disabledValues);
+	}
+	/// <summary>
+	/// Model-Based function
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 string listName,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 HtmlListInfo wrapInfo,
+		 string[] disabledValues) {
+		return htmlHelper.CheckBoxList
+			(listName, sourceDataExpr, valueExpr, textToDisplayExpr, selectedValuesExpr,
+			 null, wrapInfo, disabledValues);
+	}
+
+	/// <summary>
+	/// Model-Based function (For...)
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listNameExpr">ViewModel Item type to serve as a name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxListFor<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 Expression<Func<TModel, object>> listNameExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 object htmlAttributes,
+		 HtmlListInfo wrapInfo,
+		 string[] disabledValues,
+		 Position position = Position.Horizontal) {
+		return htmlHelper.CheckBoxList
+			(listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
+			 selectedValuesExpr, htmlAttributes, wrapInfo, disabledValues);
+	}
+	/// <summary>
+	/// Model-Based function
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position.Horizontal' or 'Position.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 string listName,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 object htmlAttributes,
+		 HtmlListInfo wrapInfo,
+		 string[] disabledValues,
+		 Position position = Position.Horizontal) {
+		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
+			(htmlHelper, listName, sourceDataExpr, valueExpr, textToDisplayExpr,
+			 selectedValuesExpr, htmlAttributes, wrapInfo, disabledValues, position);
+	}
+
+
+	// Additional functions
+
+	/// <summary>
+	/// Convert lambda expression to property name
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <param name="propertyExpression">Lambda expression of property value</param>
+	/// <returns>Property value string</returns>
 	private static string toProperty<TModel, TItem>
 		(this Expression<Func<TModel, TItem>> propertyExpression) {
 		var lambda = propertyExpression as LambdaExpression;
 		var expression = lambda.Body.ToString();
 		return expression.Substring(expression.IndexOf('.') + 1);
+
+		//// return property name only
+		//var lambda = propertyExpression as LambdaExpression;
+		//MemberExpression memberExpression;
+		//if (lambda.Body is UnaryExpression) {
+		//  var unaryExpression = lambda.Body as UnaryExpression;
+		//  memberExpression = unaryExpression.Operand as MemberExpression;
+		//}
+		//else
+		//  memberExpression = lambda.Body as MemberExpression;
+
+		//var propertyInfo = memberExpression.Member as PropertyInfo;
+		//return propertyInfo.Name;
 	}
-
-
 }
 
 
-// support classes and enums
+// Additional enums and classes for options/settings of a checkbox list
+
+/// <summary>
+/// Sets type of HTML wrapper to use on a checkbox list
+/// </summary>
 public enum HtmlTag {
 	ul,
 	table,
 	vertical_columns
 }
-internal enum htmlElementTag {
-	None,
-	tr,
-	td,
-	li,
-	div,
-	table,
-	ul
-}
+/// <summary>
+/// Sets display direction of a checkbox list
+/// </summary>
 public enum Position {
 	Horizontal,
 	Vertical
 }
+/// <summary>
+/// Sets settings of an HTML wrapper that is used on a checkbox list
+/// </summary>
 public class HtmlListInfo {
 	public HtmlListInfo(HtmlTag htmlTag, int columns = 0, object htmlAttributes = null) {
 		this.htmlTag = htmlTag;
@@ -485,6 +833,25 @@ public class HtmlListInfo {
 	public int Columns { get; set; }
 	public object htmlAttributes { get; set; }
 }
+
+
+// Additional internal enums and classes for options/settings of a checkbox list
+
+/// <summary>
+/// Sets local type of HTML element that is used on an HTML wrapper
+/// </summary>
+internal enum htmlElementTag {
+	None,
+	tr,
+	td,
+	li,
+	div,
+	table,
+	ul
+}
+/// <summary>
+/// Sets local settings of an HTML wrapper that is used on a checkbox list
+/// </summary>
 internal class htmlWrapperInfo {
 	public string wrap_open = String.Empty;
 	public string wrap_rowbreak = String.Empty;
