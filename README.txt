@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// MVC3 @Html.CheckBoxList() custom extension README & HOWTO
+// MVC3 @Html.CheckBoxList() v.1.3b custom extension README & HOWTO
 // by devnoob, 2011-2012
 // http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
 //
