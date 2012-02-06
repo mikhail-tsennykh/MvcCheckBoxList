@@ -1,0 +1,133 @@
+﻿@using System.Text
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Index</title>
+	<script src="http://code.jquery.com/jquery.min.js"></script>
+	<link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div>
+		
+		<h2><a href="/">MVC3 Html.CheckBoxList() custom extension</a></h2>
+		
+		<h3>Simple Html.CheckBoxList() Usage Example Site</h3>
+
+		@{
+			var sourceData = new[] {
+												 new {Name = "Monroe", Id = 1},
+												 new {Name = "Moscow", Id = 2},
+												 new {Name = "New Orleans", Id = 3},
+												 new {Name = "Ottawa", Id = 4},
+												 new {Name = "Mumbai", Id = 5},
+												 new {Name = "Rome", Id = 6},
+												 new {Name = "Rio", Id = 7}
+											 };
+			var selectedValues = new[] {"2", "3", "5", "7"};								 
+			var disabledValues = new[] {"2", "4", "7"};								 
+		}
+		
+		<fieldset>
+			<legend>.Aggregate (simple)</legend>
+			@{ var cities_string = sourceData.Aggregate("", (a, b) => a + b.Name + ", "); }
+			@cities_string.Remove(cities_string.LastIndexOf(","));
+		</fieldset>
+
+		<fieldset>
+			<legend>.NET 3.5:</legend>
+			@*<code>
+				@sourceData.Aggregate(new StringBuilder(),
+							              (sb, c) => {
+						                if (0 != sb.Length) sb.Append(", ");
+								            sb.Append(c.Name);
+			                      return sb;
+			                      }, sb => sb.ToString())
+			</code>*@
+			@sourceData.Aggregate(new StringBuilder(),
+							              (sb, c) => {
+						                if (0 != sb.Length) sb.Append(", ");
+								            sb.Append(c.Name);
+			                      return sb;
+			                      }, sb => sb.ToString())
+		</fieldset>
+		
+		<b>.NET 4.0 string.Join:</b><br/>
+		@string.Join(", ", sourceData.Select(c => c.Name))
+
+		<br/><br/>
+		<hr/>
+
+		Regular (not using CheckBoxList control):
+		<table>
+			<tr>
+			@foreach (var record in sourceData) {
+				if (disabledValues.Any(x => x == record.Id.ToString())) {
+					<td>
+						<input type="checkbox" disabled="disabled" name="Cities" value="@record.Id">@record.Name</input>
+						<input type="hidden" name="Cities" value="@record.Id" />
+					</td> 																		
+				} else {
+					<td>
+						<input type="checkbox" name="Cities" value="@record.Id">@record.Name</input>
+					</td>
+				}
+			}
+			</tr>
+		</table>
+		
+		@{
+			var data = sourceData.Select
+				(r => new SelectListItem {
+				                         	Value = r.Id.ToString(), Text = r.Name,
+				                         	Selected = selectedValues.Any(s => s == r.Id.ToString())
+				                         }).ToList();
+		}
+
+		Using control:<br/><br/>
+
+		@Html.CheckBoxList("Cities", data)
+		
+		<br/><br/>
+
+		@Html.CheckBoxList("Cities", data, Position.Vertical)
+		
+		<br/><br/>
+		
+		@Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.ul))
+		
+		<br/><br/>
+
+		@Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.table, 2))
+		
+		<br/><br/>
+
+		@Html.CheckBoxList("Cities", data, 
+			new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" }))
+
+		<br/><br/>
+
+		@Html.CheckBoxList("Cities", data, null, 
+			new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" }),
+			disabledValues)
+
+		<br/><br/>
+	</div>
+	
+	<div id="footer">
+		By <a target="_blank" href="http://www.codeproject.com/Members/devnoob">Mikhail T. (devnoob)</a>, 2012
+	</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function () {
+			//$('#SearchTerm').focus();
+			//$('.grid tr:even').css("background", "silver");
+		});
+	</script>
+
+</body>
+</html>
