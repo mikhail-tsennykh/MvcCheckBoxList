@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 //
-// MVC3 @Html.CheckBoxList() custom extension v.1.3b
+// MVC3 @Html.CheckBoxList() custom extension v.1.3c
 // by Mikhail T. (devnoob), 2011-2012
 // http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
 //
@@ -149,29 +149,37 @@ internal static class MvcCheckBoxList_Main {
 		if (wrapInfo != null) {
 			// creating custom layouts
 			switch (wrapInfo.htmlTag) {
-					// creates user selected number of float sections with
-					// vertically sorted checkboxes
+				// creates user selected number of float sections with
+				// vertically sorted checkboxes
 				case HtmlTag.vertical_columns: {
 					if (wrapInfo.Columns <= 0) wrapInfo.Columns = 1;
-
+					// calculate number of rows
 					var rows = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(numberOfItems)
 					                                        / Convert.ToDecimal(wrapInfo.Columns)));
 					if (numberOfItems <= 4 &&
-					    (numberOfItems <= wrapInfo.Columns || numberOfItems - wrapInfo.Columns == 1))
+							(numberOfItems <= wrapInfo.Columns || numberOfItems - wrapInfo.Columns == 1))
 						rows = numberOfItems;
-
 					w.separator_max_counter = rows;
 
+					// create wrapped raw html tag
 					var wrapRow = htmlElementTag.div;
-					var defaultSectionStyle = "float:left; margin-right:30px; line-height:25px;";
 					var wrapHtml_builder = new TagBuilder(wrapRow.ToString());
+					var user_html_attributes = wrapInfo.htmlAttributes.toDictionary();
+
+					// create raw style and merge it with user provided style (if applicable)
+					var defaultSectionStyle = "float:left; margin-right:30px; line-height:25px;";
 					object style;
-					wrapInfo.htmlAttributes.toDictionary().TryGetValue("style", out style);
-					if (style != null)
+					user_html_attributes.TryGetValue("style", out style);
+					if (style != null)	// if user style is set, use it
 						wrapHtml_builder.MergeAttribute("style", defaultSectionStyle + " " + style);
-					else
+					else // if not set, add only default style
 						wrapHtml_builder.MergeAttribute("style", defaultSectionStyle);
 
+					// merge it with other user provided attributes (e.g.: class)
+					user_html_attributes.Remove("style");
+					wrapHtml_builder.MergeAttributes(user_html_attributes);
+
+					// build wrapped raw html tag 
 					w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag);
 					w.wrap_rowbreak = "</" + wrapRow + "> " +
 					                  wrapHtml_builder.ToString(TagRenderMode.StartTag);
