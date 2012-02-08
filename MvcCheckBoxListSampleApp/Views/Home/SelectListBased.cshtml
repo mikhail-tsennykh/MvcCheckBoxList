@@ -1,4 +1,16 @@
-﻿		
+﻿@model MvcCheckBoxListSampleApp.ViewModels.CitiesViewModel
+
+<h1>Basic Example:</h1>
+
+@if (Model.WasPosted) {
+	<fieldset>
+		<legend>POST result:</legend>
+		@if (Model.SelectedCities != null) {
+			@string.Join(", ", Model.SelectedCities.Select(x => x.Name))
+		}
+	</fieldset>
+}
+		
 <fieldset>
 	<legend>Given</legend>
 <pre class="cs">
@@ -17,12 +29,11 @@
 	var selectedValues = new[] {"2", "3", "5", "7"};								 
 	// values to be disabled
 	var disabledValues = new[] {"2", "4", "7"};
-	
 	// our data converted to List of SelectListItem
 	var data = sourceData.Select
 		(r => new SelectListItem {
 				Value = r.Id.ToString(), Text = r.Name,
-				Selected = selectedValues.Any(s => s == r.Id.ToString())
+				Selected = selectedValues.Any(s => s == r.Id.ToString())	// checks box if selected
 				}).ToList();									 
 }
 </pre>
@@ -36,51 +47,76 @@
 												 new {Name = "Rome", Id = 6},
 												 new {Name = "Rio", Id = 7}
 											 };
-			var selectedValues = new[] {"2", "3", "5", "7"};								 
-			var disabledValues = new[] {"2", "4", "7"};		
+			var disabledValues = new[] {"2", "4", "7"};
 			var data = sourceData.Select
 				(r => new SelectListItem {
 				                         	Value = r.Id.ToString(), Text = r.Name,
-				                         	Selected = selectedValues.Any(s => s == r.Id.ToString())
-				                         }).ToList();									 
+				                         	Selected = Model.SelectedCities.Any(s => s.Id == r.Id)
+				                         }).ToList();
 		}
 </fieldset>
 
 <fieldset>
 	<legend>Using control</legend>
 	<h3>Default:</h3>
-	<p>@Html.CheckBoxList("Cities", data)</p>
+	@using (Html.BeginForm("SelectListBased", "Home", FormMethod.Get)) {
+		<p>@Html.CheckBoxList("Cities", data)</p>
+		<input type="submit" value="POST to controller" />
+	}
 			
 	<h3>Code:</h3>
 	<pre class="cs">&#64;Html.CheckBoxList("Cities", data)</pre>
 
 	<h3>Vertical:</h3>
-	<p>@Html.CheckBoxList("Cities", data, Position.Vertical)</p>
+	@using (Html.BeginForm("SelectListBased", "Home", FormMethod.Get)) {
+		<p>@Html.CheckBoxList("Cities", data, Position.Vertical)</p>
+		<input type="submit" value="POST to controller" />
+	}
 			
 	<h3>Source Code:</h3>
 	<pre class="cs">&#64;Html.CheckBoxList("Cities", data, Position.Vertical)</pre>
 
 	<h3>Vertical Unordered List:</h3>
-	<p>@Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.ul))</p>
+	@using (Html.BeginForm("SelectListBased", "Home", FormMethod.Get)) {
+		<p>@Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.ul))</p>
+		<input type="submit" value="POST to controller" />
+	}
 			
 	<h3>Source Code:</h3>
 	<pre class="cs">&#64;Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.ul))</pre>
 
 	<h3>Two Column List (wrapped in &lt;table&gt;):</h3>
-	<p>@Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.table, 2))</p>
+	@using (Html.BeginForm("SelectListBased", "Home", FormMethod.Get)) {
+		<p>@Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.table, 2))</p>
+		<input type="submit" value="POST to controller" />
+	}
 			
 	<h3>Source Code:</h3>
 	<pre class="cs">&#64;Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.table, 2))</pre>
 
+	<h3>Two Column List With Disabled Values (wrapped in floating &lt;div&gt;):</h3>
+	@using (Html.BeginForm("SelectListBased", "Home", FormMethod.Get)) {
+		<p>
+		@Html.CheckBoxList("Cities", data, null, 
+			new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" }),
+			disabledValues)
+		</p>
+		<input type="submit" value="POST to controller" />
+	}
+			
+	<h3>Source Code:</h3>
+	<pre class="cs">&#64;Html.CheckBoxList("Cities", data, null, new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" }), disabledValues)</pre>
+
+
 	<h3>Two Column Styled List (wrapped in floating &lt;div&gt;):</h3>
-	<style type="text/css">
-		.styled_list {color:green; background:lightblue; padding:3px 10px 3px 5px; border-radius:5px;}
-	</style>
-	<p>
+	@using (Html.BeginForm("SelectListBased", "Home", FormMethod.Get)) {
+		<p>
 		@Html.CheckBoxList("Cities", data, 
 			new HtmlListInfo(HtmlTag.vertical_columns, 2,
 			new { @class="styled_list" }))
-	</p>
+		</p>
+		<input type="submit" value="POST to controller" />
+	}
 			
 	<h3>Source Code:</h3>
 	<h5>We have this style:</h5>
@@ -88,23 +124,4 @@
 	<h5>And use it like this:</h5>
 	<pre class="cs">&#64;Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.vertical_columns, 2, new { &#64;class="styled_list" }))</pre>
 			
-	<h3>Two Column List With Disabled Values:</h3>
-	<p>
-		@Html.CheckBoxList("Cities", data, null, 
-			new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" }),
-			disabledValues)
-	</p>
-			
-	<h3>Source Code:</h3>
-	<pre class="cs">&#64;Html.CheckBoxList("Cities", data, null, new HtmlListInfo(HtmlTag.vertical_columns, 2, new { style="color:green;" }), disabledValues)</pre>
 </fieldset>
-	
-<script type="text/javascript">
-	$(document).ready(function () {
-		//$('#SearchTerm').focus();
-		//$('.grid tr:even').css("background", "silver");
-		$("pre.html").snippet("html", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-		$("pre.cs").snippet("csharp", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-		$("pre.css").snippet("css", { style: "peachpuff", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-	});
-</script>

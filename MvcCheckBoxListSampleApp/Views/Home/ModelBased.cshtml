@@ -1,0 +1,99 @@
+﻿@model MvcCheckBoxListSampleApp.ViewModels.CitiesViewModel
+@{
+    ViewBag.Title = "ModelBased";
+}
+
+<h1>Advanced Example:</h1>
+
+@if (Model.WasPosted) {
+	<fieldset>
+		<legend>POST result:</legend>
+		@if (Model.PostedCities.CityIDs != null) {
+			@string.Join(", ", Model.SelectedCities.Select(x => x.Name))
+		}
+	</fieldset>
+}
+
+<fieldset>
+	<legend>&#64;Html.CheckBoxList() - set name manually</legend>
+	<h3>Output:</h3>
+	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
+		<p>
+			@Html.CheckBoxList("Cities",
+													x => x.AvailableCities,
+													x => x.Id,
+													x => x.Name,
+													x => x.SelectedCities)
+		</p>
+		<input type="submit" value="POST to controller" />
+	}
+			
+	<h3>Source Code:</h3>
+<pre class="cs">
+&#64;Html.CheckBoxList("Cities",                // checkbox list name          
+				   x => x.AvailableCities,  // all checkbox values         
+				   x => x.Id,               // field from data source to be used for checkbox VALUE              
+				   x => x.Name,             // field from data source to be used for checkbox TEXT              
+				   x => x.SelectedCities)   // selected values (list of selected 'Cities' in our case),
+					                        // must be of same data type as source data or set to 'NULL'
+</pre>
+</fieldset>
+
+
+<fieldset>
+	<legend>&#64;Html.CheckBoxListFor() - set name from view model</legend>
+	<h3>Output:</h3>
+	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
+		<p>
+			@Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+														x => x.AvailableCities,
+														x => x.Id,
+														x => x.Name,
+														x => x.SelectedCities)
+		</p>
+		<input type="submit" value="POST to controller" />
+	}
+			
+	<h3>Source Code:</h3>
+<pre class="cs">
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // checkbox list name, 'PostedCities.CityIDs' in this case
+					  x => x.AvailableCities,          
+					  x => x.Id,               
+					  x => x.Name,               
+					  x => x.SelectedCities)
+</pre>
+</fieldset>
+
+
+<fieldset>
+	<legend>&#64;Html.CheckBoxListFor() - full example</legend>
+	<h3>Output:</h3>
+	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
+		<p>
+		@Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+													x => x.AvailableCities,
+													x => x.Id,
+													x => x.Name,
+													x => x.SelectedCities,
+							            new { htmlAttribute="somevalue" },
+													new HtmlListInfo(HtmlTag.vertical_columns, 2, new { @class="styled_list" }),
+													new[] {"3", "5", "7"})
+		</p>
+		<input type="submit" value="POST to controller" />
+	}
+			
+	<h3>Source Code:</h3>
+	<h5>We have this style:</h5>
+	<pre class="css">.styled_list {color:green; background:lightblue; padding:3px 10px 3px 5px; border-radius:5px;}</pre>
+	<h5>And we apply it to formatting section:</h5>
+<pre class="cs">
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+					  x => x.AvailableCities,
+					  x => x.Id,
+					  x => x.Name,
+					  x => x.SelectedCities,
+					  new { htmlAttribute="somevalue" },                                            // additional html attributes
+					  new HtmlListInfo(HtmlTag.vertical_columns, 2, new { &#64;class="styled_list" }),  // formatting
+					  new[] {"3", "5", "7"})                                                        // disabled values
+</pre>
+</fieldset>

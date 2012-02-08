@@ -15,11 +15,21 @@
 	<link href="../../Content/jquery.snippet.min.css" rel="stylesheet" type="text/css" />
 	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="../../Scripts/jquery.snippet.min.js" type="text/javascript"></script>
+	<style type="text/css">
+		.styled_list {color:green; background:lightblue; padding:3px 10px 3px 5px; border-radius:5px;}
+	</style>
 </head>
 <body>
 	<div class="header">
-		<h2><a href="/">MVC3 Html.CheckBoxList() custom extension</a></h2>
-		<h3>Simple Html.CheckBoxList() Usage Example Site</h3>	
+		<h1>MVC3 Html.CheckBoxList() custom extension - usage examples</h1>
+		
+		<h3></h3>
+
+		<small>Please select an example you would like to see:</small><br/>
+		<span style="font-size: larger; font-weight: bolder;">
+			@Html.ActionLink("Basic Exmaple (SelectList Based)", "SelectListBased", "Home") |
+			@Html.ActionLink("Advanced Example (Model Based)", "ModelBased", "Home")
+		</span>
 	</div>
 
   <div class="wrapper">
@@ -29,5 +39,15 @@
 	<div id="footer">
 		By <a target="_blank" href="http://www.codeproject.com/Members/devnoob">Mikhail T. (devnoob)</a>, 2012
 	</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function () {
+			// snippet code highlighter
+			$("pre.html").snippet("html", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
+			$("pre.cs").snippet("csharp", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
+			$("pre.css").snippet("css", { style: "peachpuff", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
+		});
+	</script>
+
 </body>
 </html>

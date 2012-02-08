@@ -271,12 +271,18 @@ internal static class MvcCheckBoxList_Main {
 
 		// build hidden tag for disabled checkbox (so the value will post)
 		if (disabledValues != null && disabledValues.ToList().Any(x => x == itemValue)) {
+			// set main checkbox to be disabled
 			builder.MergeAttribute("disabled", "disabled");
-			var hidden_builder = new TagBuilder("input");
-			hidden_builder.MergeAttribute("type", "hidden");
-			hidden_builder.MergeAttribute("value", itemValue);
-			hidden_builder.MergeAttribute("name", name);
-			sb.Append(hidden_builder.ToString(TagRenderMode.Normal));
+			
+			// create a hidden input with checkbox value
+			// so it can be posted if checked
+			if (selectedValues.Any(x => x == itemValue)) {
+				var hidden_builder = new TagBuilder("input");
+				hidden_builder.MergeAttribute("type", "hidden");
+				hidden_builder.MergeAttribute("value", itemValue);
+				hidden_builder.MergeAttribute("name", name);
+				sb.Append(hidden_builder.ToString(TagRenderMode.Normal));
+			}
 		}
 
 		// create checkbox tag
