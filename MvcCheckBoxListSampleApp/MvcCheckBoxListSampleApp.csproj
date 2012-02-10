@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\MvcCheckBoxList.cs" />
+    <Compile Include="Extensions\MvcCheckBoxList_Updated.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -71,6 +72,7 @@
   <ItemGroup>
     <Content Include="Content\jquery.snippet.min.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\style.examples.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery.snippet.min.js" />
     <Content Include="Scripts\ZeroClipboard.swf" />

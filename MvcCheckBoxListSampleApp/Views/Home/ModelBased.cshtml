@@ -15,11 +15,11 @@
 }
 
 <fieldset>
-	<legend>&#64;Html.CheckBoxList() - set name manually</legend>
+	<legend>Set name manually</legend>
 	<h3>Output:</h3>
 	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
 		<p>
-			@Html.CheckBoxList("Cities",
+			@Html.CheckBoxList2("Cities",
 													x => x.AvailableCities,
 													x => x.Id,
 													x => x.Name,
@@ -41,7 +41,7 @@
 
 
 <fieldset>
-	<legend>&#64;Html.CheckBoxListFor() - set name from view model</legend>
+	<legend>Set name from view model</legend>
 	<h3>Output:</h3>
 	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
 		<p>
@@ -66,17 +66,34 @@
 
 
 <fieldset>
-	<legend>&#64;Html.CheckBoxListFor() - full example</legend>
+	<legend>Custom HTML tags from Model </legend>
 	<h3>Output:</h3>
 	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
 		<p>
-		@Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+			@Html.CheckBoxList2For(x => x.PostedCities.CityIDs,
+														x => x.AvailableCities,
+														x => x.Id,
+														x => x.Name,
+														x => x.SelectedCities,
+														x => x.Tags)
+		</p>
+		<input type="submit" value="POST to controller" />
+	}
+</fieldset>
+
+
+<fieldset>
+	<legend>Full Example</legend>
+	<h3>Output:</h3>
+	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
+		<p>
+		@Html.CheckBoxList2For(x => x.PostedCities.CityIDs,
 													x => x.AvailableCities,
 													x => x.Id,
 													x => x.Name,
 													x => x.SelectedCities,
-							            new { htmlAttribute="somevalue" },
-													new HtmlListInfo(HtmlTag.vertical_columns, 2, new { @class="styled_list" }),
+							            new { @class="styled_checkbox" },
+													new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { @class="styled_list" }),
 													new[] {"3", "5", "7"})
 		</p>
 		<input type="submit" value="POST to controller" />
@@ -92,7 +109,7 @@
 					  x => x.Id,
 					  x => x.Name,
 					  x => x.SelectedCities,
-					  new { htmlAttribute="somevalue" },                                            // additional html attributes
+					  new { htmlAttribute="attributeOfEachCheckBox" },                              // additional html attributes
 					  new HtmlListInfo(HtmlTag.vertical_columns, 2, new { &#64;class="styled_list" }),  // formatting
 					  new[] {"3", "5", "7"})                                                        // disabled values
 </pre>
