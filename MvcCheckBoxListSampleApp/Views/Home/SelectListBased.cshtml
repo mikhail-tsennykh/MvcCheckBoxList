@@ -111,17 +111,26 @@
 	<h3>Two Column Styled List (wrapped in floating &lt;div&gt;):</h3>
 	@using (Html.BeginForm("SelectListBased", "Home", FormMethod.Get)) {
 		<p>
-		@Html.CheckBoxList("Cities", data, 
-			new HtmlListInfo(HtmlTag.vertical_columns, 2,
-			new { @class="styled_list" }))
+		@Html.CheckBoxList("Cities", data,
+			new { @class="styled_checkbox" },
+			new HtmlListInfo(HtmlTag.vertical_columns, 2, new { @class="styled_list" }),
+		  disabledValues)
 		</p>
 		<input type="submit" value="POST to controller" />
 	}
 			
 	<h3>Source Code:</h3>
-	<h5>We have this style:</h5>
+  <h5>We have this style for each checkbox:</h5>
+	<pre class="css">.styled_checkbox {cursor:pointer; background:wheat; padding:2px 5px; border-radius:5px;}</pre>
+	<h5>Also we have this style for the list wrapper:</h5>
 	<pre class="css">.styled_list {color:green; background:lightblue; padding:3px 10px 3px 5px; border-radius:5px;}</pre>
 	<h5>And use it like this:</h5>
-	<pre class="cs">&#64;Html.CheckBoxList("Cities", data, new HtmlListInfo(HtmlTag.vertical_columns, 2, new { &#64;class="styled_list" }))</pre>
+<pre class="cs">
+&#64;Html.CheckBoxList("Cities", 
+                   data,
+                   new { &#64;class="styled_checkbox" },
+                   new HtmlListInfo(HtmlTag.vertical_columns, 2, new { &#64;class="styled_list" }),
+                   disabledValues)
+</pre>
 			
 </fieldset>

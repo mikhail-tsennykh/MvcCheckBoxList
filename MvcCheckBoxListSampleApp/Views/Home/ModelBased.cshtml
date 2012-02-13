@@ -19,7 +19,7 @@
 	<h3>Output:</h3>
 	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
 		<p>
-			@Html.CheckBoxList2("Cities",
+			@Html.CheckBoxList("Cities",
 													x => x.AvailableCities,
 													x => x.Id,
 													x => x.Name,
@@ -70,7 +70,7 @@
 	<h3>Output:</h3>
 	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
 		<p>
-			@Html.CheckBoxList2For(x => x.PostedCities.CityIDs,
+			@Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
 														x => x.AvailableCities,
 														x => x.Id,
 														x => x.Name,
@@ -87,20 +87,23 @@
 	<h3>Output:</h3>
 	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
 		<p>
-		@Html.CheckBoxList2For(x => x.PostedCities.CityIDs,
+		@Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
 													x => x.AvailableCities,
 													x => x.Id,
 													x => x.Name,
 													x => x.SelectedCities,
 							            new { @class="styled_checkbox" },
-													new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { @class="styled_list" }),
-													new[] {"3", "5", "7"})
+													new HtmlListInfo(HtmlTag.vertical_columns, 2, new { @class="styled_list" }),
+													new[] {"3", "5", "7"},
+							            x => x.Tags)
 		</p>
 		<input type="submit" value="POST to controller" />
 	}
 			
 	<h3>Source Code:</h3>
-	<h5>We have this style:</h5>
+  <h5>We have this style for each checkbox:</h5>
+	<pre class="css">.styled_checkbox {cursor:pointer; background:wheat; padding:2px 5px; border-radius:5px;}</pre>
+	<h5>Also we have this style for the list wrapper:</h5>
 	<pre class="css">.styled_list {color:green; background:lightblue; padding:3px 10px 3px 5px; border-radius:5px;}</pre>
 	<h5>And we apply it to formatting section:</h5>
 <pre class="cs">
@@ -109,8 +112,9 @@
 					  x => x.Id,
 					  x => x.Name,
 					  x => x.SelectedCities,
-					  new { htmlAttribute="attributeOfEachCheckBox" },                              // additional html attributes
+					  new { &#64;class="styled_checkbox" },                                             // additional html attributes
 					  new HtmlListInfo(HtmlTag.vertical_columns, 2, new { &#64;class="styled_list" }),  // formatting
-					  new[] {"3", "5", "7"})                                                        // disabled values
+					  new[] {"3", "5", "7"},                                                        // disabled values
+					  x => x.Tags)                                                                  // html tags from database
 </pre>
 </fieldset>

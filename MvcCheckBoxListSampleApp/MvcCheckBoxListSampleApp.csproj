@@ -59,8 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
+    <None Include="Archives\MvcCheckBoxList.cs.old" />
     <Compile Include="Extensions\MvcCheckBoxList.cs" />
-    <Compile Include="Extensions\MvcCheckBoxList_Updated.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
