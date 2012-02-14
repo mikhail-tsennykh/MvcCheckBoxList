@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 //
-// MVC3 @Html.CheckBoxList() custom extension v.1.4 (beta)
+// MVC3 @Html.CheckBoxList() custom extension v.1.4 (beta 2)
 // by Mikhail T. (devnoob), 2011-2012
 // http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
 //
@@ -29,8 +29,12 @@ using System.Dynamic;
 /// </summary>
 internal static class MvcCheckBoxList_Main {
 	static MvcCheckBoxList_Main() {
-		ResetCounters();
+		resetCounters();
 	}
+	// properties
+	internal static string no_data_message = "No Records...";
+	internal static string empty_name_message = "Name of the CheckBoxList cannot be null or empty";
+
 
 	// Main functions
 
@@ -50,8 +54,8 @@ internal static class MvcCheckBoxList_Main {
 		 object htmlAttributes, HtmlListInfo wrapInfo, string[] disabledValues,
 		 Position position = Position.Horizontal) {
 		// validation
-		if (dataList == null || dataList.Count == 0) return MvcHtmlString.Empty;
-		if (String.IsNullOrEmpty(listName)) throw new ArgumentException("The argument must have a value", "listName");
+		if (dataList == null || dataList.Count == 0) return MvcHtmlString.Create(no_data_message);
+		if (String.IsNullOrEmpty(listName)) throw new ArgumentException(empty_name_message, "listName");
 		var numberOfItems = dataList.Count;
 
 		// set up table/list html wrapper, if applicable
@@ -69,7 +73,7 @@ internal static class MvcCheckBoxList_Main {
 		foreach (var r in dataList) {
 			// create checkbox element
 			sb = createCheckBoxListElement(sb, htmlHelper, null, htmlWrapper, htmlAttributes, selectedValues,
-			                                disabledValues, listName, r.Value, r.Text);
+			                               disabledValues, listName, r.Value, r.Text);
 		}
 		sb.Append(htmlWrapper.wrap_close);
 
@@ -85,7 +89,7 @@ internal static class MvcCheckBoxList_Main {
 	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
 	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
 	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
-	/// <param name="metadata">Metadata form view</param>
+	/// <param name="modelMetadata">Model Metadata</param>
 	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
 	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
 	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
@@ -99,7 +103,7 @@ internal static class MvcCheckBoxList_Main {
 	/// <returns>HTML string containing checkbox list</returns>
 	internal static MvcHtmlString CheckBoxList_ModelBased<TModel, TItem, TValue, TKey>
 		(HtmlHelper<TModel> htmlHelper,
-		 ModelMetadata metadata,
+		 ModelMetadata modelMetadata,
 		 string listName,
 		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
 		 Expression<Func<TItem, TValue>> valueExpr,
@@ -110,11 +114,24 @@ internal static class MvcCheckBoxList_Main {
 		 HtmlListInfo wrapInfo,
 		 string[] disabledValues,
 		 Position position = Position.Horizontal) {
+		// validation
+		if (sourceDataExpr.Body.ToString() == "null") return MvcHtmlString.Create(no_data_message);
+		if (string.IsNullOrEmpty(listName)) throw new ArgumentException(empty_name_message, "listName");
+
 		// set properties
 		var model = htmlHelper.ViewData.Model;
 		var sourceData = sourceDataExpr.Compile()(model).ToList();
 		var valueFunc = valueExpr.Compile();
 		var textToDisplayFunc = textToDisplayExpr.Compile();
+		var selectedItems = new List<TItem>();
+		if (selectedValuesExpr != null) {
+			var _selectedItems = selectedValuesExpr.Compile()(model);
+			if (_selectedItems != null) selectedItems = _selectedItems.ToList();
+		}
+		var selectedValues = selectedItems.Select(s => valueFunc(s).ToString()).ToList();
+
+		// validate source data
+		if (!sourceData.Any()) return MvcHtmlString.Create(no_data_message);
 
 		// set html properties for each checkbox from model object
 		Func<TItem, object, object> _valueHtmlAttributesFunc = (item, baseAttributes) => baseAttributes;
@@ -124,26 +141,12 @@ internal static class MvcCheckBoxList_Main {
 			                           	var baseAttrDict = baseAttributes.toDictionary();
 			                           	var itemAttrDict = valueHtmlAttributesFunc(item).toDictionary();
 			                           	var result = new ExpandoObject();
-			                           	var d = result as IDictionary<string, object>; //work with the Expando as a Dictionary
+			                           	var d = result as IDictionary<string, object>;
 			                           	foreach (var pair in baseAttrDict.Concat(itemAttrDict))
 			                           		d[pair.Key] = pair.Value;
 			                           	return result;
 			                           };
 		}
-
-		// validate selected values list
-		var selectedItems = new List<TItem>();
-		if (selectedValuesExpr != null) {
-			var _selectedItems = selectedValuesExpr.Compile()(model);
-			if (_selectedItems != null)
-				selectedItems = _selectedItems.ToList();
-		}
-
-		// validate source data
-		if (!sourceData.Any()) return MvcHtmlString.Empty;
-
-		// validate name of the list
-		if (string.IsNullOrEmpty(listName)) throw new ArgumentException("The argument must have a value", "listName");
 
 		// set up table/list html wrapper, if applicable
 		var numberOfItems = sourceData.Count;
@@ -154,9 +157,6 @@ internal static class MvcCheckBoxList_Main {
 		sb.Append(htmlWrapper.wrap_open);
 		htmlwrap_rowbreak_counter = 0;
 
-		// create list of selected values
-		var selectedValues = selectedItems.Select(s => valueFunc(s).ToString()).ToList();
-
 		// create list of checkboxes based on data
 		foreach (var item in sourceData) {
 			// get checkbox value and text
@@ -164,8 +164,8 @@ internal static class MvcCheckBoxList_Main {
 			var itemText = textToDisplayFunc(item).ToString();
 
 			// create checkbox element
-			sb = createCheckBoxListElement(sb, htmlHelper, metadata, htmlWrapper, _valueHtmlAttributesFunc(item, htmlAttributes),
-			                                selectedValues, disabledValues, listName, itemValue, itemText);
+			sb = createCheckBoxListElement(sb, htmlHelper, modelMetadata, htmlWrapper, _valueHtmlAttributesFunc(item, htmlAttributes),
+			                               selectedValues, disabledValues, listName, itemValue, itemText);
 		}
 		sb.Append(htmlWrapper.wrap_close);
 
@@ -277,7 +277,7 @@ internal static class MvcCheckBoxList_Main {
 	/// Creates an an individual checkbox
 	/// </summary>
 	/// <param name="sb">String builder of checkbox list</param>
-	/// <param name="metadata">Model Metadata </param>
+	/// <param name="modelMetadata">Model Metadata</param>
 	/// <param name="htmlWrapper">MVC Html helper class that is being extended</param>
 	/// <param name="htmlAttributesForCheckBox">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
 	/// <param name="selectedValues">List of strings of selected values</param>
@@ -285,15 +285,14 @@ internal static class MvcCheckBoxList_Main {
 	/// <param name="name">Name of the checkbox list (same for all checkboxes)</param>
 	/// <param name="itemValue">Value of the checkbox</param>
 	/// <param name="itemText">Text to be displayed next to checkbox</param>
-	/// <param name="htmlHelper">Html Helper Passed from the view</param>
+	/// <param name="htmlHelper">HtmlHelper passed from view model</param>
 	/// <returns>String builder of checkbox list</returns>
 	private static StringBuilder createCheckBoxListElement
-		(StringBuilder sb, HtmlHelper htmlHelper, ModelMetadata metadata, htmlWrapperInfo htmlWrapper,
-		 object htmlAttributesForCheckBox,
-		 IEnumerable<string> selectedValues, IEnumerable<string> disabledValues,
+		(StringBuilder sb, HtmlHelper htmlHelper, ModelMetadata modelMetadata, htmlWrapperInfo htmlWrapper,
+		 object htmlAttributesForCheckBox, IEnumerable<string> selectedValues, IEnumerable<string> disabledValues,
 		 string name, string itemValue, string itemText) {
-		// validation
-		if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+		// get full name from view model
+		var fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
 
 		// create checkbox tag
 		var builder = new TagBuilder("input");
@@ -301,14 +300,7 @@ internal static class MvcCheckBoxList_Main {
 		builder.MergeAttributes(htmlAttributesForCheckBox.toDictionary());
 		builder.MergeAttribute("type", "checkbox");
 		builder.MergeAttribute("value", itemValue);
-		builder.MergeAttribute("name", name);
-
-		// if there are any errors for a named field, we add the css attribute
-		ModelState modelState;
-		if (htmlHelper.ViewData.ModelState.TryGetValue(name, out modelState)) 
-			if (modelState.Errors.Count > 0) 
-				builder.AddCssClass(HtmlHelper.ValidationInputCssClassName);
-		builder.MergeAttributes(htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata));
+		builder.MergeAttribute("name", fullName);
 
 		// create linked label tag
 		var link_name = name + linked_label_counter++;
@@ -318,6 +310,13 @@ internal static class MvcCheckBoxList_Main {
 		linked_label_builder.MergeAttributes(htmlAttributesForCheckBox.toDictionary());
 		linked_label_builder.InnerHtml = itemText;
 
+		// if there are any errors for a named field, we add the css attribute
+		ModelState modelState;
+		if (htmlHelper.ViewData.ModelState.TryGetValue(fullName, out modelState))
+			if (modelState.Errors.Count > 0)
+				builder.AddCssClass(HtmlHelper.ValidationInputCssClassName);
+		builder.MergeAttributes(htmlHelper.GetUnobtrusiveValidationAttributes(name, modelMetadata));
+
 		// open checkbox tag wrapper
 		sb.Append(htmlWrapper.wrap_element != htmlElementTag.None ? "<" + htmlWrapper.wrap_element + ">" : "");
 
@@ -325,7 +324,7 @@ internal static class MvcCheckBoxList_Main {
 		if (disabledValues != null && disabledValues.ToList().Any(x => x == itemValue)) {
 			// set main checkbox to be disabled
 			builder.MergeAttribute("disabled", "disabled");
-			
+
 			// create a hidden input with checkbox value
 			// so it can be posted if checked
 			if (selectedValues.Any(x => x == itemValue)) {
@@ -354,6 +353,7 @@ internal static class MvcCheckBoxList_Main {
 			htmlwrap_rowbreak_counter = 0;
 		}
 
+		// return string builder with checkbox html markup
 		return sb;
 	}
 
@@ -372,7 +372,7 @@ internal static class MvcCheckBoxList_Main {
 		var dictionary = new Dictionary<string, object>(object_properties.Count);
 		foreach (PropertyDescriptor property in object_properties) {
 			var name = property.Name.Replace("_", "-");
-				// JRR - Added the Replace call. This is the standard used by MVC http://www.asp.net/whitepapers/mvc3-release-notes#0.1__Toc274034227
+			// JRR - Added the Replace call. This is the standard used by MVC http://www.asp.net/whitepapers/mvc3-release-notes#0.1__Toc274034227
 			var value = property.GetValue(_object);
 			dictionary.Add(name, value ?? "");
 		}
@@ -381,7 +381,7 @@ internal static class MvcCheckBoxList_Main {
 	/// <summary>
 	/// Reset all counters
 	/// </summary>
-	public static void ResetCounters() {
+	private static void resetCounters() {
 		linked_label_counter = 0;
 		htmlwrap_rowbreak_counter = 0;
 	}
@@ -391,7 +391,7 @@ internal static class MvcCheckBoxList_Main {
 /// @Html.CheckBoxList2(...) extensions/overloads
 /// </summary>
 public static class MvcCheckBoxList_Extensions {
-	// Regular CheckBoxList2 extensions
+	// Regular CheckBoxList extensions
 
 	/// <summary>
 	/// Model-Independent function
@@ -488,6 +488,7 @@ public static class MvcCheckBoxList_Extensions {
 
 
 	// Model-based CheckBoxList extensions
+
 	/// <summary>
 	/// Model-Based function (For...)
 	/// </summary>
@@ -511,12 +512,10 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TItem, TValue>> valueExpr,
 		 Expression<Func<TItem, TKey>> textToDisplayExpr,
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
-		if (listNameExpr == null) throw new ArgumentNullException("listNameExpr");
-		var metadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
-			(htmlHelper, metadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr,
+			(htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr,
 			 textToDisplayExpr, htmlAttributesExpr, selectedValuesExpr, null, null, null);
 	}
 	/// <summary>
@@ -541,12 +540,12 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TItem, TValue>> valueExpr,
 		 Expression<Func<TItem, TKey>> textToDisplayExpr,
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
 			(htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
 			 selectedValuesExpr, null, null, null);
 	}
+
 	/// <summary>
 	/// Model-Based function (For...)
 	/// </summary>
@@ -572,12 +571,10 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TItem, TKey>> textToDisplayExpr,
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 Position position,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
-		if (listNameExpr == null) throw new ArgumentNullException("listNameExpr");
-		var metadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
-			(htmlHelper, metadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr,
+			(htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr,
 			 textToDisplayExpr, htmlAttributesExpr, selectedValuesExpr, null, null, null, position);
 	}
 	/// <summary>
@@ -604,11 +601,71 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TItem, TKey>> textToDisplayExpr,
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 Position position,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
 			(htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
 			 selectedValuesExpr, null, null, null, position);
+	}
+
+	/// <summary>
+	/// Model-Based function (For...)
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <typeparam name="TProperty">ViewModel property</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listNameExpr">ViewModel Item type to serve as a name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="htmlAttributesExpr">Data list HTML tag attributes for each checkbox</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxListFor<TModel, TProperty, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 Expression<Func<TModel, TProperty>> listNameExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 object htmlAttributes,
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
+		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
+			(htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr,
+			 textToDisplayExpr, htmlAttributesExpr, selectedValuesExpr, htmlAttributes, null, null);
+	}
+	/// <summary>
+	/// Model-Based function
+	/// </summary>
+	/// <typeparam name="TModel">Current ViewModel</typeparam>
+	/// <typeparam name="TItem">ViewModel Item</typeparam>
+	/// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+	/// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="sourceDataExpr">Data list to be used as a source for the list (set in viewmodel)</param>
+	/// <param name="valueExpr">Data list value type to be used as checkbox 'Value'</param>
+	/// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
+	/// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="htmlAttributesExpr">Data list HTML tag attributes for each checkbox</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	public static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+		(this HtmlHelper<TModel> htmlHelper,
+		 string listName,
+		 Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
+		 Expression<Func<TItem, TValue>> valueExpr,
+		 Expression<Func<TItem, TKey>> textToDisplayExpr,
+		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+		 object htmlAttributes,
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
+			(htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
+			 selectedValuesExpr, htmlAttributes, null, null);
 	}
 
 	/// <summary>
@@ -638,12 +695,10 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 object htmlAttributes,
 		 Position position,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
-		if (listNameExpr == null) throw new ArgumentNullException("listNameExpr");
-		var metadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
-			(htmlHelper, metadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
+			(htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
 			 htmlAttributesExpr, selectedValuesExpr, htmlAttributes, null, null, position);
 	}
 	/// <summary>
@@ -672,8 +727,7 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 object htmlAttributes,
 		 Position position,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
 			(htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
 			 selectedValuesExpr, htmlAttributes, null, null, position);
@@ -708,12 +762,10 @@ public static class MvcCheckBoxList_Extensions {
 		 object htmlAttributes,
 		 string[] disabledValues,
 		 Position position,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
-		if (listNameExpr == null) throw new ArgumentNullException("listNameExpr");
-		var metadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
-			(htmlHelper, metadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
+			(htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
 			 htmlAttributesExpr, selectedValuesExpr, htmlAttributes, null, disabledValues, position);
 	}
 	/// <summary>
@@ -744,8 +796,7 @@ public static class MvcCheckBoxList_Extensions {
 		 object htmlAttributes,
 		 string[] disabledValues,
 		 Position position,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
 			(htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
 			 selectedValuesExpr, htmlAttributes, null, disabledValues, position);
@@ -776,12 +827,10 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TItem, TKey>> textToDisplayExpr,
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 HtmlListInfo wrapInfo,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
-		if (listNameExpr == null) throw new ArgumentNullException("listNameExpr");
-		var metadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
-			(htmlHelper, metadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
+			(htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
 			 htmlAttributesExpr, selectedValuesExpr, null, wrapInfo, null);
 	}
 	/// <summary>
@@ -808,8 +857,7 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TItem, TKey>> textToDisplayExpr,
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 HtmlListInfo wrapInfo,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
 			(htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
 			 selectedValuesExpr, null, wrapInfo, null);
@@ -842,12 +890,10 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 HtmlListInfo wrapInfo,
 		 string[] disabledValues,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
-		if (listNameExpr == null) throw new ArgumentNullException("listNameExpr");
-		var metadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
-			(htmlHelper, metadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
+			(htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
 			 htmlAttributesExpr, selectedValuesExpr, null, wrapInfo, disabledValues);
 	}
 	/// <summary>
@@ -876,8 +922,7 @@ public static class MvcCheckBoxList_Extensions {
 		 Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
 		 HtmlListInfo wrapInfo,
 		 string[] disabledValues,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
 			(htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
 			 selectedValuesExpr, null, wrapInfo, disabledValues);
@@ -912,12 +957,10 @@ public static class MvcCheckBoxList_Extensions {
 		 object htmlAttributes,
 		 HtmlListInfo wrapInfo,
 		 string[] disabledValues,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
-		if (listNameExpr == null) throw new ArgumentNullException("listNameExpr");
-		var metadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+		var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
-			(htmlHelper, metadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
+			(htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
 			 htmlAttributesExpr, selectedValuesExpr, htmlAttributes, wrapInfo, disabledValues);
 	}
 	/// <summary>
@@ -948,8 +991,7 @@ public static class MvcCheckBoxList_Extensions {
 		 object htmlAttributes,
 		 HtmlListInfo wrapInfo,
 		 string[] disabledValues,
-		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null)
-	{
+		 Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
 		return MvcCheckBoxList_Main.CheckBoxList_ModelBased
 			(htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
 			 selectedValuesExpr, htmlAttributes, wrapInfo, disabledValues);
@@ -969,7 +1011,7 @@ public static class MvcCheckBoxList_Extensions {
 		(this Expression<Func<TModel, TItem>> propertyExpression) {
 		// v.1.4
 		return ExpressionHelper.GetExpressionText(propertyExpression);
-		
+
 		// v.1.3c
 		//var lambda = propertyExpression as LambdaExpression;
 		//var expression = lambda.Body.ToString();

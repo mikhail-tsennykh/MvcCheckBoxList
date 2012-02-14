@@ -66,10 +66,12 @@
 
 
 <fieldset>
-	<legend>Custom HTML tags from Model </legend>
+	<legend>Custom HTML tags from Model (Database)</legend>
 	<h3>Output:</h3>
+	<h5>Some cities will have custom tags from db set:</h5>
+	<h5>('<i>new {what = "smallCity"}</i>' for Monroe, and '<i>new {what = "bigCity"}</i>' for Moscow)</h5>
 	@using (Html.BeginForm("ModelBased", "Home", FormMethod.Get)) {
-		<p>
+		<p class="custom_tags">
 			@Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
 														x => x.AvailableCities,
 														x => x.Id,
@@ -79,6 +81,22 @@
 		</p>
 		<input type="submit" value="POST to controller" />
 	}
+	<h3>Source Code:</h3>
+	<h5>We have this jquery code which will apply to certain custom tags from db:</h5>
+<pre class="js">
+$('[what="smallCity"]').css("color", "blue");
+$('[what="bigCity"]').css("color", "green");
+</pre>	
+	<h5>And we call the control like this:</h5>
+<pre class="cs">
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                      x => x.AvailableCities,
+                      x => x.Id,
+                      x => x.Name,
+                      x => x.SelectedCities,
+                      x => x.Tags)               // tags stored in the data source as an object e.g.: 'new {what = "smallCity"}'
+											     // they will be merged with other tags and applied to checkbox and its label
+</pre>
 </fieldset>
 
 
@@ -118,3 +136,11 @@
 					  x => x.Tags)                                                                  // html tags from database
 </pre>
 </fieldset>
+
+@* jquery test area *@
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.custom_tags [what="smallCity"]').css("color", "blue");
+		$('.custom_tags [what="bigCity"]').css("color", "green");
+	});
+</script>
