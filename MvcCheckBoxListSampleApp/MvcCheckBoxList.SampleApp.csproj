@@ -60,7 +60,6 @@
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
     <None Include="Archives\MvcCheckBoxList.cs.old" />
-    <Compile Include="Extensions\MvcCheckBoxList.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -90,6 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\ModelBased.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MvcCheckBoxList.Library\MvcCheckBoxList.Library.csproj">
+      <Project>{C6A250AB-6963-47C4-A6BE-8153E4787DB5}</Project>
+      <Name>MvcCheckBoxList.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
