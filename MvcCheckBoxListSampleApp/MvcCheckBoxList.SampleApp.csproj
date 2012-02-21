@@ -91,9 +91,9 @@
     <Content Include="Views\Home\ModelBased.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MvcCheckBoxList.Library\MvcCheckBoxList.Library.csproj">
+    <ProjectReference Include="..\MvcCheckBoxList.Library\MvcCheckBoxList.csproj">
       <Project>{C6A250AB-6963-47C4-A6BE-8153E4787DB5}</Project>
-      <Name>MvcCheckBoxList.Library</Name>
+      <Name>MvcCheckBoxList</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

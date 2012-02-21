@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MvcCheckBoxList.Library</RootNamespace>
-    <AssemblyName>MvcCheckBoxList.Library</AssemblyName>
+    <AssemblyName>MvcCheckBoxList</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -63,8 +63,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers.Internal\toDictionary.cs" />
+    <Compile Include="Helpers.Internal\toProperty.cs" />
+    <Compile Include="Model.Internal\htmlElementTag.cs" />
+    <Compile Include="Model.Public\HtmlListInfo.cs" />
+    <Compile Include="Model.Public\HtmlTag.cs" />
+    <Compile Include="Model.Internal\htmlWrapperInfo.cs" />
+    <Compile Include="Model.Public\Position.cs" />
     <Compile Include="MvcCheckBoxList.cs" />
+    <Compile Include="Extensions.Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions.Basic.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MvcCheckBoxList.Library")]
+[assembly: AssemblyTitle("MvcCheckBoxList")]
 [assembly: AssemblyDescription("MVC HtmlHelper class extension which creates a custom " +
                                "POSTable checkbox list.")]
 [assembly: AssemblyConfiguration("")]
