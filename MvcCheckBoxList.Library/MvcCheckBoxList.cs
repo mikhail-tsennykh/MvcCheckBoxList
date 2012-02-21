@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -17,6 +18,9 @@ internal static class MvcCheckBoxList {
 	}
 	// properties
 	internal static string no_data_message = "No Records...";
+	internal static string empty_model_message = "View Model cannot be null! " +
+	                                             "Please make sure your View Model " +
+	                                             "is created and passed to this View";
 	internal static string empty_name_message = "Name of the CheckBoxList cannot be null or empty";
 
 	/// <summary>
@@ -95,7 +99,8 @@ internal static class MvcCheckBoxList {
 		 string[] disabledValues,
 		 Position position = Position.Horizontal) {
 		// validation
-		if (sourceDataExpr.Body.ToString() == "null") return MvcHtmlString.Create(no_data_message);
+		if (sourceDataExpr == null || sourceDataExpr.Body.ToString() == "null") return MvcHtmlString.Create(no_data_message);
+		if (htmlHelper.ViewData.Model == null) throw new NoNullAllowedException(empty_model_message);
 		if (string.IsNullOrEmpty(listName)) throw new ArgumentException(empty_name_message, "listName");
 
 		// set properties

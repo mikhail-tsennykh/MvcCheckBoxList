@@ -1,19 +1,17 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// MVC3 @Html.CheckBoxList() custom extension v.1.4 (beta 2)
+// MVC3 @Html.CheckBoxList() custom extension v.1.4.2.2
 // (Sample MVC3 demo project for Visual Studio 2010 and .NET 4.0)
 // by Mikhail T. (devnoob), 2011-2012
 // http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
 //
-/////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////
-// 
-// For complete documentation please visit main article page:
-// http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx
+// Alternatively, you can simply install a NuGet package of this extension:
+// Install-Package MvcCheckBoxList
+//
+// Link on 'NuGet.org':
+// https://nuget.org/packages/MvcCheckBoxList
 //
 /////////////////////////////////////////////////////////////////////////////
-
 
 Introduction
 
@@ -57,7 +55,7 @@ public class QuotationEditViewModel {
 @Html.CheckBoxListFor(x => x.Quotation,         // each checkbox name will be 'Quotation'. It can be set to any
                                                 // property in your view model and its name will be used as
                                                 // a NAME of each checkbox in the list
-	              x => x.Tests,             // ...same as above...
+                      x => x.Tests,             // ...same as above...
                       x => x.Id,                // ...same as above... 
                       x => x.Name,              // ...same as above...
                       x => x.Quotation.Tests)   // ...same as above...
@@ -76,10 +74,24 @@ public class QuotationEditViewModel {
 
 // Also you can use more advanced naming structure
 @Html.CheckBoxListFor(x => x.Quotation.Tests,   // each checkbox's html 'name' property will be 'Quotation.Tests'
-	              x => x.Tests,             
+                      x => x.Tests,             
                       x => x.Id,                
                       x => x.Name,              
                       x => x.Quotation.Tests)   
+                      
+                      
+// Added in version 1.4, you can now sent an object containing
+// html tag which would be applied to an individual checkbox
+// Here, 'Tags' is a variable of type 'object' and equals e.g. 'new {htmlTag = "Value"}'
+// (this means you can pass something like 'new {what = "smallCity}', and apply some
+// jquery code to it: '$('[what="smallCity"]').css("color", "blue")')
+@Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                      x => x.AvailableCities,
+                      x => x.Id,
+                      x => x.Name,
+                      x => x.SelectedCities,
+                      x => x.Tags)               // tags stored in the data source as an object e.g.: 'new {what = "smallCity"}'
+                                                 // they will be merged with other tags and applied to checkbox and its label                      
                       
 
 ---------------------------------------------------------------------------------------------------------------------------------                      
