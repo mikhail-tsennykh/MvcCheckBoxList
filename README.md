@@ -1,15 +1,18 @@
 
-# MVC3 @Html.CheckBoxList() custom extension v.1.4.2.2
+# MVC3 @Html.CheckBoxList() custom extension v.1.4.2.3
 
-Sample MVC3 demo project for Visual Studio 2010 and .NET 4.0
+MVC3 source project for Visual Studio 2010 and .NET 4.0.
 
-By [Mikhail Tsennykhj (devnoob), 2011-2012](http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx)
+By [Mikhail Tsennykh (devnoob), 2011-2012](http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx)
 
 Alternatively, you can simply install a NuGet package of this extension:
 
     Install-Package MvcCheckBoxList
 
-Link on [NuGet.org](https://nuget.org/packages/MvcCheckBoxList)
+####Links:
+
+NuGet package on [NuGet.org](https://nuget.org/packages/MvcCheckBoxList) and
+full documentation on [CodeProject](http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx)
 
 ##Introduction
 
@@ -17,16 +20,19 @@ This plugin is just a simple extension of MVC class 'HtmlHelper',
 which is used for all Html helpers on MVC views. Since there is
 no supported CheckBoxList extension built into MVC, this plugin adds it.
 
-##Method 1: Using strongly typed, based on view model:
+##Method 1: Using strongly typed, based on view model
 
-// given you have a similar view model:
+Given you have a similar view model:
+
     public class QuotationEditViewModel {
       public Quotation Quotation { get; set; } // entity 'Quatation' has many 'Tests'
       public IList<Test> Tests { get; set; }   // list of all 'Tests'
     }
 	
-// to display a checkbox list of all tests and have some of them selected:
-// manually setting name
+To display a checkbox list of all tests and have some of them selected:
+
+Manually set name:
+
     @Html.CheckBoxList("Tests",                 // NAME of checkbox list (html 'name' property of each checkbox in the list)
            x => x.Tests,            // data source (list of 'Tests' in our case)
            x => x.Id,               // field from data source to be used for checkbox VALUE
@@ -34,7 +40,9 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
            x => x.Quotation.Tests   // selected data (list of selected 'Tests' in our case),
                                     // must be of same data type as source data or set to 'NULL'
            )	
-// OR creating strongly typed list for particular property
+           
+OR creating strongly typed list for particular property:
+
     @Html.CheckBoxListFor(x => x.Quotation,         // each checkbox name will be 'Quotation'. It can be set to any
                                                     // property in your view model and its name will be used as
                                                     // a NAME of each checkbox in the list
@@ -43,7 +51,8 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
                           x => x.Name,              // ...same as above...
                           x => x.Quotation.Tests)   // ...same as above...
 	
-// full example
+Full example:
+
     @Html.CheckBoxListFor(x => x.Tests,             // NAME of checkbox list (html 'name' property of each checkbox in the list)
                           x => x.Tests,             // data source (list of 'Tests' in our case)
                           x => x.Id,                // field from data source to be used for checkbox VALUE
@@ -55,7 +64,8 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
                           new[] {"7", "12", "14"})  // array represents disabled checkboxes
                                                     // (values will still POST!)
 
-// Also you can use more advanced naming structure
+Also, you can use more advanced naming structure:
+
     @Html.CheckBoxListFor(x => x.Quotation.Tests,   // each checkbox's html 'name' property will be 'Quotation.Tests'
                           x => x.Tests,             
                           x => x.Id,                
@@ -63,11 +73,12 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
                           x => x.Quotation.Tests)   
                       
                       
-// Added in version 1.4, you can now sent an object containing
-// html tag which would be applied to an individual checkbox
-// Here, 'Tags' is a variable of type 'object' and equals e.g. 'new {htmlTag = "Value"}'
-// (this means you can pass something like 'new {what = "smallCity}', and apply some
-// jquery code to it: '$('[what="smallCity"]').css("color", "blue")')
+Added in version 1.4, you can now send an object containing
+html tag which would be applied to an individual checkbox
+Here, 'Tags' is a variable of type 'object' and equals e.g. 'new {htmlTag = "Value"}'
+(this means you can pass something like 'new {what = "smallCity}', and apply some
+jquery code to it: '$('[what="smallCity"]').css("color", "blue")'):
+
     @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
                           x => x.AvailableCities,
                           x => x.Id,
@@ -77,22 +88,27 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
                                                      // they will be merged with other tags and applied to checkbox and its label                      
                       
 
-##To POST selected values back to the controller, it should accept a string array with the same name as CheckBoxList control name:                       
+###POSTing selected values back to the controller
 
-// Given we have a view model that looks like this:
+To POST selected values back to the controller, it should accept a string array with the same name as CheckBoxList control name.                      
+
+Given we have a view model that looks like this:
+
     public class QuotationListViewModel {
       public IList<Test> AvailableTests { get; set; }
       public IList<Test> SelectedTests { get; set; }
       public QuotationSearch QuotationSearch { get; set; }
     }
 
-// And implements similar class
+And implements similar class:
+
     public class QuotationSearch {
       // this array will be used to POST values from the form to the controller
       public string[] Tests { get; set; }
     }
 
-// And you create checkbox list like that:
+And you create checkbox list like that:
+
     @Html.CheckBoxListFor(x => x.QuotationSearch.Tests,    // each checkbox's html 'name' property will be
                                                            // named 'Quotation.Tests'
                           x => x.AvailableTests,             
@@ -100,10 +116,11 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
                           x => x.Name,              
                           x => x.SelectedTests)
 
-// then to capture list of selected checkboxes in a strongly typed manner, you can accept
-// an instance of 'QuotationSearch' by controller. Remember, it should be named the same as
-// a first part of a checkbox name, in our case it is 'QuotationSearch'. This will load
-// a string list of selected checkbox values into the 'quotationSearch.Tests' variable
+Then to capture list of selected checkboxes in a strongly typed manner, you can accept
+an instance of 'QuotationSearch' by controller. Remember, it should be named the same as
+a first part of a checkbox name, in our case it is 'QuotationSearch'. This will load
+a string list of selected checkbox values into the 'quotationSearch.Tests' variable:
+
     [HttpPost]
     public ActionResult Edit(int id, QuotationSearch quotationSearch) { // or 'MoreCities'
      
@@ -116,7 +133,9 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
 
  
                      
-##Method 2: Independent from view model:
+##Method 2: Independent from view model
+
+Given you have the following code on your view:
                                                 
     @{ 
       // given we have some list of names with ids:
@@ -142,14 +161,18 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
 
     } 
 
-// finally, just call CheckBoxList extension on your MVC view or partial:
+Finally, just call CheckBoxList extension on your MVC view or partial:
+
     @Html.CheckBoxList("Cities", dataList)
 
-// OR
+OR to have some values checked:
+
     @Html.CheckBoxList("MoreCities", dataListSelected)
 
+###POSTing selected values back to the controller
 
-##To POST selected values back to the controller, it should accept a string array with the same name as CheckBoxList control name: 
+To POST selected values back to the controller, it should accept a string array with the
+same name as CheckBoxList control name: 
 
     [HttpPost]
     public ActionResult Edit(int id, string[] Cities) { // or 'MoreCities'
@@ -162,10 +185,11 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
 
 ##Advanced examples (for Model-based approach):
 
-// Arranged inside formatted list (given that you have created appropriate view model,
-// using strongly typed way, 'x' represents your model)
+We'll create CheckBoxList which is arranged inside formatted list (given that you have created appropriate view model,
+using strongly typed way, 'x' represents your model).
 
-// create an instance of checkbox list formatting class 'HtmlListInfo' with parameters
+Create an instance of checkbox list formatting class 'HtmlListInfo' with parameters:
+
     @{ var putCheckBoxesIntoUnorderedList = //...select from variants below...
       // arranged inside of the html 'unordered list'
       new HtmlListInfo(HtmlTag.ul); 
@@ -178,14 +202,17 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
       new HtmlListInfo(HtmlTag.SELECT, NUMBER_OF_COLUMNS, new { htmlTag1 = "Value1", htmlTag2 = "Value2" });
     }
 
-// apply an instance of 'HtmlListInfo' class to your checkbox list call
+Apply an instance of 'HtmlListInfo' class to your checkbox list call:
+
     @Html.CheckBoxList("MyCitiesCheckBoxList",
                        x => x.Cities,
                        x => x.Id, 
                        x => x.Name,
                        x => x.SelectedCities,
                        putCheckBoxesIntoUnorderedList)
-// OR use 'CheckBoxListFor' method
+
+OR use 'CheckBoxListFor' method:
+
     @Html.CheckBoxListFor(x => x.Cities,  // in that case name of the checkbox list would be 'Cities'
                           x => x.Cities,
                           x => x.Id, 
@@ -198,34 +225,43 @@ no supported CheckBoxList extension built into MVC, this plugin adds it.
 
 Note: You can use display customizations below (using HtmlListInfo class and others) for Model-based approach too!
 
-// Base
+Base:
+
     @Html.CheckBoxList("Cities", dataList)
 
-// With vertical layout
+With vertical layout:
+
     @Html.CheckBoxList("Cities", dataList, Position.Vertical)
 
-// Arranged inside of an unordered list
+Arranged inside of an unordered list:
+
     @{ var putCheckBoxesIntoUnorderedList = new HtmlListInfo(HtmlTag.ul); }
     @Html.CheckBoxList("Cities", dataList, putCheckBoxesIntoUnorderedList)
 
-// Arranged inside 3 columned table with increased font size
+Arranged inside 3 columned table with increased font size:
+
     @{ var putCheckBoxesIntoTable = new HtmlListInfo(HtmlTag.table, 3); }
     @Html.CheckBoxList("Cities", dataList, putCheckBoxesIntoTable)
 
-// Arranged inside 4 vertically sorted floating sections
+Arranged inside 4 vertically sorted floating sections:
+
     @{ 
       var putCheckBoxesIntoTable = 
         new HtmlListInfo(HtmlTag.vertical_columns, 4, new { style = "width:100px;" }); 
     }
     @Html.CheckBoxList("Cities", dataList, putCheckBoxesIntoTable)
 
-// With some values disabled (disabled checkboxes will still POST)
+With some values disabled (disabled checkboxes will still POST):
+
     @{ var disabledValues = new[] {"1", "4"}; }
     @Html.CheckBoxList("Cities", dataList, null, disabledValues)
 
-// Full control call
+Full control call:
+
     @{ var checkBoxHtmlAttributes = new { @class = "checkbox_class" };  }
     @Html.CheckBoxList("Cities", dataList, checkBoxHtmlAttributes,
                        putCheckBoxesIntoTable, disabledValues, Position.Vertical)
+
+####And that's all, Folks!
 
 
