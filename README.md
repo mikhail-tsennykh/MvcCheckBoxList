@@ -3,7 +3,7 @@
 
 MVC3 source project for Visual Studio 2010 and .NET 4.0.
 
-By [Mikhail Tsennykh (devnoob), 2011-2012](http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx)
+By [Mikhail Tsennykh, 2011-2012](http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx)
 
 Alternatively, you can simply install a NuGet package of this extension:
 

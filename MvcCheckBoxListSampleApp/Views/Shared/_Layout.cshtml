@@ -2,50 +2,55 @@
     Layout = null;
 }
 
-@{
-    Layout = null;
-}
-
 <!DOCTYPE html>
 
 <html>
 <head>
   <title>Index</title>
-	<link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
-	<link href="../../Content/style.examples.css" rel="stylesheet" type="text/css" />
-	<link href="../../Content/jquery.snippet.min.css" rel="stylesheet" type="text/css" />
+	
+	<link href="@Url.Content("~/Content/kickstart/kickstart.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/style.lib.css")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+
+  <link href="@Url.Content("~/Content/style.examples.css")" rel="stylesheet" type="text/css" />
 
 	<script src="http://code.jquery.com/jquery.min.js"></script>
-	<script src="../../Scripts/jquery.snippet.min.js" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/kickstart.js")"></script>
+	<script src="@Url.Content("~/Scripts/prettify.js")"></script>
+
 </head>
 <body>
-	<div class="header">
-		<h1>MVC3 Html.CheckBoxList() custom extension - usage examples</h1>
-		
-		<h3></h3>
+	<div class="wrapper clearfix">
+    <div class="top_menu">
+      <a href="/">Home</a>
+    </div>
 
-		<small>Please select an example you would like to see:</small><br/>
-		<span style="font-size: larger; font-weight: bolder;">
-			@Html.ActionLink("Basic Exmaple (SelectList Based)", "SelectListBased", "Home") |
-			@Html.ActionLink("Advanced Example (Model Based)", "ModelBased", "Home")
-		</span>
-	</div>
+		<div class="header">
+			<h1 class="margin_top30 margin_bottom30">MVC3 Html.CheckBoxList() extension</h1>
 
-  <div class="wrapper">
-		@RenderBody()
+			<small>Please select an example you would like to see:</small><br/>
+			<span style="font-size: larger; font-weight: bolder;">
+				@Html.ActionLink("Advanced Example (Model Based)", "ModelBased", "Home") |
+        @Html.ActionLink("Legacy - Basic Example (SelectList Based)", "SelectListBased", "Home")
+			</span>
+		</div>
+	
+		<div class="content">
+			@RenderBody()
+		</div>
 	</div>
 	
-	<div id="footer">
-		By <a target="_blank" href="http://www.codeproject.com/Members/devnoob">Mikhail T. (devnoob)</a>, 2012
+	<div class="footer">
+		By <a target="_blank" href="http://www.codeproject.com/Members/Mikhail-T">Mikhail Tsennykh</a>, 2012
 	</div>
 	
 	<script type="text/javascript">
 		$(document).ready(function () {
-			// snippet code highlighter
-			$("pre.html").snippet("html", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-			$("pre.cs").snippet("csharp", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-			$("pre.css").snippet("css", { style: "peachpuff", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-			$("pre.js").snippet("javascript", { style: "berries-light", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
+//			// snippet code highlighter
+//			$("pre.html").snippet("html", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
+//			$("pre.cs").snippet("csharp", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
+//			$("pre.css").snippet("css", { style: "peachpuff", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
+//			$("pre.js").snippet("javascript", { style: "berries-light", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
 		});
 	</script>
 

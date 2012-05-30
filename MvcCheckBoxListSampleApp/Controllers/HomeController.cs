@@ -8,7 +8,7 @@ namespace MvcCheckBoxListSampleApp.Controllers {
 	public class HomeController : Controller {
 
 		public ActionResult Index() {
-			return RedirectToAction("SelectListBased");
+			return RedirectToAction("ModelBased");
 		}
 
 		public ActionResult SelectListBased(string[] cities) {
