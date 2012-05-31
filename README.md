@@ -1,5 +1,5 @@
 
-# MVC3 @Html.CheckBoxList() custom extension v.1.4.2.3
+# MVC3 @Html.CheckBoxList() custom extension v.1.4.3.0
 
 MVC3 source project for Visual Studio 2010 and .NET 4.0.
 
@@ -20,7 +20,7 @@ This plugin is just a simple extension of MVC class 'HtmlHelper',
 which is used for all Html helpers on MVC views. Since there is
 no supported CheckBoxList extension built into MVC, this plugin adds it.
 
-##Method 1: Using strongly typed, based on view model
+##How to use
 
 Given you have a similar view model:
 
@@ -131,57 +131,6 @@ a string list of selected checkbox values into the 'quotationSearch.Tests' varia
       return Edit(id);
     }                      
 
- 
-                     
-##Method 2: Independent from view model
-
-Given you have the following code on your view:
-                                                
-    @{ 
-      // given we have some list of names with ids:
-      var sourceData = new[] {
-                         new {Name = "Monroe", Id = 1},
-                         new {Name = "Moscow", Id = 2},
-                         new {Name = "New Orleans", Id = 3},
-                         new {Name = "Ottawa", Id = 4},
-                         new {Name = "Mumbai", Id = 5}
-                       };
-
-      // first, we need to convert it to the list of class 'SelectListItems' (part of MVC):
-      var dataList = sourceData.ToSelectListItems
-        (x => x.Name, y => y.Id.ToString(), "").ToList();
-
-      // OR if we want to have some values selected, first create a string array
-      // of selected ids:
-      var selectedValues = new[] { "1", "4" };
-
-      // then create list of class 'SelectListItems' with some values selected:
-      var dataListSelected = sourcedata.ToMultiSelectListItems
-        (x => x.Name, y => y.Id.ToString(), s => selectedValues.Any(x => x.Id == s.Id)).ToList();
-
-    } 
-
-Finally, just call CheckBoxList extension on your MVC view or partial:
-
-    @Html.CheckBoxList("Cities", dataList)
-
-OR to have some values checked:
-
-    @Html.CheckBoxList("MoreCities", dataListSelected)
-
-###POSTing selected values back to the controller
-
-To POST selected values back to the controller, it should accept a string array with the
-same name as CheckBoxList control name: 
-
-    [HttpPost]
-    public ActionResult Edit(int id, string[] Cities) { // or 'MoreCities'
-      // do your thing with that array
-          
-      return Edit(id);
-    }
-
-
 
 ##Advanced examples (for Model-based approach):
 
@@ -219,48 +168,6 @@ OR use 'CheckBoxListFor' method:
                           x => x.Name,
                           x => x.SelectedCities,
                           putCheckBoxesIntoUnorderedList)
-
-
-##Advanced examples (for Model-independent approach):
-
-Note: You can use display customizations below (using HtmlListInfo class and others) for Model-based approach too!
-
-Base:
-
-    @Html.CheckBoxList("Cities", dataList)
-
-With vertical layout:
-
-    @Html.CheckBoxList("Cities", dataList, Position.Vertical)
-
-Arranged inside of an unordered list:
-
-    @{ var putCheckBoxesIntoUnorderedList = new HtmlListInfo(HtmlTag.ul); }
-    @Html.CheckBoxList("Cities", dataList, putCheckBoxesIntoUnorderedList)
-
-Arranged inside 3 columned table with increased font size:
-
-    @{ var putCheckBoxesIntoTable = new HtmlListInfo(HtmlTag.table, 3); }
-    @Html.CheckBoxList("Cities", dataList, putCheckBoxesIntoTable)
-
-Arranged inside 4 vertically sorted floating sections:
-
-    @{ 
-      var putCheckBoxesIntoTable = 
-        new HtmlListInfo(HtmlTag.vertical_columns, 4, new { style = "width:100px;" }); 
-    }
-    @Html.CheckBoxList("Cities", dataList, putCheckBoxesIntoTable)
-
-With some values disabled (disabled checkboxes will still POST):
-
-    @{ var disabledValues = new[] {"1", "4"}; }
-    @Html.CheckBoxList("Cities", dataList, null, disabledValues)
-
-Full control call:
-
-    @{ var checkBoxHtmlAttributes = new { @class = "checkbox_class" };  }
-    @Html.CheckBoxList("Cities", dataList, checkBoxHtmlAttributes,
-                       putCheckBoxesIntoTable, disabledValues, Position.Vertical)
 
 ####And that's all, Folks!
 
