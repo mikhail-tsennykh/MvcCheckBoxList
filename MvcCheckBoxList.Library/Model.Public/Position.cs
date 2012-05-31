@@ -3,5 +3,7 @@
 /// </summary>
 public enum Position {
 	Horizontal,
-	Vertical
+	Vertical,
+  Horizontal_RightToLeft,
+  Vertical_RightToLeft
 }

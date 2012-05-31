@@ -1,0 +1,42 @@
+﻿	/// <summary>
+	/// Model-Independent main function (legacy, will not be updated, please use Model-Based approach)
+	/// </summary>
+	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
+	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
+	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
+	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { style="color:green;" })')</param>
+	/// <param name="disabledValues">String array of values to disable</param>
+	/// <param name="position">Direction of the list (e.g. 'Position2.Horizontal' or 'Position2.Vertical')</param>
+	/// <returns>HTML string containing checkbox list</returns>
+	internal static MvcHtmlString CheckBoxList
+		(HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
+		 object htmlAttributes, HtmlListInfo wrapInfo, string[] disabledValues,
+		 Position position = Position.Horizontal) {
+		// validation
+		if (dataList == null || dataList.Count == 0) return MvcHtmlString.Create(no_data_message);
+		if (String.IsNullOrEmpty(listName)) throw new ArgumentException(empty_name_message, "listName");
+		var numberOfItems = dataList.Count;
+
+		// set up table/list html wrapper, if applicable
+		var htmlWrapper = createHtmlWrapper(wrapInfo, numberOfItems, position);
+
+		// create checkbox list
+		var sb = new StringBuilder();
+		sb.Append(htmlWrapper.wrap_open);
+		htmlwrap_rowbreak_counter = 0;
+
+		// create list of selected values
+		var selectedValues = dataList.Where(x => x.Selected).Select(s => s.Value);
+
+		// create list of checkboxes based on data
+		foreach (var r in dataList) {
+			// create checkbox element
+			sb = createCheckBoxListElement(sb, htmlHelper, null, htmlWrapper, htmlAttributes, selectedValues,
+			                               disabledValues, listName, r.Value, r.Text, position);
+		}
+		sb.Append(htmlWrapper.wrap_close);
+
+		// return checkbox list
+		return MvcHtmlString.Create(sb.ToString());
+	}

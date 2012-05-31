@@ -8,13 +8,17 @@
 <head>
   <title>Index</title>
 	
+  @* CSS *@
 	<link href="@Url.Content("~/Content/kickstart/kickstart.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/style.lib.css")" rel="stylesheet" type="text/css" />
   <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
 
   <link href="@Url.Content("~/Content/style.examples.css")" rel="stylesheet" type="text/css" />
+  
+  @* Scripts *@
+	@*<script src="http://code.jquery.com/jquery.min.js"></script>*@
+  <script>window.jQuery || document.write('<script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")"><\/script>')</script>
 
-	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="@Url.Content("~/Scripts/kickstart.js")"></script>
 	<script src="@Url.Content("~/Scripts/prettify.js")"></script>
 
@@ -25,14 +29,15 @@
       <a href="/">Home</a>
     </div>
 
-		<div class="header">
+		<div class="header margin_bottom30">
 			<h1 class="margin_top30 margin_bottom30">MVC3 Html.CheckBoxList() extension</h1>
-
-			<small>Please select an example you would like to see:</small><br/>
-			<span style="font-size: larger; font-weight: bolder;">
-				@Html.ActionLink("Advanced Example (Model Based)", "ModelBased", "Home") |
-        @Html.ActionLink("Legacy - Basic Example (SelectList Based)", "SelectListBased", "Home")
-			</span>
+      
+      <ul style="width: 350px;" class="menu center">
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+        <li>@Html.ActionLink("Documentation", "Docs", "Home")</li>
+        <li>@Html.ActionLink("Examples", "Examples", "Home")</li>
+      </ul>
+      <div class="clear"></div>
 		</div>
 	
 		<div class="content">
@@ -43,16 +48,6 @@
 	<div class="footer">
 		By <a target="_blank" href="http://www.codeproject.com/Members/Mikhail-T">Mikhail Tsennykh</a>, 2012
 	</div>
-	
-	<script type="text/javascript">
-		$(document).ready(function () {
-//			// snippet code highlighter
-//			$("pre.html").snippet("html", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-//			$("pre.cs").snippet("csharp", { style: "acid", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-//			$("pre.css").snippet("css", { style: "peachpuff", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-//			$("pre.js").snippet("javascript", { style: "berries-light", clipboard: "../../Scripts/ZeroClipboard.swf", showNum: false });
-		});
-	</script>
 
 </body>
 </html>

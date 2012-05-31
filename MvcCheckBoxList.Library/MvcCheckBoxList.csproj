@@ -70,15 +70,17 @@
     <Compile Include="Model.Public\HtmlTag.cs" />
     <Compile Include="Model.Internal\htmlWrapperInfo.cs" />
     <Compile Include="Model.Public\Position.cs" />
+    <Compile Include="Model.Public\TextLayout.cs" />
     <Compile Include="MvcCheckBoxList.cs" />
     <Compile Include="Extensions.Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Archived\CheckBoxList.Basic.txt" />
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.Basic.cs" />
+    <Content Include="Archived\Extensions.Basic.cs.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -35,15 +35,13 @@ a:hover {color: black;}
 
 
 /* customized html elements */
-fieldset {
+section {
   padding: 0px 15px 6px 15px; margin:20px 0 30px 0; 
   border-radius:7px; border: dotted 0px silver;
   box-shadow: 5px 5px 30px -10px silver, -5px 5px 30px -10px silver;
-  background:;
+  background:whiteSmoke;
   /* -8px -8px 70px -28px black inset, 8px -8px 70px -28px black inset; */
 }
-fieldset legend {color:gray; font-weight: bold; font-size:1.5em;}
-fieldset legend .tip {color:silver;font-weight:normal;}
 table {border-spacing: 0;}
 table th {padding: 3px 5px; text-align: left;background: grey;color: white;}
 table td {padding: 3px 5px;}
@@ -64,26 +62,15 @@ sample {
   background: silver; color: black; display: block;
   border-radius:5px;
 }
-code {
+code_black {
   font-size:1.7em; padding: 5px 8px; margin:8px 0 0 0;
   background: black; color: white; display: block;
   border-radius:5px; border: none;
 }
 
 /* custom classes */
-.title {color:gray; font-weight: bold; font-size:1.5em; padding:10px 0 15px 0;}
+.title {color:gray; font-weight: bold; font-size:1.5em; padding:10px 0 0 0;}
 .title .tip {color:silver;font-weight:normal;}
 .clear {clear: both;}
 .pointer {cursor: pointer;}
 .remove_edges {padding:0; margin:0;}
-.link_button {
-  line-height:22px; padding:5px 15px; margin-right:5px;
-  border:solid 1px gray; border-radius:5px; cursor: pointer;
-}
-.link_button:hover {background:black; color:white;}
-.link_button_big {
-  line-height:30px; padding:5px 15px;
-  font-size: 1.7em; border:solid 1px gray; border-radius:5px; cursor: pointer;
-}
-.link_button_big:hover {background:black; color:white;}
-.sample {width: 275px;}

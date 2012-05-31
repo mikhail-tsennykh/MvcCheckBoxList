@@ -2,7 +2,7 @@
 /// Sets type of HTML wrapper to use on a checkbox list
 /// </summary>
 public enum HtmlTag {
-	ul,
+	//ul,
 	table,
 	vertical_columns
 }

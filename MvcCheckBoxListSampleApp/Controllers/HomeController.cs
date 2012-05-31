@@ -7,31 +7,11 @@ using MvcCheckBoxListSampleApp.ViewModels;
 namespace MvcCheckBoxListSampleApp.Controllers {
 	public class HomeController : Controller {
 
-		public ActionResult Index() {
-			return RedirectToAction("ModelBased");
-		}
+    public ActionResult Index() {
+      return RedirectToAction("Examples");
+    }
 
-		public ActionResult SelectListBased(string[] cities) {
-			// setup properties
-			var model = new CitiesViewModel();
-			var selectedCities = new List<City>();
-
-			// if an array of posted city ids exists and is not empty,
-			// save selected ids
-			if (cities != null && cities.Any()) {
-				selectedCities = CityRepository.GetAll()
-					.Where(x => cities.Any(s => x.Id.ToString().Equals(s))).ToList();
-				model.WasPosted = true;
-			}
-
-			// setup a view model
-			//model.AvailableCities = CityRepository.GetAll();
-			model.SelectedCities = selectedCities;
-
-			return View(model);
-		}
-
-		public ActionResult ModelBased(string[] cities, PostedCities postedCities) {
+		public ActionResult Examples(string[] cities, PostedCities postedCities) {
 			// setup properties
 			var model = new CitiesViewModel();
 			var selectedCities = new List<City>();
@@ -62,6 +42,30 @@ namespace MvcCheckBoxListSampleApp.Controllers {
 
 			return View(model);
 		}
+
+    public ActionResult Docs() {
+      return View();
+    }
+
+    //public ActionResult SelectListBased(string[] cities) {
+    //  // setup properties
+    //  var model = new CitiesViewModel();
+    //  var selectedCities = new List<City>();
+
+    //  // if an array of posted city ids exists and is not empty,
+    //  // save selected ids
+    //  if (cities != null && cities.Any()) {
+    //    selectedCities = CityRepository.GetAll()
+    //      .Where(x => cities.Any(s => x.Id.ToString().Equals(s))).ToList();
+    //    model.WasPosted = true;
+    //  }
+
+    //  // setup a view model
+    //  //model.AvailableCities = CityRepository.GetAll();
+    //  model.SelectedCities = selectedCities;
+
+    //  return View(model);
+    //}
 
 	}
 }

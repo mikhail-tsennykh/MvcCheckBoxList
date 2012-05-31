@@ -73,6 +73,7 @@
     <None Include="Content\kickstart\fonts\social\icomoonsocial-webfont.eot" />
     <None Include="Content\kickstart\fonts\social\icomoonsocial-webfont.ttf" />
     <None Include="Content\kickstart\fonts\social\icomoonsocial-webfont.woff" />
+    <Content Include="Views\Home\Docs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\kickstart\chosen.css" />
@@ -131,7 +132,9 @@
     <Content Include="Content\kickstart\tiptip.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\style.examples.css" />
+    <Content Include="Content\style.lib.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\jquery-1.7.2.min.js" />
     <Content Include="Scripts\kickstart.js" />
     <Content Include="Scripts\prettify.js" />
     <Content Include="Web.config" />
@@ -141,13 +144,13 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\SelectListBased.cshtml" />
+    <None Include="Archives\SelectListBased.cshtml.old" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\ModelBased.cshtml" />
+    <Content Include="Views\Home\Examples.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MvcCheckBoxList.Library\MvcCheckBoxList.csproj">
@@ -172,7 +175,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>56788</DevelopmentServerPort>
+          <DevelopmentServerPort>51496</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

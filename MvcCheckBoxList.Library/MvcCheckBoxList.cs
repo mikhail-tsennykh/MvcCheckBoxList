@@ -16,55 +16,18 @@ internal static class MvcCheckBoxList {
 		linked_label_counter = 0;
 		htmlwrap_rowbreak_counter = 0;
 	}
+
+	// counter to count when to insert HTML code that breakes checkbox list
+	private static int htmlwrap_rowbreak_counter { get; set; }
+	// counter to be used on a label linked to each checkbox in the list
+	private static int linked_label_counter { get; set; }
 	// properties
 	internal static string no_data_message = "No Records...";
-	internal static string empty_model_message = "View Model cannot be null! " +
-	                                             "Please make sure your View Model " +
-	                                             "is created and passed to this View";
+  internal static string empty_model_message =
+    "View Model cannot be null! Please make sure your View Model is created and passed to this View";
 	internal static string empty_name_message = "Name of the CheckBoxList cannot be null or empty";
+  
 
-	/// <summary>
-	/// Model-Independent main function
-	/// </summary>
-	/// <param name="htmlHelper">MVC Html helper class that is being extended</param>
-	/// <param name="listName">Name of each checkbox in a list (use this name to POST list values array back to the controller)</param>
-	/// <param name="dataList">List of name/value pairs to be used as source data for the list</param>
-	/// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
-	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { style="color:green;" })')</param>
-	/// <param name="disabledValues">String array of values to disable</param>
-	/// <param name="position">Direction of the list (e.g. 'Position2.Horizontal' or 'Position2.Vertical')</param>
-	/// <returns>HTML string containing checkbox list</returns>
-	internal static MvcHtmlString CheckBoxList
-		(HtmlHelper htmlHelper, string listName, List<SelectListItem> dataList,
-		 object htmlAttributes, HtmlListInfo wrapInfo, string[] disabledValues,
-		 Position position = Position.Horizontal) {
-		// validation
-		if (dataList == null || dataList.Count == 0) return MvcHtmlString.Create(no_data_message);
-		if (String.IsNullOrEmpty(listName)) throw new ArgumentException(empty_name_message, "listName");
-		var numberOfItems = dataList.Count;
-
-		// set up table/list html wrapper, if applicable
-		var htmlWrapper = createHtmlWrapper(wrapInfo, numberOfItems, position);
-
-		// create checkbox list
-		var sb = new StringBuilder();
-		sb.Append(htmlWrapper.wrap_open);
-		htmlwrap_rowbreak_counter = 0;
-
-		// create list of selected values
-		var selectedValues = dataList.Where(x => x.Selected).Select(s => s.Value);
-
-		// create list of checkboxes based on data
-		foreach (var r in dataList) {
-			// create checkbox element
-			sb = createCheckBoxListElement(sb, htmlHelper, null, htmlWrapper, htmlAttributes, selectedValues,
-			                               disabledValues, listName, r.Value, r.Text);
-		}
-		sb.Append(htmlWrapper.wrap_close);
-
-		// return checkbox list
-		return MvcHtmlString.Create(sb.ToString());
-	}
 	/// <summary>
 	/// Model-Based main function
 	/// </summary>
@@ -133,9 +96,16 @@ internal static class MvcCheckBoxList {
 			                           };
 		}
 
+    // if HtmlListInfo is provided, then check for inverse text direction
+	  var textLayout = TextLayout.Default;
+    if (wrapInfo != null && wrapInfo.TextLayout == TextLayout.RightToLeft)
+      textLayout = wrapInfo.TextLayout;
+    if (position == Position.Vertical_RightToLeft || position == Position.Horizontal_RightToLeft)
+      textLayout = TextLayout.RightToLeft;
+
 		// set up table/list html wrapper, if applicable
 		var numberOfItems = sourceData.Count;
-		var htmlWrapper = createHtmlWrapper(wrapInfo, numberOfItems, position);
+		var htmlWrapper = createHtmlWrapper(wrapInfo, numberOfItems, position, textLayout);
 
 		// create checkbox list
 		var sb = new StringBuilder();
@@ -151,7 +121,8 @@ internal static class MvcCheckBoxList {
 			// create checkbox element
 			sb = createCheckBoxListElement(sb, htmlHelper, modelMetadata, htmlWrapper,
 			                               _valueHtmlAttributesFunc(item, htmlAttributes),
-			                               selectedValues, disabledValues, listName, itemValue, itemText);
+			                               selectedValues, disabledValues, listName,
+                                     itemValue, itemText, textLayout);
 		}
 		sb.Append(htmlWrapper.wrap_close);
 
@@ -159,138 +130,148 @@ internal static class MvcCheckBoxList {
 		return MvcHtmlString.Create(sb.ToString());
 	}
 
-	/// <summary>
-	/// Creates an HTML wrapper for the checkbox list
-	/// </summary>
-	/// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { style="color:green;" })')</param>
-	/// <param name="numberOfItems">Count of all items in the list</param>
-	/// <param name="position">Direction of the list (e.g. 'Position2.Horizontal' or 'Position2.Vertical')</param>
-	/// <returns>HTML wrapper information</returns>
-	private static htmlWrapperInfo createHtmlWrapper
-		(HtmlListInfo wrapInfo, int numberOfItems, Position position) {
+  /// <summary>
+  /// Creates an HTML wrapper for the checkbox list
+  /// </summary>
+  /// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { style="color:green;" })')</param>
+  /// <param name="numberOfItems">Count of all items in the list</param>
+  /// <param name="position">Direction of the list (e.g. 'Position2.Horizontal' or 'Position2.Vertical')</param>
+  /// <param name="textLayout">Sets layout of a checkbox for right-to-left languages</param>
+  /// <returns>HTML wrapper information</returns>
+  private static htmlWrapperInfo createHtmlWrapper
+		(HtmlListInfo wrapInfo, int numberOfItems, Position position, TextLayout textLayout) {
 		var w = new htmlWrapperInfo();
 
-		if (wrapInfo != null) {
-			// creating custom layouts
-			switch (wrapInfo.htmlTag) {
-					// creates user selected number of float sections with
-					// vertically sorted checkboxes
-				case HtmlTag.vertical_columns: {
-					if (wrapInfo.Columns <= 0) wrapInfo.Columns = 1;
-					// calculate number of rows
-					var rows = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(numberOfItems)
-					                                        / Convert.ToDecimal(wrapInfo.Columns)));
-					if (numberOfItems <= 4 &&
-					    (numberOfItems <= wrapInfo.Columns || numberOfItems - wrapInfo.Columns == 1))
-						rows = numberOfItems;
-					w.separator_max_counter = rows;
+    if (wrapInfo != null) {
+      // creating custom layouts
+      switch (wrapInfo.htmlTag) {
+        // creates user selected number of float sections with
+        // vertically sorted checkboxes
+        case HtmlTag.vertical_columns: {
+            if (wrapInfo.Columns <= 0) wrapInfo.Columns = 1;
+            // calculate number of rows
+            var rows = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(numberOfItems)
+                                                    / Convert.ToDecimal(wrapInfo.Columns)));
+            if (numberOfItems <= 4 &&
+                (numberOfItems <= wrapInfo.Columns || numberOfItems - wrapInfo.Columns == 1))
+              rows = numberOfItems;
+            w.separator_max_counter = rows;
 
-					// create wrapped raw html tag
-					var wrapRow = htmlElementTag.div;
-					var wrapHtml_builder = new TagBuilder(wrapRow.ToString());
-					var user_html_attributes = wrapInfo.htmlAttributes.toDictionary();
+            // create wrapped raw html tag
+            var wrapRow = htmlElementTag.div;
+            var wrapHtml_builder = new TagBuilder(wrapRow.ToString());
+            var user_html_attributes = wrapInfo.htmlAttributes.toDictionary();
 
-					// create raw style and merge it with user provided style (if applicable)
-					var defaultSectionStyle = "float:left; margin-right:30px; line-height:25px;";
-					object style;
-					user_html_attributes.TryGetValue("style", out style);
-					if (style != null) // if user style is set, use it
-						wrapHtml_builder.MergeAttribute("style", defaultSectionStyle + " " + style);
-					else // if not set, add only default style
-						wrapHtml_builder.MergeAttribute("style", defaultSectionStyle);
+            // create raw style and merge it with user provided style (if applicable)
+            var defaultSectionStyle = "float:left;"; // margin-right:30px; line-height:25px;
+            if (textLayout == TextLayout.RightToLeft)
+              defaultSectionStyle += " text-align: right;";
 
-					// merge it with other user provided attributes (e.g.: class)
-					user_html_attributes.Remove("style");
-					wrapHtml_builder.MergeAttributes(user_html_attributes);
+            object style;
+            user_html_attributes.TryGetValue("style", out style);
+            if (style != null) // if user style is set, use it
+              wrapHtml_builder.MergeAttribute("style", defaultSectionStyle + " " + style);
+            else // if not set, add only default style
+              wrapHtml_builder.MergeAttribute("style", defaultSectionStyle);
 
-					// build wrapped raw html tag 
-					w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag);
-					w.wrap_rowbreak = "</" + wrapRow + "> " +
-					                  wrapHtml_builder.ToString(TagRenderMode.StartTag);
-					w.wrap_close = wrapHtml_builder.ToString(TagRenderMode.EndTag) +
-					               " <div style=\"clear:both;\"></div>";
-					w.append_to_element = "<br/>";
-				}
-					break;
-					// creates an html <table> with checkboxes sorted horizontally
-				case HtmlTag.table: {
-					if (wrapInfo.Columns <= 0) wrapInfo.Columns = 1;
-					w.separator_max_counter = wrapInfo.Columns;
+            // merge it with other user provided attributes (e.g.: class)
+            user_html_attributes.Remove("style");
+            wrapHtml_builder.MergeAttributes(user_html_attributes);
 
-					var wrapHtml_builder = new TagBuilder(htmlElementTag.table.ToString());
-					wrapHtml_builder.MergeAttributes(wrapInfo.htmlAttributes.toDictionary());
-					wrapHtml_builder.MergeAttribute("cellspacing", "0"); // for IE7 compatibility
+            // build wrapped raw html tag 
+            w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag);
+            w.wrap_rowbreak = "</" + wrapRow + "> " +
+                              wrapHtml_builder.ToString(TagRenderMode.StartTag);
+            w.wrap_close = wrapHtml_builder.ToString(TagRenderMode.EndTag) +
+                           " <div style=\"clear:both;\"></div>";
+            w.append_to_element = "<br/>";
+          }
+          break;
+        // creates an html <table> with checkboxes sorted horizontally
+        case HtmlTag.table: {
+            if (wrapInfo.Columns <= 0) wrapInfo.Columns = 1;
+            w.separator_max_counter = wrapInfo.Columns;
 
-					var wrapRow = htmlElementTag.tr;
-					w.wrap_element = htmlElementTag.td;
-					w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag) +
-					              "<" + wrapRow + ">";
-					w.wrap_rowbreak = "</" + wrapRow + "><" + wrapRow + ">";
-					w.wrap_close = "</" + wrapRow + ">" +
-					               wrapHtml_builder.ToString(TagRenderMode.EndTag);
-				}
-					break;
-					// creates an html unordered (bulleted) list of checkboxes in one column
-				case HtmlTag.ul: {
-					var wrapHtml_builder = new TagBuilder(htmlElementTag.ul.ToString());
-					wrapHtml_builder.MergeAttributes(wrapInfo.htmlAttributes.toDictionary());
-					wrapHtml_builder.MergeAttribute("cellspacing", "0"); // for IE7 compatibility
+            var wrapHtml_builder = new TagBuilder(htmlElementTag.table.ToString());
+            wrapHtml_builder.MergeAttributes(wrapInfo.htmlAttributes.toDictionary());
+            wrapHtml_builder.MergeAttribute("cellspacing", "0"); // for IE7 compatibility
 
-					w.wrap_element = htmlElementTag.li;
-					w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag);
-					w.wrap_close = wrapHtml_builder.ToString(TagRenderMode.EndTag);
-				}
-					break;
-			}
-		}
-			// default setting creates vertical or horizontal column of checkboxes
-		else {
-			if (position == Position.Horizontal) w.append_to_element = " &nbsp; ";
-			if (position == Position.Vertical) w.append_to_element = "<br/>";
-		}
+            var wrapRow = htmlElementTag.tr;
+            w.wrap_element = htmlElementTag.td;
+            w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag) +
+                          "<" + wrapRow + ">";
+            w.wrap_rowbreak = "</" + wrapRow + "><" + wrapRow + ">";
+            w.wrap_close = "</" + wrapRow + ">" +
+                           wrapHtml_builder.ToString(TagRenderMode.EndTag);
+          }
+          break;
+        //// creates an html unordered (bulleted) list of checkboxes in one column
+        //case HtmlTag.ul: {
+        //    var wrapHtml_builder = new TagBuilder(htmlElementTag.ul.ToString());
+        //    wrapHtml_builder.MergeAttributes(wrapInfo.htmlAttributes.toDictionary());
+        //    wrapHtml_builder.MergeAttribute("cellspacing", "0"); // for IE7 compatibility
 
-		return w;
+        //    w.wrap_element = htmlElementTag.li;
+        //    w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag);
+        //    w.wrap_close = wrapHtml_builder.ToString(TagRenderMode.EndTag);
+        //  }
+        //  break;
+      }
+    }
+      // default setting creates vertical or horizontal column of checkboxes
+    else {
+      if (position == Position.Horizontal || position == Position.Horizontal_RightToLeft)
+        w.append_to_element = " &nbsp; ";
+      if (position == Position.Vertical || position == Position.Vertical_RightToLeft)
+        w.append_to_element = "<br/>";
+
+      if (textLayout == TextLayout.RightToLeft) {
+        // lean text to right for right-to-left languages
+        var defaultSectionStyle = "style=\"text-align: right;\"";
+        var wrapRow = htmlElementTag.div;
+        w.wrap_open = "<" + wrapRow + " " + defaultSectionStyle + ">";
+        w.wrap_rowbreak = string.Empty;
+        w.wrap_close = "</" + wrapRow + ">";
+      }
+    }
+
+    // return completed check box list wrapper
+	  return w;
 	}
-	/// <summary>
-	/// Counter to count when to insert HTML code that brakes checkbox list
-	/// </summary>
-	private static int htmlwrap_rowbreak_counter { get; set; }
-	/// <summary>
-	/// Counter to be used on a label linked to each checkbox in the list
-	/// </summary>
-	private static int linked_label_counter { get; set; }
-	/// <summary>
-	/// Creates an an individual checkbox
-	/// </summary>
-	/// <param name="sb">String builder of checkbox list</param>
-	/// <param name="modelMetadata">Model Metadata</param>
-	/// <param name="htmlWrapper">MVC Html helper class that is being extended</param>
-	/// <param name="htmlAttributesForCheckBox">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
-	/// <param name="selectedValues">List of strings of selected values</param>
-	/// <param name="disabledValues">List of strings of disabled values</param>
-	/// <param name="name">Name of the checkbox list (same for all checkboxes)</param>
-	/// <param name="itemValue">Value of the checkbox</param>
-	/// <param name="itemText">Text to be displayed next to checkbox</param>
-	/// <param name="htmlHelper">HtmlHelper passed from view model</param>
-	/// <returns>String builder of checkbox list</returns>
-	private static StringBuilder createCheckBoxListElement
+
+  /// <summary>
+  /// Creates an an individual checkbox
+  /// </summary>
+  /// <param name="sb">String builder of checkbox list</param>
+  /// <param name="modelMetadata">Model Metadata</param>
+  /// <param name="htmlWrapper">MVC Html helper class that is being extended</param>
+  /// <param name="htmlAttributesForCheckBox">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
+  /// <param name="selectedValues">List of strings of selected values</param>
+  /// <param name="disabledValues">List of strings of disabled values</param>
+  /// <param name="name">Name of the checkbox list (same for all checkboxes)</param>
+  /// <param name="itemValue">Value of the checkbox</param>
+  /// <param name="itemText">Text to be displayed next to checkbox</param>
+  /// <param name="htmlHelper">HtmlHelper passed from view model</param>
+  /// <param name="textLayout">Sets layout of a checkbox for right-to-left languages</param>
+  /// <returns>String builder of checkbox list</returns>
+  private static StringBuilder createCheckBoxListElement
 		(StringBuilder sb, HtmlHelper htmlHelper, ModelMetadata modelMetadata, htmlWrapperInfo htmlWrapper,
 		 object htmlAttributesForCheckBox, IEnumerable<string> selectedValues, IEnumerable<string> disabledValues,
-		 string name, string itemValue, string itemText) {
+		 string name, string itemValue, string itemText, TextLayout textLayout) {
 		// get full name from view model
 		var fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
 
 		// create checkbox tag
-		var builder = new TagBuilder("input");
-		if (selectedValues.Any(x => x == itemValue)) builder.MergeAttribute("checked", "checked");
-		builder.MergeAttributes(htmlAttributesForCheckBox.toDictionary());
-		builder.MergeAttribute("type", "checkbox");
-		builder.MergeAttribute("value", itemValue);
-		builder.MergeAttribute("name", fullName);
+		var checkbox_builder = new TagBuilder("input");
+		if (selectedValues.Any(x => x == itemValue)) checkbox_builder.MergeAttribute("checked", "checked");
+		checkbox_builder.MergeAttributes(htmlAttributesForCheckBox.toDictionary());
+		checkbox_builder.MergeAttribute("type", "checkbox");
+		checkbox_builder.MergeAttribute("value", itemValue);
+		checkbox_builder.MergeAttribute("name", fullName);
 
 		// create linked label tag
 		var link_name = name + linked_label_counter++;
-		builder.GenerateId(link_name);
+		checkbox_builder.GenerateId(link_name);
 		var linked_label_builder = new TagBuilder("label");
 		linked_label_builder.MergeAttribute("for", link_name.Replace(".", "_"));
 		linked_label_builder.MergeAttributes(htmlAttributesForCheckBox.toDictionary());
@@ -300,34 +281,52 @@ internal static class MvcCheckBoxList {
 		ModelState modelState;
 		if (htmlHelper.ViewData.ModelState.TryGetValue(fullName, out modelState))
 			if (modelState.Errors.Count > 0)
-				builder.AddCssClass(HtmlHelper.ValidationInputCssClassName);
-		builder.MergeAttributes(htmlHelper.GetUnobtrusiveValidationAttributes(name, modelMetadata));
+				checkbox_builder.AddCssClass(HtmlHelper.ValidationInputCssClassName);
+		checkbox_builder.MergeAttributes(htmlHelper.GetUnobtrusiveValidationAttributes(name, modelMetadata));
 
 		// open checkbox tag wrapper
-		sb.Append(htmlWrapper.wrap_element != htmlElementTag.None ? "<" + htmlWrapper.wrap_element + ">" : "");
+    if (textLayout == TextLayout.RightToLeft) {
+      // then set style for displaying checkbox for right-to-left languages
+      var defaultSectionStyle = "style=\"text-align: right;\"";
+      sb.Append(htmlWrapper.wrap_element != htmlElementTag.None
+                  ? "<" + htmlWrapper.wrap_element + " " + defaultSectionStyle + ">"
+                  : "");
+    } else {
+      sb.Append(htmlWrapper.wrap_element != htmlElementTag.None
+                  ? "<" + htmlWrapper.wrap_element + ">"
+                  : "");
+    }
 
-		// build hidden tag for disabled checkbox (so the value will post)
+    // build hidden tag for disabled checkbox (so the value will post)
 		if (disabledValues != null && disabledValues.ToList().Any(x => x == itemValue)) {
 			// set main checkbox to be disabled
-			builder.MergeAttribute("disabled", "disabled");
+			checkbox_builder.MergeAttribute("disabled", "disabled");
 
 			// create a hidden input with checkbox value
 			// so it can be posted if checked
 			if (selectedValues.Any(x => x == itemValue)) {
-				var hidden_builder = new TagBuilder("input");
-				hidden_builder.MergeAttribute("type", "hidden");
-				hidden_builder.MergeAttribute("value", itemValue);
-				hidden_builder.MergeAttribute("name", name);
-				sb.Append(hidden_builder.ToString(TagRenderMode.Normal));
+				var hidden_input_builder = new TagBuilder("input");
+				hidden_input_builder.MergeAttribute("type", "hidden");
+				hidden_input_builder.MergeAttribute("value", itemValue);
+				hidden_input_builder.MergeAttribute("name", name);
+				sb.Append(hidden_input_builder.ToString(TagRenderMode.Normal));
 			}
 		}
 
-		// create checkbox tag
-		sb.Append(builder.ToString(TagRenderMode.Normal));
-		sb.Append(linked_label_builder.ToString(TagRenderMode.Normal));
+		// create checkbox and tag combination
+    if (textLayout == TextLayout.RightToLeft) {
+      // then display checkbox for right-to-left languages
+      sb.Append(linked_label_builder.ToString(TagRenderMode.Normal));
+      sb.Append(checkbox_builder.ToString(TagRenderMode.Normal));
+    } else {
+      sb.Append(checkbox_builder.ToString(TagRenderMode.Normal));
+      sb.Append(linked_label_builder.ToString(TagRenderMode.Normal));
+    }
 
-		// close checkbox tag wrapper
-		sb.Append(htmlWrapper.wrap_element != htmlElementTag.None ? "</" + htmlWrapper.wrap_element + ">" : "");
+    // close checkbox tag wrapper
+    sb.Append(htmlWrapper.wrap_element != htmlElementTag.None
+                ? "</" + htmlWrapper.wrap_element + ">"
+                : "");
 
 		// add element ending
 		sb.Append(htmlWrapper.append_to_element);
