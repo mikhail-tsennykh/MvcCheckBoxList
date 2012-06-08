@@ -193,8 +193,6 @@ using strongly typed way, 'x' represents your model).
 Create an instance of checkbox list formatting class 'HtmlListInfo' with parameters:
 
     @{ var putCheckBoxesIntoUnorderedList = //...select from variants below...
-      // arranged inside of the html 'unordered list'
-      new HtmlListInfo(HtmlTag.ul); 
       // OR arranged inside of the html 'table' with three columns
       new HtmlListInfo(HtmlTag.table, 3); 
       // OR arranged inside of vertical columns (div's which float left) containing three columns
