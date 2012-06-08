@@ -9,18 +9,18 @@ Alternatively, you can simply install a NuGet package of this extension:
 
     Install-Package MvcCheckBoxList
 
-####Links:
+#### Links:
 
 NuGet package on [NuGet.org](https://nuget.org/packages/MvcCheckBoxList) and
 full documentation on [CodeProject](http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx)
 
-##Introduction
+## Introduction
 
 This plugin is just a simple extension of MVC class 'HtmlHelper',
 which is used for all Html helpers on MVC views. Since there is
 no supported CheckBoxList extension built into MVC, this plugin adds it.
 
-##How to use
+## How to use
 
 Given, we have a simple class 'City':
 
@@ -46,7 +46,7 @@ Then on a view which uses 'RegionViewModel' as its @model
 to display a checkbox list of all tests and have some of them selected,
 call in instance of 'CheckBoxList' or 'CheckBoxListFor' extension:
 
-Option 1 - Manually set name:
+##### Option 1 - Manually set name:
  
     @Html.CheckBoxList("Cities",                // NAME of checkbox list (html 'name' property of each
                                                 // checkbox in the list)
@@ -56,7 +56,7 @@ Option 1 - Manually set name:
                        x => x.Region.Cities)    // selected data (list of selected 'Cities' in our case),
                                                 // must be of same data type as source data or set to 'NULL'
                                             
-Option 2 - Strongly typed name, based on the name of a view model property:
+##### Option 2 - Strongly typed name, based on the name of a view model property:
  
     @Html.CheckBoxListFor(x => x.Region,            // each checkbox name will be 'Region'. It can be
                                                     // set to any property in your view model and its name
@@ -66,7 +66,7 @@ Option 2 - Strongly typed name, based on the name of a view model property:
                           x => x.Name,              // ...same as above...
                           x => x.Region.Cities)     // ...same as above...
                           
-Full strongly typed name example:
+##### Full strongly typed name example:
  
     @Html.CheckBoxListFor(x => x.Cities,            // NAME of checkbox list (html 'name' property of
                                                     // each checkbox in the list)
@@ -80,7 +80,7 @@ Full strongly typed name example:
                           new[] {"7", "12", "14"})  // array represents disabled checkboxes
                                                     // (values will still POST!)
                                                     
-In addition, you can use more advanced naming structure:
+##### In addition, you can use more advanced naming structure:
  
     @Html.CheckBoxListFor(x => x.Region.Cities,     // each checkbox's html 'name' property
                                                     // will be 'Region.Cities'
@@ -104,12 +104,12 @@ jquery code to it: '$('[what="smallCity"]').css("color", "blue")'):
                                                      // they will be merged with other tags and applied to checkbox and its label                      
 
 Please note: adding custom tags is supported by all 'CheckBoxList' and 'CheckBoxListFor' 
-overloads as the very last parameter
+overloads as the very last parameter.
 
-Since version 1.4.3.0, you can flip checkbox and label to be used for
-right-to-left languages (e.g. Arabic, Hebrew, and others):
+Since version 1.4.3.0, you can flip checkbox and label to be used for 
+right-to-left languages (e.g. Arabic, Hebrew, and others).
   
-Basic usage:
+##### Basic usage:
  
     @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // checkbox list name, 'PostedCities.CityIDs' in this case
                           x => x.AvailableCities,          
@@ -118,7 +118,7 @@ Basic usage:
                           x => x.SelectedCities,
                           Position.Vertical_RightToLeft) // or 'Postion.Horizontal_RightToLeft'
 
-Using advanced formatting:
+##### Using advanced formatting:
 
     @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // checkbox list name, 'PostedCities.CityIDs' in this case
                           x => x.AvailableCities,          
@@ -127,11 +127,11 @@ Using advanced formatting:
                           x => x.SelectedCities,
                           new HtmlListInfo(HtmlTag.vertical_columns, 0, null, TextLayout.RightToLeft))                    
 
-###POSTing selected values back to the controller
+## POSTing selected values back to the controller
 
 To POST selected values back to the controller, it should accept a string array with the same name as CheckBoxList control name.                      
 
-##Simple scenario 
+#### Simple scenario 
 
 [HttpPost]
 public ActionResult Edit(int id, string[] Cities) { // or whatever CheckBoxList name you've set manually
@@ -140,7 +140,7 @@ public ActionResult Edit(int id, string[] Cities) { // or whatever CheckBoxList 
   return Edit(id);
 }
 
-##Advanced scenario - POSTing View Model property 
+#### Advanced scenario - POSTing View Model property 
 
 Given we have a simple class 'Test':
 
@@ -173,7 +173,10 @@ And you create checkbox list like that:
                           x => x.Name,
                           x => x.SelectedTests)
 
-then to capture list of selected checkboxes in a strongly typed manner, you can accept an instance of 'PostedTests' class by controller. Remember, it should be named the same as a first part of a checkbox name, in our case it is 'PostedTests'. This will load a string list of selected checkbox values into the 'postedTests.Tests' variable. 
+then to capture list of selected checkboxes in a strongly typed manner, you can accept
+an instance of 'PostedTests' class by controller. Remember, it should be named the same
+as a first part of a checkbox name, in our case it is 'PostedTests'. This will load a
+string list of selected checkbox values into the 'postedTests.Tests' variable. 
 
     [HttpPost]
     public ActionResult Edit(int id, PostedTests postedTests) {
@@ -182,7 +185,7 @@ then to capture list of selected checkboxes in a strongly typed manner, you can 
       return Edit(id);
     } 
 
-##Advanced formatting examples
+## Advanced formatting examples
 
 We'll create CheckBoxList which is arranged inside formatted list (given that you have created appropriate view model,
 using strongly typed way, 'x' represents your model).
@@ -219,6 +222,6 @@ OR use 'CheckBoxListFor' method:
                           x => x.SelectedCities,
                           putCheckBoxesIntoUnorderedList)
 
-####And that's all, Folks!
+#### And that's all, Folks!
 
 
