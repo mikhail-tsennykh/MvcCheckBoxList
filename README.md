@@ -73,7 +73,7 @@ Also, you can use more advanced naming structure:
                           x => x.Quotation.Tests)   
                       
                       
-Added in version 1.4, you can now send an object containing
+Added in version 1.4.2.2, you can now send an object containing
 html tag which would be applied to an individual checkbox
 Here, 'Tags' is a variable of type 'object' and equals e.g. 'new {htmlTag = "Value"}'
 (this means you can pass something like 'new {what = "smallCity}', and apply some
@@ -86,7 +86,30 @@ jquery code to it: '$('[what="smallCity"]').css("color", "blue")'):
                           x => x.SelectedCities,
                           x => x.Tags)               // tags stored in the data source as an object e.g.: 'new {what = "smallCity"}'
                                                      // they will be merged with other tags and applied to checkbox and its label                      
-                      
+
+Please note: adding custom tags is supported by all 'CheckBoxList' and 'CheckBoxListFor' 
+overloads as the very last parameter
+
+Since version 1.4.3.0, you can flip checkbox and label to be used for
+right-to-left languages (e.g. Arabic, Hebrew, and others):
+  
+Basic usage:
+ 
+  @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // checkbox list name, 'PostedCities.CityIDs' in this case
+                        x => x.AvailableCities,          
+                        x => x.Id,               
+                        x => x.Name,               
+                        x => x.SelectedCities,
+                        Position.Vertical_RightToLeft) // or 'Postion.Horizontal_RightToLeft'
+
+Using advanced formatting:
+
+  @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // checkbox list name, 'PostedCities.CityIDs' in this case
+                        x => x.AvailableCities,          
+                        x => x.Id,               
+                        x => x.Name,               
+                        x => x.SelectedCities,
+                        new HtmlListInfo(HtmlTag.vertical_columns, 0, null, TextLayout.RightToLeft))                    
 
 ###POSTing selected values back to the controller
 
@@ -132,7 +155,7 @@ a string list of selected checkbox values into the 'quotationSearch.Tests' varia
     }                      
 
 
-##Advanced examples (for Model-based approach):
+##Advanced formatting examples
 
 We'll create CheckBoxList which is arranged inside formatted list (given that you have created appropriate view model,
 using strongly typed way, 'x' represents your model).
