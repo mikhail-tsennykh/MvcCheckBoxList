@@ -18,7 +18,7 @@
 	</div>
 }
 
-<section>
+@*<section class="clearfix">*@
   <div class="col_12">
     <title>What is it?</title>
     <p>
@@ -26,9 +26,10 @@
       which creates a postable Model-based list of check boxes.
     </p>
   </div>
+  <hr/>
 
   <div class="col_4">
-    <title>Why?</title>
+    <title>Features:</title>
     <ul class="checks">
       <li title="IMHO ;)">Easy to use</li>
       <li>Creates POSTable checkboxes from any set of data</li>
@@ -62,16 +63,19 @@
 													    city => city.Name,
 													    model => model.SelectedCities)
 		    </section>
-        <button type="submit">
+        <button type="submit" class="pop">
           <span class="icon" data-icon="c"></span>
           Submit Selection to Controller
         </button>
+        <a href="/Home/Examples" class="button pop content_right">
+          <span class="icon" data-icon="g"></span>
+          See More Examples
+        </a>
 	    }
     </p>  
   </div>
-
-  <div class="clear"></div>
-</section>
+  <hr/>
+@*</section>*@
 
 <h4 class="col_12 center">Install it</h4>
 

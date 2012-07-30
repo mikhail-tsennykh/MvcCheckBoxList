@@ -53,9 +53,10 @@ section {
   background:whiteSmoke;
   /* -8px -8px 70px -28px black inset, 8px -8px 70px -28px black inset; */
 }
+
 title {
-  display: inline-block; color:gray; font-weight: bold;
-  font-size:1.5em; padding:10px 0 0 0;
+  display: inline-block; color:#4C4C4C; font-weight: bold;
+  font-size:1.5em; padding:10px 0;
 } 
 section .tip {color:silver;font-weight:normal;}
 
@@ -81,16 +82,9 @@ sample {
   border-radius:5px;
 }
 nuget {
-  background-color: #202020;
-  border: 4px solid silver;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  box-shadow: 2px 2px 3px #6E6E6E;
-  color: #E2E2E2;
-  display: block;
-  font: 1.5em 'andale mono', 'lucida console', monospace;
-  line-height: 1.5em;
-  overflow: auto;
-  padding: 15px;
+  background-color: #202020; border: 4px solid silver;
+  border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  box-shadow: 2px 2px 3px #6E6E6E; color: #E2E2E2;
+  display: block; font: 1.5em 'andale mono', 'lucida console', monospace;
+  line-height: 1.5em; overflow: auto; padding: 15px;
 }
