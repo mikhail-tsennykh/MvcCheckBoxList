@@ -77,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Archived\CheckBoxList.Basic.txt" />
-    <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Archived\Extensions.Basic.cs.txt" />

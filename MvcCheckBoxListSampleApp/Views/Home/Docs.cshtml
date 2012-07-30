@@ -6,8 +6,9 @@
 
 <h3>@ViewBag.Title</h3>
 
-<section class="overloads_list">
-  <div class="title">Overloads Reference</div>
+<section>
+  <title>Overloads Reference</title>
+  
   <p>
     <h6>Base checkbox list call:</h6>
     <code>&#64;Html.CheckBoxListFor(LIST_NAME, LIST_DATA, VALUE_PROPERTY, TEXT_PROPERTY, SELECTED_DATA)</code>
@@ -17,8 +18,12 @@
     <h6>And in this example it looks like this:</h6>
     <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => x.SelectedCities)</pre>
   </p>
-  
-  <div class="title">Simple Overloads</div>
+
+</section>
+
+<section>
+  <title>Simple Overloads</title>
+
   <p>
     Since five base properties don't change, only extra ones will be shown, so placeholder
     <code>...</code> means usage of five base properties
@@ -48,8 +53,11 @@
     <h6>4. Set html attributes, disabled values, and position:</h6>
     <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, new[] {"3", "5", "7"}, Position.Horizontal)</pre>
   </p>
-  
-  <div class="title">Advanced Overloads</div>
+
+</section>
+
+<section>  
+  <title>Advanced Overloads</title>
   
   <p>
     <h6>5. Set custom layout using <code>HtmlListInfo</code> class:</h6>
@@ -102,3 +110,14 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_na
   </h6>
 
 </section>
+
+
+<h4 class="col_12 center">For more information and discussion see</h4>
+
+<div class="col_12 center">
+  <a href="@ViewBag.CodePrejectUrl"
+  class="button large pop">
+    <span class="icon" data-icon="?"></span>
+    Extension's Article on CodeProject.com
+  </a>
+</div>

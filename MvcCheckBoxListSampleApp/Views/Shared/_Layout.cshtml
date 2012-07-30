@@ -3,16 +3,15 @@
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
-  <title>Index</title>
+  <title>.CheckBoxList() | @ViewBag.Title</title>
 	
   @* CSS *@
 	<link href="@Url.Content("~/Content/kickstart/kickstart.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/style.lib.css")" rel="stylesheet" type="text/css" />
   <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
-
+  <link href="@Url.Content("~/Content/style.local.css")" rel="stylesheet" type="text/css" />
   <link href="@Url.Content("~/Content/style.examples.css")" rel="stylesheet" type="text/css" />
   
   @* Scripts *@
@@ -24,29 +23,33 @@
 
 </head>
 <body>
-	<div class="wrapper clearfix">
-    <div class="top_menu">
-      <a href="/">Home</a>
-    </div>
 
-		<div class="header margin_bottom30">
-			<h1 class="margin_top30 margin_bottom30">MVC3 Html.CheckBoxList() extension</h1>
-      
-      <ul style="width: 350px;" class="menu center">
+	<div class="header">
+    @*<div class="top_menu"><a href="/">Home</a></div>*@
+		<h1 class="margin_top30 margin_bottom30">
+      @Html.ActionLink("MVC Html.CheckBoxList() extension", "Index", "Home")
+    </h1>
+    
+    @if (ViewBag.HideMenu != true) {
+      <ul class="nav">
         <li>@Html.ActionLink("Home", "Index", "Home")</li>
-        <li>@Html.ActionLink("Documentation", "Docs", "Home")</li>
         <li>@Html.ActionLink("Examples", "Examples", "Home")</li>
+        <li>@Html.ActionLink("Documentation", "Docs", "Home")</li>
+        <li><a title="... on CodeProject.com" href="@ViewBag.CodePrejectUrl">Discussion *</a></li>
       </ul>
       <div class="clear"></div>
-		</div>
+    }
+	</div>
 	
-		<div class="content">
-			@RenderBody()
-		</div>
+	<div class="content">
+		@RenderBody()
+    <div class="clear"></div>
 	</div>
 	
 	<div class="footer">
-		By <a target="_blank" href="http://www.codeproject.com/Members/Mikhail-T">Mikhail Tsennykh</a>, 2012
+    © 2012 <a target="_blank" href="http://www.codeproject.com/Members/Mikhail-T">Mikhail Tsennykh</a>. All Rights Reserved.
+    | Released under <a href="http://www.codeproject.com/info/cpol10.aspx">CPOL License</a>
+    | This website was built with <a href="http://www.99lime.com">HTML KickStart</a>
 	</div>
 
 </body>

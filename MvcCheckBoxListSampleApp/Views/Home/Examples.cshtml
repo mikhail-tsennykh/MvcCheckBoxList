@@ -21,7 +21,7 @@
 <h3>@ViewBag.Title</h3>
 
 <section>
-	<div class="title">Set name manually</div>
+	<title>Set name manually</title>
   <p>
 	  <label>Output:</label>
 	  @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
@@ -51,7 +51,7 @@
 
 
 <section>
-	<div class="title">Set name from view model</div>
+	<title>Set name from view model</title>
   <p>
 	  <label>Output:</label>
 	  @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
@@ -80,7 +80,7 @@
 
 
 <section>
-	<div class="title">Vertical Check Box List</div>
+	<title>Vertical Check Box List</title>
   <p>
 	  <label>Output:</label>
 	  @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
@@ -111,7 +111,7 @@
 
 
 <section>
-	<div class="title">Custom HTML tags from Model (Database)</div>
+	<title>Custom HTML tags from Model (Database)</title>
   <p>
     <label>Output:</label><br/><br/>
 	  <em>Some cities will have custom tags from database:</em>
@@ -151,7 +151,7 @@ $('[what="bigCity"]').css("color", "green");
 
 
 <section>
-	<div class="title">Full Example</div>
+	<title>Full Example</title>
 	<p>
     <label>Output:</label>
 	  @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
@@ -208,7 +208,7 @@ $('[what="bigCity"]').css("color", "green");
 
 
 <section>
-	<div class="title">Right-to-left Checkbox/Label direction (e.g. for Arabic, Hebrew and other right-to-left languages)</div>
+	<title>Right-to-left Checkbox/Label direction (e.g. for Arabic, Hebrew and other right-to-left languages)</title>
   <p>
 	  <label>Output:</label>
 	  @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
@@ -251,7 +251,7 @@ $('[what="bigCity"]').css("color", "green");
 
 
 <section>
-	<div class="title">Right-to-left Checkbox/Label direction - Full Example</div>
+	<title>Right-to-left Checkbox/Label direction - Full Example</title>
 	<p>
     <label>Output:</label>
 	  @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
@@ -296,6 +296,17 @@ $('[what="bigCity"]').css("color", "green");
 </pre>
   </p>
 </section>
+
+
+<h4 class="col_12 center">For more information and discussion see</h4>
+
+<div class="col_12 center">
+  <a href="@ViewBag.CodePrejectUrl"
+  class="button large pop">
+    <span class="icon" data-icon="?"></span>
+    Extension's Article on CodeProject.com
+  </a>
+</div>
 
 
 @* jquery test area *@

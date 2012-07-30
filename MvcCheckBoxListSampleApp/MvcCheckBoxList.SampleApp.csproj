@@ -24,6 +24,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <ExcludeApp_Data>true</ExcludeApp_Data>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +35,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <ExcludeApp_Data>true</ExcludeApp_Data>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -73,7 +79,9 @@
     <None Include="Content\kickstart\fonts\social\icomoonsocial-webfont.eot" />
     <None Include="Content\kickstart\fonts\social\icomoonsocial-webfont.ttf" />
     <None Include="Content\kickstart\fonts\social\icomoonsocial-webfont.woff" />
+    <Content Include="Content\style.local.css" />
     <Content Include="Views\Home\Docs.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\kickstart\chosen.css" />
