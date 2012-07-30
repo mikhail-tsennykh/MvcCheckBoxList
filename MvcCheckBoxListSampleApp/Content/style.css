@@ -32,8 +32,8 @@ a:hover {color: black;}
 .nav li {
   float: left; display: inline-block;
   padding: 5px 25px 5px 0; margin-right: 25px;
+  border-right: solid 1px silver;
 }
-.nav li { border-right: solid 1px silver; }
 .nav li:last-child { border-right: none; }
 .nav a { color: gray;text-decoration: none; }
 .nav a:hover { color: black; }
