@@ -52,27 +52,23 @@
                      model => model.ListOfYourSelectedData)
   </pre>  
     </p>
-  
-    <p>
-      <label>Will create a checkbox list:</label>
-	    @using (Html.BeginForm("Index", "Home", FormMethod.Get)) {
-		    <section>
-			    @Html.CheckBoxList("Cities",
-													    model => model.AvailableCities,
-													    city => city.Id,
-													    city => city.Name,
-													    model => model.SelectedCities)
-		    </section>
-        <button type="submit" class="pop">
-          <span class="icon" data-icon="c"></span>
-          Submit Selection to Controller
-        </button>
-        <a href="/Home/Examples" class="button pop content_right">
-          <span class="icon" data-icon="g"></span>
-          See More Examples
-        </a>
-	    }
-    </p>  
+
+    <label>Will create a checkbox list:</label>
+	  @using (Html.BeginForm("Index", "Home", FormMethod.Get)) {
+      <section>
+        @Html.CheckBoxList("Cities",
+                            model => model.AvailableCities,
+                            city => city.Id,
+                            city => city.Name,
+                            model => model.SelectedCities)
+      </section>
+      <button class="pop">Try it: Submit Selection</button>
+      <a href="/Home/Examples" class="button pop content_right">
+        <span class="icon" data-icon="g"></span>
+        See More Examples
+      </a>
+    }
+
   </div>
   <hr/>
 @*</section>*@
