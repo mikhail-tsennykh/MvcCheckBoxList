@@ -1,4 +1,5 @@
-﻿@{
+﻿@using MvcCheckBoxList.Library
+@{
     Layout = null;
 }
 
@@ -7,38 +8,38 @@
 <head>
   <title>.CheckBoxList() | @ViewBag.Title</title>
 	
-  @* CSS *@
+  @* HTML-Kickstart CSS *@
 	<link href="@Url.Content("~/Content/kickstart/kickstart.css")" rel="stylesheet" type="text/css" />
+  
+  @* CSS *@
 	<link href="@Url.Content("~/Content/style.lib.css")" rel="stylesheet" type="text/css" />
   <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
   <link href="@Url.Content("~/Content/style.local.css")" rel="stylesheet" type="text/css" />
   <link href="@Url.Content("~/Content/style.examples.css")" rel="stylesheet" type="text/css" />
-  
-  @* Scripts *@
-	@*<script src="http://code.jquery.com/jquery.min.js"></script>*@
-  <script>window.jQuery || document.write('<script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")"><\/script>')</script>
-  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
-	<script src="@Url.Content("~/Scripts/kickstart.js")"></script>
-	<script src="@Url.Content("~/Scripts/prettify.js")"></script>
 
 </head>
 <body>
-
-	<div class="header">
+	<div class="header clearfix">
     @*<div class="top_menu"><a href="/">Home</a></div>*@
-		<h1 class="margin_top30 margin_bottom30">
-      @Html.ActionLink("MVC Html.CheckBoxList() extension", "Index", "Home")
-    </h1>
+    
+    <div class="col_12">
+		  <h1 class="content_left">
+        @Html.ActionLink("MVC Html.CheckBoxList() extension", "Index", "Home")
+      </h1>
+      <h1 class="content_right">
+        <note>v.@MvcCheckBoxListInfo.Version</note>
+      </h1>
+    </div>
     
     @if (ViewBag.HideMenu != true) {
-      <ul class="nav">
-        <li><a href="/"><span class="icon large gray" data-icon="I"></span></a></li>
-        <li>@Html.ActionLink("Examples", "Examples", "Home")</li>
-        <li>@Html.ActionLink("Documentation", "Docs", "Home")</li>
-        <li><a title="... on CodeProject.com" href="@ViewBag.CodePrejectUrl">Discussion *</a></li>
-      </ul>
-      <div class="clear"></div>
+      <div class="col_12">
+        <ul class="nav">
+          <li><a href="/"><span class="icon large gray" data-icon="I"></span></a></li>
+          <li>@Html.ActionLink("Examples", "Examples", "Home")</li>
+          <li>@Html.ActionLink("Documentation", "Docs", "Home")</li>
+          <li><a title="... on CodeProject.com" href="@ViewBag.CodePrejectUrl">Discussion *</a></li>
+        </ul>
+      </div>
     }
 	</div>
 	
@@ -48,10 +49,19 @@
 	</div>
 	
 	<div class="footer">
-    © 2012 <a target="_blank" href="http://www.codeproject.com/Members/Mikhail-T">Mikhail Tsennykh</a>. All Rights Reserved.
-    | Released under <a href="http://www.codeproject.com/info/cpol10.aspx">CPOL License</a>
+    © 2012 <a target="_blank" href="@ViewBag.AuthorUrl">Mikhail Tsennykh</a>. All Rights Reserved.
+    | Released under <a href="@ViewBag.LicenseUrl">CPOL License</a>
     | This website was built with <a href="http://www.99lime.com">HTML KickStart</a>
 	</div>
+  
+  @* Scripts (at bottom to speed up page load) *@
+	<script src="http://code.jquery.com/jquery.min.js"></script>
+  <script>    window.jQuery || document.write('<script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")"><\/script>')</script>
+  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+  @* HTML-Kickstart Scripts *@
+	<script src="@Url.Content("~/Scripts/kickstart.js")"></script>
+	<script src="@Url.Content("~/Scripts/prettify.js")"></script>
 
 </body>
 </html>

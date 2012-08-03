@@ -4,120 +4,121 @@
   ViewBag.Title = "Documentation";
 }
 
-<h3>@ViewBag.Title</h3>
+<div class="col_12">
+  <h3>@ViewBag.Title</h3>
 
-<section>
-  <title>Overloads Reference</title>
+  <section>
+    <title>Overloads Reference</title>
   
-  <p>
-    <h6>Base checkbox list call:</h6>
-    <code>&#64;Html.CheckBoxListFor(LIST_NAME, LIST_DATA, VALUE_PROPERTY, TEXT_PROPERTY, SELECTED_DATA)</code>
-  </p>
+    <p>
+      <h6>Base checkbox list call:</h6>
+      <code>&#64;Html.CheckBoxListFor(LIST_NAME, LIST_DATA, VALUE_PROPERTY, TEXT_PROPERTY, SELECTED_DATA)</code>
+    </p>
   
-  <p>
-    <h6>And in this example it looks like this:</h6>
-    <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => x.SelectedCities)</pre>
-  </p>
+    <p>
+      <h6>And in this example it looks like this:</h6>
+      <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => x.SelectedCities)</pre>
+    </p>
 
-</section>
+  </section>
 
-<section>
-  <title>Simple Overloads</title>
+  <section>
+    <title>Simple Overloads</title>
 
-  <p>
-    Since five base properties don't change, only extra ones will be shown, so placeholder
-    <code>...</code> means usage of five base properties
-  </p>
+    <p>
+      Since five base properties don't change, only extra ones will be shown, so placeholder
+      <code>...</code> means usage of five base properties
+    </p>
 
-  <p>
-    <h6>1. Set position (direction) of the list:</h6>
-    <pre>&#64;Html.CheckBoxListFor( ... , Position.Horizontal)</pre>
-  </p>
-  <p>
-    <code>Position</code> Can be <code>Position.Horizontal</code>, <code>Position.Vertical</code>,
-    <code>Position.Horizontal_RightToLeft</code>, or <code>Position.Vertical_RightToLeft</code>
-    where last two are to reverse checkbox and label for right-to-left languages
-  </p>
+    <p>
+      <h6>1. Set position (direction) of the list:</h6>
+      <pre>&#64;Html.CheckBoxListFor( ... , Position.Horizontal)</pre>
+    </p>
+    <p>
+      <code>Position</code> Can be <code>Position.Horizontal</code>, <code>Position.Vertical</code>,
+      <code>Position.Horizontal_RightToLeft</code>, or <code>Position.Vertical_RightToLeft</code>
+      where last two are to reverse checkbox and label for right-to-left languages
+    </p>
   
-  <p>
-    <h6>2. Set html attributes for both checkbox and label:</h6>
-    <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" })</pre>
-  </p>
+    <p>
+      <h6>2. Set html attributes for both checkbox and label:</h6>
+      <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" })</pre>
+    </p>
   
-  <p>
-    <h6>3. Set html attributes and position:</h6>
-    <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, Position.Horizontal)</pre>
-  </p>
+    <p>
+      <h6>3. Set html attributes and position:</h6>
+      <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, Position.Horizontal)</pre>
+    </p>
   
-  <p>
-    <h6>4. Set html attributes, disabled values, and position:</h6>
-    <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, new[] {"3", "5", "7"}, Position.Horizontal)</pre>
-  </p>
+    <p>
+      <h6>4. Set html attributes, disabled values, and position:</h6>
+      <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, new[] {"3", "5", "7"}, Position.Horizontal)</pre>
+    </p>
 
-</section>
+  </section>
 
-<section>  
-  <title>Advanced Overloads</title>
+  <section>  
+    <title>Advanced Overloads</title>
   
-  <p>
-    <h6>5. Set custom layout using <code>HtmlListInfo</code> class:</h6>
-<pre>
-var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_name" }, TextLayout.Default);
+    <p>
+      <h6>5. Set custom layout using <code>HtmlListInfo</code> class:</h6>
+  <pre>
+  var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_name" }, TextLayout.Default);
 
-&#64;Html.CheckBoxListFor( ... , htmlListInfo)
-</pre>
-  </p>
-  <p>
-    There, in <code>HtmlListInfo</code> class, <code>HtmlTag</code> can be
-    <code>HtmlTag.table</code> or <code>HtmlTag.vertical_columns</code>;
-    <code>2</code> is a number of columns;
-  </p>
-  <p>
-    <code>TextLayout</code> can be <code>TextLayout.Default</code>
-    or <code>TextLayout.RightToLeft</code> (for right to left languages)
-  </p>
+  &#64;Html.CheckBoxListFor( ... , htmlListInfo)
+  </pre>
+    </p>
+    <p>
+      There, in <code>HtmlListInfo</code> class, <code>HtmlTag</code> can be
+      <code>HtmlTag.table</code> or <code>HtmlTag.vertical_columns</code>;
+      <code>2</code> is a number of columns;
+    </p>
+    <p>
+      <code>TextLayout</code> can be <code>TextLayout.Default</code>
+      or <code>TextLayout.RightToLeft</code> (for right to left languages)
+    </p>
   
-  <p>
-    <h6>6. Set layout with <code>HtmlListInfo</code> class and set disabled values:</h6>
-<pre>
-&#64;Html.CheckBoxListFor( ... , htmlListInfo, new[] {"3", "5", "7"})
-</pre>
-  </p>
+    <p>
+      <h6>6. Set layout with <code>HtmlListInfo</code> class and set disabled values:</h6>
+  <pre>
+  &#64;Html.CheckBoxListFor( ... , htmlListInfo, new[] {"3", "5", "7"})
+  </pre>
+    </p>
   
-  <p>
-    <h6>7. Set html attributes, set layout with <code>HtmlListInfo</code>, and set disabled values:</h6>
-<pre>
-&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, htmlListInfo, new[] {"3", "5", "7"})
-</pre>
-  </p>
+    <p>
+      <h6>7. Set html attributes, set layout with <code>HtmlListInfo</code>, and set disabled values:</h6>
+  <pre>
+  &#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, htmlListInfo, new[] {"3", "5", "7"})
+  </pre>
+    </p>
   
-  <p>
-    <h6>8. Add an optional custom html tag from the database (unique for each checkbox):</h6>
-<pre>
-&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, htmlListInfo, new[] {"3", "5", "7"}, x => x.Tags)
-</pre>
-    There, <code>x.Tags</code> is a value of type <code>object</code> and should be
-    equal to something similar to this <code>new { tag1 = "value1", tag2="value2" }</code>
-    and represent one or more custom html attributes, and will be applied to both
-    checkbox and label
-  </p>
+    <p>
+      <h6>8. Add an optional custom html tag from the database (unique for each checkbox):</h6>
+  <pre>
+  &#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, htmlListInfo, new[] {"3", "5", "7"}, x => x.Tags)
+  </pre>
+      There, <code>x.Tags</code> is a value of type <code>object</code> and should be
+      equal to something similar to this <code>new { tag1 = "value1", tag2="value2" }</code>
+      and represent one or more custom html attributes, and will be applied to both
+      checkbox and label
+    </p>
   
-  <h6>
-    Also note that <code>x.Tags</code> is an optional parameter for <strong>each</strong>
-    available overload. Just add it as a last parameter to 
-    <code>&#64;Html.CheckBoxListFor( ... , x => x.Tags)</code>
-    checkbox list call
-  </h6>
+    <h6>
+      Also note that <code>x.Tags</code> is an optional parameter for <strong>each</strong>
+      available overload. Just add it as a last parameter to 
+      <code>&#64;Html.CheckBoxListFor( ... , x => x.Tags)</code>
+      checkbox list call
+    </h6>
 
-</section>
+  </section>
 
 
-<h4 class="col_12 center">For more information and discussion see</h4>
+  <h4 class="col_12 center">For more information and discussion see</h4>
 
-<div class="col_12 center">
-  <a href="@ViewBag.CodePrejectUrl"
-  class="button large pop">
-    <span class="icon" data-icon="?"></span>
-    Extension's Article on CodeProject.com
-  </a>
+  <div class="col_12 center">
+    <a href="@ViewBag.CodePrejectUrl" class="button large pop">
+      <span class="icon" data-icon="?"></span>
+      Extension's Article on CodeProject.com
+    </a>
+  </div>
 </div>

@@ -11,8 +11,8 @@ a:hover {color: black;}
 
 
 /* main layout */
-.content, .header {width:1024px; margin:0 auto; }
-.header { margin-bottom: 25px; }
+.content, .header {max-width:1024px; min-width: 535px; margin:0 auto; }
+.header { margin-top: 25px; }
 .header h1 a, h2 a {text-decoration:none;}
 .header > .top_menu {
   float:right; border:dotted 0px silver; border-top:none;
@@ -76,6 +76,7 @@ label {font-weight: bold; margin-right: 10px;}
 input[type="checkbox"] {margin-right: 4px; height: 15px;}
 pre { margin: 10px 0;}
 
+note { color: silver; }
 sample {
   font-size:1.2em; padding: 5px 8px; margin:8px 0 0 0;
   background: silver; color: black; display: block;

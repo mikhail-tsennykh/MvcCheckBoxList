@@ -12,6 +12,7 @@
       <h4>
 		    @if (Model.PostedCities.CityIDs != null) {
 			    @string.Join(", ", Model.SelectedCities.Select(x => x.Name))
+          @:- received by controller!
 		    }
       </h4>
     </div>
@@ -36,7 +37,7 @@
       <li>Strongly-typed, based on View Model</li>
       <li>Extensive control over layout and appearence</li>
       <li>Right-to-left language support</li>
-      <li>Open source</li>
+      <li>Open source (<a href="@ViewBag.LicenseUrl">CPOL License</a>)</li>
     </ul>
   </div>
 
@@ -62,8 +63,11 @@
                             city => city.Name,
                             model => model.SelectedCities)
       </section>
-      <button class="pop">Try it: POST to controller</button>
-      <a href="/Home/Examples" class="button pop content_right">
+      
+      <button class="pop">SUBMIT</button>
+      <note>&nbsp; selection to controller</note>
+     
+      <a href="@Url.Action("Examples")" class="button pop content_right">
         <span class="icon" data-icon="g"></span>
         See More Examples
       </a>
@@ -106,11 +110,11 @@
 <h4 class="col_12 center">Learn it</h4>
 
 <div class="col_12 center">
-  <a href="/Home/Examples" class="button large pop">
+  <a href="@Url.Action("Examples")" class="button large pop">
     <span class="icon" data-icon="g"></span>
     See More Examples
   </a>
-  <a href="/Home/Docs" class="button large pop">
+  <a href="@Url.Action("Docs")" class="button large pop">
     <span class="icon" data-icon="."></span>
     Read Documentation
   </a>

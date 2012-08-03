@@ -4,7 +4,7 @@
 }
 
 @if (Model.WasPosted) {
-	<div class="notice success clearfix">
+	<div class="col_12 notice success clearfix">
     <div class="content_left margin_top13">
       <span class="icon medium" data-icon="C"></span>
     </div>
@@ -17,7 +17,7 @@
     </div>
 	</div>
 }
-
+<div class="col_12">
 <h3>@ViewBag.Title</h3>
 
 <section>
@@ -301,13 +301,13 @@ $('[what="bigCity"]').css("color", "green");
 <h4 class="col_12 center">For more information and discussion see</h4>
 
 <div class="col_12 center">
-  <a href="@ViewBag.CodePrejectUrl"
-  class="button large pop">
+  <a href="@ViewBag.CodePrejectUrl" class="button large pop">
     <span class="icon" data-icon="?"></span>
     Extension's Article on CodeProject.com
   </a>
 </div>
 
+</div>
 
 @* jquery test area *@
 <script type="text/javascript">
