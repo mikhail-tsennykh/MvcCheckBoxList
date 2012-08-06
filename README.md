@@ -1,5 +1,5 @@
 
-# MVC3 @Html.CheckBoxList() custom extension v.1.4.3.0
+# MVC3 @Html.CheckBoxList() custom extension v.1.4.3.2 (development)
 
 MVC3 source project for Visual Studio 2010 and .NET 4.0.
 
