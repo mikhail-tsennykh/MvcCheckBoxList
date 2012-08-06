@@ -2,12 +2,21 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html>
 <head>
   <title>.CheckBoxList() | @ViewBag.Title</title>
-	
+  
+  @* Let's help search engines a bit *@
+  <meta name="robots" content="NOODP" />
+  <meta name="description" content="HtmlHelper custom extension, which creates a postable Model-based list of check boxes for Microsoft MVC Framework." />
+  <meta name="keywords" content="MvcCheckBoxList,CheckBoxList,CheckBoxListFor,POST,Postable,Check Box,Checkbox,List,Lists,MVC,MVC3,Microsoft,Framework,Web Development,Extension,Package,NuGet,Install,Download,Source,Code,Source Code,Visual Studio,CodeProject,Mikhail Tsennykh" />
+  <meta property="og:title" content="Html.CheckBoxList()" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_EN" />
+  <meta property="og:site_name" content="MVC Html.CheckBoxList() extension" />
+  <meta property="og:description" content="HtmlHelper custom extension, which creates a postable Model-based list of check boxes for Microsoft MVC Framework." />
+
   @* HTML-Kickstart CSS *@
 	<link href="@Url.Content("~/Content/kickstart/kickstart.css")" rel="stylesheet" type="text/css" />
   
@@ -27,7 +36,7 @@
         @Html.ActionLink("MVC Html.CheckBoxList() extension", "Index", "Home")
       </h1>
       <h1 class="content_right">
-        <note>v.@MvcCheckBoxListInfo.Version</note>
+        <note>v.@MvcCheckBoxList.AssemblyInfo.Version</note>
       </h1>
     </div>
     
@@ -51,7 +60,8 @@
 	<div class="footer">
     © 2012 <a target="_blank" href="@ViewBag.AuthorUrl">Mikhail Tsennykh</a>. All Rights Reserved.
     | Released under <a href="@ViewBag.LicenseUrl">CPOL License</a>
-    | This website was built with <a href="http://www.99lime.com">HTML KickStart</a>
+    | Built with <a href="http://www.99lime.com">HTML KickStart</a>
+    and <a href="http://subtlepatterns.com">SubtlePatterns.com</a>
 	</div>
   
   @* Scripts (at bottom to speed up page load) *@
@@ -62,6 +72,9 @@
   @* HTML-Kickstart Scripts *@
 	<script src="@Url.Content("~/Scripts/kickstart.js")"></script>
 	<script src="@Url.Content("~/Scripts/prettify.js")"></script>
+  
+  @* Scripts on views have to sit inside to work *@
+  @RenderSection("Scripts", false)
 
 </body>
 </html>

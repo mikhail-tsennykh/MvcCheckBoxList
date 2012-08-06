@@ -63,7 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MvcCheckBoxListInfo.cs" />
+    <Compile Include="Assembly\MvcCheckBoxListInfo.cs" />
     <Compile Include="Internal\Helpers\toDictionary.cs" />
     <Compile Include="Internal\Helpers\toProperty.cs" />
     <Compile Include="Internal\Model\htmlElementTag.cs" />
@@ -73,7 +73,7 @@
     <Compile Include="Model\Position.cs" />
     <Compile Include="Model\TextLayout.cs" />
     <Compile Include="ListBuilder.cs" />
-    <Compile Include="HtmlHelper_Extensions.cs" />
+    <Compile Include="Extensions\HtmlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

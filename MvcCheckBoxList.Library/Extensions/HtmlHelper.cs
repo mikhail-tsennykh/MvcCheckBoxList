@@ -9,7 +9,7 @@ using MvcCheckBoxList.Library;
 /// </summary>
 public static class HtmlHelper_Extensions {
   /// <summary>
-  /// Model-Based function (For...)
+  /// Generates Model-based list of checkboxes (For...)
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -31,14 +31,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TItem, TValue>> valueExpr,
      Expression<Func<TItem, TKey>> textToDisplayExpr,
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
     return ListBuilder.CheckBoxList
       (htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr,
        textToDisplayExpr, htmlAttributesExpr, selectedValuesExpr, null, null, null);
   }
   /// <summary>
-  /// Model-Based function
+  /// Generates Model-based list of checkboxes
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -59,14 +59,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TItem, TValue>> valueExpr,
      Expression<Func<TItem, TKey>> textToDisplayExpr,
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     return ListBuilder.CheckBoxList
-      (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
-       selectedValuesExpr, null, null, null);
+      (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, 
+      htmlAttributesExpr, selectedValuesExpr, null, null, null);
   }
 
   /// <summary>
-  /// Model-Based function (For...)
+  /// Generates Model-based list of checkboxes (For...)
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -90,14 +90,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TItem, TKey>> textToDisplayExpr,
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      Position position,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
     return ListBuilder.CheckBoxList
       (htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr,
        textToDisplayExpr, htmlAttributesExpr, selectedValuesExpr, null, null, null, position);
   }
   /// <summary>
-  /// Model-Based function
+  /// Generates Model-based list of checkboxes
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -120,14 +120,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TItem, TKey>> textToDisplayExpr,
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      Position position,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     return ListBuilder.CheckBoxList
       (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
        selectedValuesExpr, null, null, null, position);
   }
 
   /// <summary>
-  /// Model-Based function (For...)
+  /// Generates Model-based list of checkboxes (For...)
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -151,14 +151,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TItem, TKey>> textToDisplayExpr,
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      object htmlAttributes,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
     return ListBuilder.CheckBoxList
       (htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr,
        textToDisplayExpr, htmlAttributesExpr, selectedValuesExpr, htmlAttributes, null, null);
   }
   /// <summary>
-  /// Model-Based function
+  /// Generates Model-based list of checkboxes
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -181,14 +181,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TItem, TKey>> textToDisplayExpr,
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      object htmlAttributes,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     return ListBuilder.CheckBoxList
       (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
        selectedValuesExpr, htmlAttributes, null, null);
   }
 
   /// <summary>
-  /// Model-Based function (For...)
+  /// Generates Model-based list of checkboxes (For...)
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -214,14 +214,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      object htmlAttributes,
      Position position,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
     return ListBuilder.CheckBoxList
       (htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
        htmlAttributesExpr, selectedValuesExpr, htmlAttributes, null, null, position);
   }
   /// <summary>
-  /// Model-Based function
+  /// Generates Model-based list of checkboxes
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -246,14 +246,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      object htmlAttributes,
      Position position,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     return ListBuilder.CheckBoxList
       (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
        selectedValuesExpr, htmlAttributes, null, null, position);
   }
 
   /// <summary>
-  /// Model-Based function (For...)
+  /// Generates Model-based list of checkboxes (For...)
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -281,14 +281,14 @@ public static class HtmlHelper_Extensions {
      object htmlAttributes,
      string[] disabledValues,
      Position position,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
     return ListBuilder.CheckBoxList
       (htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
        htmlAttributesExpr, selectedValuesExpr, htmlAttributes, null, disabledValues, position);
   }
   /// <summary>
-  /// Model-Based function
+  /// Generates Model-based list of checkboxes
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -315,14 +315,14 @@ public static class HtmlHelper_Extensions {
      object htmlAttributes,
      string[] disabledValues,
      Position position,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     return ListBuilder.CheckBoxList
       (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
        selectedValuesExpr, htmlAttributes, null, disabledValues, position);
   }
 
   /// <summary>
-  /// Model-Based function (For...)
+  /// Generates Model-based list of checkboxes (For...)
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -346,14 +346,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TItem, TKey>> textToDisplayExpr,
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      HtmlListInfo wrapInfo,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
     return ListBuilder.CheckBoxList
       (htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
        htmlAttributesExpr, selectedValuesExpr, null, wrapInfo, null);
   }
   /// <summary>
-  /// Model-Based function
+  /// Generates Model-based list of checkboxes
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -376,14 +376,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TItem, TKey>> textToDisplayExpr,
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      HtmlListInfo wrapInfo,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     return ListBuilder.CheckBoxList
       (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
        selectedValuesExpr, null, wrapInfo, null);
   }
 
   /// <summary>
-  /// Model-Based function (For...)
+  /// Generates Model-based list of checkboxes (For...)
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -409,14 +409,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      HtmlListInfo wrapInfo,
      string[] disabledValues,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
     return ListBuilder.CheckBoxList
       (htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
        htmlAttributesExpr, selectedValuesExpr, null, wrapInfo, disabledValues);
   }
   /// <summary>
-  /// Model-Based function
+  /// Generates Model-based list of checkboxes
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -441,14 +441,14 @@ public static class HtmlHelper_Extensions {
      Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
      HtmlListInfo wrapInfo,
      string[] disabledValues,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     return ListBuilder.CheckBoxList
       (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
        selectedValuesExpr, null, wrapInfo, disabledValues);
   }
 
   /// <summary>
-  /// Model-Based function (For...)
+  /// Generates Model-based list of checkboxes (For...)
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -476,14 +476,14 @@ public static class HtmlHelper_Extensions {
      object htmlAttributes,
      HtmlListInfo wrapInfo,
      string[] disabledValues,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     var modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData);
     return ListBuilder.CheckBoxList
       (htmlHelper, modelMetadata, listNameExpr.toProperty(), sourceDataExpr, valueExpr, textToDisplayExpr,
        htmlAttributesExpr, selectedValuesExpr, htmlAttributes, wrapInfo, disabledValues);
   }
   /// <summary>
-  /// Model-Based function
+  /// Generates Model-based list of checkboxes
   /// </summary>
   /// <typeparam name="TModel">Current ViewModel</typeparam>
   /// <typeparam name="TItem">ViewModel Item</typeparam>
@@ -510,7 +510,7 @@ public static class HtmlHelper_Extensions {
      object htmlAttributes,
      HtmlListInfo wrapInfo,
      string[] disabledValues,
-     Expression<Func<TItem, dynamic>> htmlAttributesExpr = null) {
+     Expression<Func<TItem, TKey>> htmlAttributesExpr = null) {
     return ListBuilder.CheckBoxList
       (htmlHelper, null, listName, sourceDataExpr, valueExpr, textToDisplayExpr, htmlAttributesExpr,
        selectedValuesExpr, htmlAttributes, wrapInfo, disabledValues);

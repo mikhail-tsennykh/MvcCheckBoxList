@@ -4,7 +4,7 @@
 }
 
 @if (Model.WasPosted) {
-	<div class="col_12 notice success clearfix">
+	<div class="notice success clearfix">
     <div class="content_left margin_top13">
       <span class="icon medium" data-icon="C"></span>
     </div>
@@ -111,7 +111,7 @@
 
 
 <section>
-	<title>Custom HTML tags from Model (Database)</title>
+	<title>Custom HTML tags for individual checkboxes from Model (Database)</title>
   <p>
     <label>Output:</label><br/><br/>
 	  <em>Some cities will have custom tags from database:</em>
@@ -143,7 +143,8 @@ $('[what="bigCity"]').css("color", "green");
                       x => x.Id,
                       x => x.Name,
                       x => x.SelectedCities,
-                      x => x.Tags)            // tags stored in the data source as an 'object' e.g.: 'new {what = "smallCity"}'
+                      x => x.Tags)            // Tags is a database/model field of type 'object'
+                                              // with value similar to: 'new {tagName = "tagValue"}'
                                               // they will be merged with other tags and applied to checkbox and its label
 </pre>
   </p>
@@ -310,9 +311,11 @@ $('[what="bigCity"]').css("color", "green");
 </div>
 
 @* jquery test area *@
-<script type="text/javascript">
-	$(document).ready(function () {
-		$('.custom_tags [what="smallCity"]').css("color", "blue");
-		$('.custom_tags [what="bigCity"]').css("color", "green");
-	});
-</script>
+@section Scripts {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.custom_tags [what="smallCity"]').css("color", "blue");
+      $('.custom_tags [what="bigCity"]').css("color", "green");
+    });
+  </script>  
+}
