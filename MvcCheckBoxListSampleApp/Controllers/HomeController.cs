@@ -27,6 +27,11 @@ namespace MvcCheckBoxListSampleApp.Controllers {
       return View();
     }
     
+    public ActionResult Test(string[] cities, PostedCities postedCities) {
+      return View(GetCitiesModel(cities, postedCities));
+    }
+
+    // todo: move to Data Service
     private CitiesViewModel GetCitiesModel(string[] cities, PostedCities postedCities) {
 			// setup properties
 			var model = new CitiesViewModel();

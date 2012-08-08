@@ -11,23 +11,33 @@ namespace MvcCheckBoxList.Library {
   /// <summary>
   /// @Html.CheckBoxList(...) main methods
   /// </summary>
-  internal static class ListBuilder {
-    static ListBuilder() {
-      // reset internal counters
-      linked_label_counter = 0;
-      htmlwrap_rowbreak_counter = 0;
+  internal class ListBuilder : BuilderBase {
+
+    /// <summary>
+    /// Model-Based main function
+    /// </summary>
+    /// <typeparam name="TModel">Current ViewModel</typeparam>
+    /// <typeparam name="TItem">ViewModel Item</typeparam>
+    /// <typeparam name="TValue">ViewModel Item type of the value</typeparam>
+    /// <typeparam name="TKey">ViewModel Item type of the key</typeparam>
+    /// <param name="lc">Constructor containing all data to build a list</param>
+    /// <returns></returns>
+    internal MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+      (listConstructor<TModel, TItem, TValue, TKey> lc) {
+      return CheckBoxList
+        (lc.htmlHelper,
+         lc.modelMetadata,
+         lc.listName,
+         lc.sourceDataExpr,
+         lc.valueExpr,
+         lc.textToDisplayExpr,
+         lc.htmlAttributesExpr,
+         lc.selectedValuesExpr,
+         lc.htmlAttributes,
+         lc.htmlListInfo,
+         lc.disabledValues,
+         lc.position);
     }
-
-    // counter to count when to insert HTML code that breakes checkbox list
-    private static int htmlwrap_rowbreak_counter { get; set; }
-    // counter to be used on a label linked to each checkbox in the list
-    private static int linked_label_counter { get; set; }
-    // properties
-    internal static string no_data_message = "No Records...";
-    internal static string empty_model_message =
-      "View Model cannot be null! Please make sure your View Model is created and passed to this View";
-    internal static string empty_name_message = "Name of the CheckBoxList cannot be null or empty";
-
 
     /// <summary>
     /// Model-Based main function
@@ -49,14 +59,14 @@ namespace MvcCheckBoxList.Library {
     /// <param name="disabledValues">String array of values to disable</param>
     /// <param name="position">Direction of the list (e.g. 'Position2.Horizontal' or 'Position2.Vertical')</param>
     /// <returns>HTML string containing checkbox list</returns>
-    internal static MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+    internal MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
       (HtmlHelper<TModel> htmlHelper,
        ModelMetadata modelMetadata,
        string listName,
        Expression<Func<TModel, IEnumerable<TItem>>> sourceDataExpr,
        Expression<Func<TItem, TValue>> valueExpr,
        Expression<Func<TItem, TKey>> textToDisplayExpr,
-       Expression<Func<TItem, TKey>> htmlAttributesExpr,
+       Expression<Func<TItem, object>> htmlAttributesExpr,
        Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
        object htmlAttributes,
        HtmlListInfo htmlListInfo,
@@ -121,7 +131,7 @@ namespace MvcCheckBoxList.Library {
         var itemText = textToDisplayFunc(item).ToString();
 
         // create checkbox element
-        sb = createCheckBoxListElement(sb, htmlHelper, modelMetadata, htmlWrapper,
+        sb = _createCheckBoxListElement(sb, htmlHelper, modelMetadata, htmlWrapper,
                                        _valueHtmlAttributesFunc(item, htmlAttributes),
                                        selectedValues, disabledValues, listName,
                                        itemValue, itemText, textLayout);
@@ -140,7 +150,7 @@ namespace MvcCheckBoxList.Library {
     /// <param name="position">Direction of the list (e.g. 'Position2.Horizontal' or 'Position2.Vertical')</param>
     /// <param name="textLayout">Sets layout of a checkbox for right-to-left languages</param>
     /// <returns>HTML wrapper information</returns>
-    private static htmlWrapperInfo _createHtmlWrapper
+    private htmlWrapperInfo _createHtmlWrapper
       (HtmlListInfo wrapInfo, int numberOfItems, Position position, TextLayout textLayout) {
       var w = new htmlWrapperInfo();
 
@@ -164,11 +174,10 @@ namespace MvcCheckBoxList.Library {
             var wrapHtml_builder = new TagBuilder(wrapRow.ToString());
             var user_html_attributes = wrapInfo.htmlAttributes.toDictionary();
 
-            // create raw style and merge it with user provided style (if applicable)
-            var defaultSectionStyle = "float:left;"; // margin-right:30px; line-height:25px;
+            // create base columnt style and merge it with user provided style (if applicable)
+            var defaultSectionStyle = "float:left;";
             if (textLayout == TextLayout.RightToLeft)
               defaultSectionStyle += " text-align: right;";
-
             object style;
             user_html_attributes.TryGetValue("style", out style);
             if (style != null) // if user style is set, use it
@@ -182,8 +191,8 @@ namespace MvcCheckBoxList.Library {
 
             // build wrapped raw html tag 
             w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag);
-            w.wrap_rowbreak = "</" + wrapRow + "> " +
-                              wrapHtml_builder.ToString(TagRenderMode.StartTag);
+            w.wrap_rowbreak =
+              "</" + wrapRow + "> " + wrapHtml_builder.ToString(TagRenderMode.StartTag);
             w.wrap_close = wrapHtml_builder.ToString(TagRenderMode.EndTag) +
                            " <div style=\"clear:both;\"></div>";
             w.append_to_element = "<br/>";
@@ -207,17 +216,6 @@ namespace MvcCheckBoxList.Library {
                            wrapHtml_builder.ToString(TagRenderMode.EndTag);
           }
             break;
-            //// creates an html unordered (bulleted) list of checkboxes in one column
-            //case HtmlTag.ul: {
-            //    var wrapHtml_builder = new TagBuilder(htmlElementTag.ul.ToString());
-            //    wrapHtml_builder.MergeAttributes(wrapInfo.htmlAttributes.toDictionary());
-            //    wrapHtml_builder.MergeAttribute("cellspacing", "0"); // for IE7 compatibility
-
-            //    w.wrap_element = htmlElementTag.li;
-            //    w.wrap_open = wrapHtml_builder.ToString(TagRenderMode.StartTag);
-            //    w.wrap_close = wrapHtml_builder.ToString(TagRenderMode.EndTag);
-            //  }
-            //  break;
         }
       }
         // default setting creates vertical or horizontal column of checkboxes
@@ -256,7 +254,7 @@ namespace MvcCheckBoxList.Library {
     /// <param name="htmlHelper">HtmlHelper passed from view model</param>
     /// <param name="textLayout">Sets layout of a checkbox for right-to-left languages</param>
     /// <returns>String builder of checkbox list</returns>
-    private static StringBuilder createCheckBoxListElement
+    private StringBuilder _createCheckBoxListElement
       (StringBuilder sb, HtmlHelper htmlHelper, ModelMetadata modelMetadata, htmlWrapperInfo htmlWrapper,
        object htmlAttributesForCheckBox, IEnumerable<string> selectedValues, IEnumerable<string> disabledValues,
        string name, string itemValue, string itemText, TextLayout textLayout) {
@@ -345,5 +343,6 @@ namespace MvcCheckBoxList.Library {
       // return string builder with checkbox html markup
       return sb;
     }
+
   }
 }

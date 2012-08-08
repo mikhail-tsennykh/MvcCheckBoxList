@@ -85,6 +85,7 @@
     <Content Include="Content\style.local.css" />
     <Content Include="Views\Home\Docs.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\kickstart\chosen.css" />

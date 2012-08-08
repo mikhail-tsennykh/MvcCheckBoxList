@@ -1,0 +1,44 @@
+﻿@model MvcCheckBoxListSampleApp.ViewModels.CitiesViewModel
+@{
+  ViewBag.Title = "Test Area";
+}
+
+@if (Model.WasPosted) {
+	<div class="notice success clearfix">
+    <div class="content_left margin_top13">
+      <span class="icon medium" data-icon="C"></span>
+    </div>
+    <div class="content_left">
+      <h4>
+		    @if (Model.PostedCities.CityIDs != null) {
+			    @string.Join(", ", Model.SelectedCities.Select(x => x.Name))
+          @:- received by controller!
+		    }
+      </h4>
+    </div>
+	</div>
+}
+
+<div class="col_12">
+  <h3>@ViewBag.Title</h3>
+
+  @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
+    <section>
+      @Html.CheckBoxList("Cities",
+                         model => model.AvailableCities,
+                         city => city.Id,
+                         city => city.Name,
+                         model => model.SelectedCities,
+                         x => x.Tags)
+    </section>
+
+    <button class="pop">SUBMIT</button>
+    <note>&nbsp; selection to controller</note>
+
+    <a href="@Url.Action("Examples")" class="button pop content_right">
+      <span class="icon" data-icon="g"></span>
+      See More Examples
+    </a>
+  }
+
+</div>
