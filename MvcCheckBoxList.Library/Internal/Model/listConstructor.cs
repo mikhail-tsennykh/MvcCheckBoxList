@@ -13,6 +13,7 @@ namespace MvcCheckBoxList.Library {
     public Expression<Func<TItem, TKey>> textToDisplayExpr { get; set; }
     public Expression<Func<TItem, object>> htmlAttributesExpr { get; set; }
     public Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr { get; set; }
+    public Expression<Func<TItem, bool>> selectedValueExpr { get; set; }
     public object htmlAttributes { get; set; }
     public HtmlListInfo htmlListInfo { get; set; }
     public string[] disabledValues { get; set; }

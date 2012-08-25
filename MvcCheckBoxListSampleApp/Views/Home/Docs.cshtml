@@ -5,25 +5,40 @@
 }
 
 <div class="col_12">
-  <h3>@ViewBag.Title (not updated)</h3>
+  <h3>@ViewBag.Title</h3>
 
   <section>
-    <title>Overloads Reference</title>
+    <title>Base overloads</title>
   
     <p>
-      <h6>Base checkbox list call:</h6>
-      <code>&#64;Html.CheckBoxListFor(LIST_NAME, LIST_DATA, VALUE_PROPERTY, TEXT_PROPERTY, SELECTED_DATA)</code>
+      <h6>1. Base checkbox list call:</h6>
+      <code>&#64;Html.CheckBoxListFor(LIST_NAME, LIST_DATA, VALUE_PROPERTY, TEXT_PROPERTY, IS_CHECKED)</code>
     </p>
   
     <p>
       <h6>And in this example it looks like this:</h6>
       <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => x.SelectedCities)</pre>
     </p>
+    
+    <p>
+      <h6>Or if using boolean selector:</h6>
+      <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => x.IsSelected)</pre>
+      where <code>x.IsSelected</code> is a boolean value from database
+    </p>
+    
+    <p>
+      <h6>And another way to use boolean selector:</h6>
+      If we have a list of selected values on our View -
+      <code>var selectedIds = new List&lt;int&gt;  { 1, 3, 5 };</code>
+      it'll look like this:
+      <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => selectedIds.Contains(x.Id))</pre>
+      where <code>selectedIds.Contains(x.Id)</code> returns bool if item Id matches the list
+    </p>
 
   </section>
 
   <section>
-    <title>Simple Overloads</title>
+    <title>Basic Settings</title>
 
     <p>
       Since five base properties don't change, only extra ones will be shown, so placeholder
@@ -31,7 +46,7 @@
     </p>
 
     <p>
-      <h6>1. Set position (direction) of the list:</h6>
+      <h6>2. Set position (direction) of the list:</h6>
       <pre>&#64;Html.CheckBoxListFor( ... , Position.Horizontal)</pre>
     </p>
     <p>
@@ -41,32 +56,34 @@
     </p>
   
     <p>
-      <h6>2. Set html attributes for both checkbox and label:</h6>
-      <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" })</pre>
+      <h6>3. Set html attributes for both checkbox and label:</h6>
+      <pre>&#64;Html.CheckBoxListFor( ... , x => new { &#64;class="class_name" }) // Tags will be applied to all checkbox/label combos</pre>
+      or get Tags object from database:
+      <pre>&#64;Html.CheckBoxListFor( ... , x => x.Tags) // x.Tags will be applied only to particular checkbox/label combo</pre>
     </p>
   
     <p>
-      <h6>3. Set html attributes and position:</h6>
-      <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, Position.Horizontal)</pre>
+      <h6>4. Set html attributes and position:</h6>
+      <pre>&#64;Html.CheckBoxListFor( ... , Position.Horizontal, x => new { &#64;class="class_name" })</pre>
     </p>
   
     <p>
-      <h6>4. Set html attributes, disabled values, and position:</h6>
-      <pre>&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, new[] {"3", "5", "7"}, Position.Horizontal)</pre>
+      <h6>5. Set html attributes for all, disabled values, position, and individual html attributes (all attributes will be merged together):</h6>
+      <pre>&#64;Html.CheckBoxListFor( ... , x => new { &#64;class="class_name" }, new[] {"3", "5", "7"}, Position.Horizontal, x => x.Tags)</pre>
     </p>
 
   </section>
 
   <section>  
-    <title>Advanced Overloads</title>
+    <title>Advanced Settings</title>
   
     <p>
-      <h6>5. Set custom layout using <code>HtmlListInfo</code> class:</h6>
-  <pre>
-  var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_name" }, TextLayout.Default);
+      <h6>1. Set custom layout using <code>HtmlListInfo</code> class:</h6>
+<pre>
+var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_name" }, TextLayout.Default);
 
-  &#64;Html.CheckBoxListFor( ... , htmlListInfo)
-  </pre>
+&#64;Html.CheckBoxListFor( ... , htmlListInfo)
+</pre>
     </p>
     <p>
       There, in <code>HtmlListInfo</code> class, <code>HtmlTag</code> can be
@@ -79,24 +96,24 @@
     </p>
   
     <p>
-      <h6>6. Set layout with <code>HtmlListInfo</code> class and set disabled values:</h6>
-  <pre>
-  &#64;Html.CheckBoxListFor( ... , htmlListInfo, new[] {"3", "5", "7"})
-  </pre>
+      <h6>2. Set layout with <code>HtmlListInfo</code> class and set html attributes:</h6>
+<pre>
+&#64;Html.CheckBoxListFor( ... , htmlListInfo, x => new { tagName = "tagValue" })  // Tags will be applied to all checkbox/label combos
+</pre>
+      or get Tags object from database:
+<pre>
+&#64;Html.CheckBoxListFor( ... , htmlListInfo, x => x.Tags })  // x.Tags will be applied only to particular checkbox/label combo
+</pre>
     </p>
   
     <p>
-      <h6>7. Set html attributes, set layout with <code>HtmlListInfo</code>, and set disabled values:</h6>
-  <pre>
-  &#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, htmlListInfo, new[] {"3", "5", "7"})
-  </pre>
-    </p>
-  
-    <p>
-      <h6>8. Add an optional custom html tag from the database (unique for each checkbox):</h6>
-  <pre>
-  &#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, htmlListInfo, new[] {"3", "5", "7"}, x => x.Tags)
-  </pre>
+      <h6>
+        3. Set html attributes for all, set layout with <code>HtmlListInfo</code>,
+        set disabled values, and individual html attributes (all attributes will be merged together):
+      </h6>
+<pre>
+&#64;Html.CheckBoxListFor( ... , new { &#64;class="class_name" }, htmlListInfo, new[] {"3", "5", "7"}, x => x.Tags)
+</pre>
       There, <code>x.Tags</code> is a value of type <code>object</code> and should be
       equal to something similar to this <code>new { tag1 = "value1", tag2="value2" }</code>
       and represent one or more custom html attributes, and will be applied to both

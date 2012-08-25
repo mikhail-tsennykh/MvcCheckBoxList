@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
-using System.Dynamic;
+using System.Web.Mvc.Html;
 
 namespace MvcCheckBoxList.Library {
   /// <summary>
@@ -24,7 +24,7 @@ namespace MvcCheckBoxList.Library {
     /// <returns></returns>
     internal MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
       (listConstructor<TModel, TItem, TValue, TKey> lc) {
-      return CheckBoxList
+      return _listBuilder
         (lc.htmlHelper,
          lc.modelMetadata,
          lc.listName,
@@ -33,6 +33,7 @@ namespace MvcCheckBoxList.Library {
          lc.textToDisplayExpr,
          lc.htmlAttributesExpr,
          lc.selectedValuesExpr,
+         lc.selectedValueExpr,
          lc.htmlAttributes,
          lc.htmlListInfo,
          lc.disabledValues,
@@ -54,12 +55,13 @@ namespace MvcCheckBoxList.Library {
     /// <param name="textToDisplayExpr">Data list value type to be used as checkbox 'Text'</param>
     /// <param name="htmlAttributesExpr">Data list HTML tag attributes, to allow override of htmlAttributes for each checkbox (e.g. 'item => new { data_relation_id = item.RelationID }')</param>
     /// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
+    /// <param name="selectedValueExpr">Boolean value from db or selector corresponding to each item to be selected</param>
     /// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
-    /// <param name="htmlListInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { style="color:green;" })')</param>
+    /// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { style="color:green;" })')</param>
     /// <param name="disabledValues">String array of values to disable</param>
     /// <param name="position">Direction of the list (e.g. 'Position2.Horizontal' or 'Position2.Vertical')</param>
     /// <returns>HTML string containing checkbox list</returns>
-    internal MvcHtmlString CheckBoxList<TModel, TItem, TValue, TKey>
+    private MvcHtmlString _listBuilder<TModel, TItem, TValue, TKey>
       (HtmlHelper<TModel> htmlHelper,
        ModelMetadata modelMetadata,
        string listName,
@@ -68,56 +70,54 @@ namespace MvcCheckBoxList.Library {
        Expression<Func<TItem, TKey>> textToDisplayExpr,
        Expression<Func<TItem, object>> htmlAttributesExpr,
        Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
+       Expression<Func<TItem, bool>> selectedValueExpr,
        object htmlAttributes,
-       HtmlListInfo htmlListInfo,
+       HtmlListInfo wrapInfo,
        string[] disabledValues,
        Position position = Position.Horizontal) {
-      // validation
+
+      // ----------------------------------------------------------------------
+      // initial validation
+      // ----------------------------------------------------------------------
       if (sourceDataExpr == null || sourceDataExpr.Body.ToString() == "null")
         return MvcHtmlString.Create(no_data_message);
       if (htmlHelper.ViewData.Model == null) throw new NoNullAllowedException(empty_model_message);
       if (string.IsNullOrEmpty(listName)) throw new ArgumentException(empty_name_message, "listName");
+      // ----------------------------------------------------------------------
 
-      // set properties
+      // ----------------------------------------------------------------------
+      // get data from the model
+      // ----------------------------------------------------------------------
+      // model
       var model = htmlHelper.ViewData.Model;
+      // source data list
       var sourceData = sourceDataExpr.Compile()(model).ToList();
-      var valueFunc = valueExpr.Compile();
-      var textToDisplayFunc = textToDisplayExpr.Compile();
+      // function to get value of the output list element
+      var _valueFunc = valueExpr.Compile();
+      // function to get label (text) of the output list element
+      var _textToDisplayFunc = textToDisplayExpr.Compile();
+      // get a list of selected items
       var selectedItems = new List<TItem>();
       if (selectedValuesExpr != null) {
-        var _selectedItems = selectedValuesExpr.Compile()(model);
-        if (_selectedItems != null) selectedItems = _selectedItems.ToList();
+        var selectedItems_temp = selectedValuesExpr.Compile()(model);
+        if (selectedItems_temp != null) selectedItems = selectedItems_temp.ToList();
       }
-      var selectedValues = selectedItems.Select(s => valueFunc(s).ToString()).ToList();
+      var selectedValues = selectedItems.Select(s => _valueFunc(s).ToString()).ToList();
+      // ----------------------------------------------------------------------
 
       // validate source data
       if (!sourceData.Any()) return MvcHtmlString.Create(no_data_message);
 
-      // set html properties for each checkbox from model object
-      Func<TItem, object, object> _valueHtmlAttributesFunc = (item, baseAttributes) => baseAttributes;
-      if (htmlAttributesExpr != null) {
-        var valueHtmlAttributesFunc = htmlAttributesExpr.Compile();
-        _valueHtmlAttributesFunc = (item, baseAttributes) => {
-          var baseAttrDict = baseAttributes.toDictionary();
-          var itemAttrDict = valueHtmlAttributesFunc(item).toDictionary();
-          var result = new ExpandoObject();
-          var d = result as IDictionary<string, object>;
-          foreach (var pair in baseAttrDict.Concat(itemAttrDict))
-            d[pair.Key] = pair.Value;
-          return result;
-        };
-      }
-
       // if HtmlListInfo is provided, then check for inverse text direction
       var textLayout = TextLayout.Default;
-      if (htmlListInfo != null && htmlListInfo.TextLayout == TextLayout.RightToLeft)
-        textLayout = htmlListInfo.TextLayout;
+      if (wrapInfo != null && wrapInfo.TextLayout == TextLayout.RightToLeft)
+        textLayout = wrapInfo.TextLayout;
       if (position == Position.Vertical_RightToLeft || position == Position.Horizontal_RightToLeft)
         textLayout = TextLayout.RightToLeft;
 
       // set up table/list html wrapper, if applicable
       var numberOfItems = sourceData.Count;
-      var htmlWrapper = _createHtmlWrapper(htmlListInfo, numberOfItems, position, textLayout);
+      var htmlWrapper = _createHtmlWrapper(wrapInfo, numberOfItems, position, textLayout);
 
       // create checkbox list
       var sb = new StringBuilder();
@@ -126,15 +126,41 @@ namespace MvcCheckBoxList.Library {
 
       // create list of checkboxes based on data
       foreach (var item in sourceData) {
-        // get checkbox value and text
-        var itemValue = valueFunc(item).ToString();
-        var itemText = textToDisplayFunc(item).ToString();
+        // get checkbox value, text, and selectio from expressionFunction
+        var itemValue = _valueFunc(item).ToString();
+        string itemText;
+        if (wrapInfo != null && wrapInfo.UseTemplate) {
+          // Use Shared\DisplayTemplates\City.cshtml to render template
+          // (has to have same name as Class for which it templates)
+
+          // City.cshtml example:
+          // -----------------------------------------
+          //@model MvcCheckBoxListSampleApp.Model.City
+          //<strong>@Model.Name</strong>
+          //- test display template
+          // -----------------------------------------
+          itemText = htmlHelper.DisplayFor(x => item).ToString();
+        }
+        else {
+          itemText = _textToDisplayFunc(item).ToString();
+        }
+
+        // function to get a selected value from boolean variable
+        var itemIsSelected = "";
+        if (selectedValueExpr != null) {
+          var _selectedValueFunc = selectedValueExpr.Compile();
+          itemIsSelected = _selectedValueFunc(item).ToString();
+        }
+        
+        // get a dictionary of html attributes
+        var htmlAttributesForCheckBox =
+          item.getHtmlAttributes(htmlAttributes, htmlAttributesExpr);
 
         // create checkbox element
-        sb = _createCheckBoxListElement(sb, htmlHelper, modelMetadata, htmlWrapper,
-                                       _valueHtmlAttributesFunc(item, htmlAttributes),
-                                       selectedValues, disabledValues, listName,
-                                       itemValue, itemText, textLayout);
+        sb = _createCheckBoxListElement
+          (sb, htmlHelper, modelMetadata, htmlWrapper, htmlAttributesForCheckBox,
+           selectedValues, itemIsSelected, disabledValues, listName, itemValue,
+           itemText, textLayout);
       }
       sb.Append(htmlWrapper.wrap_close);
 
@@ -243,27 +269,35 @@ namespace MvcCheckBoxList.Library {
     /// Creates an an individual checkbox
     /// </summary>
     /// <param name="sb">String builder of checkbox list</param>
+    /// <param name="htmlHelper">HtmlHelper passed from view model</param>
     /// <param name="modelMetadata">Model Metadata</param>
     /// <param name="htmlWrapper">MVC Html helper class that is being extended</param>
     /// <param name="htmlAttributesForCheckBox">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
     /// <param name="selectedValues">List of strings of selected values</param>
+    /// <param name="itemIsSelected"> </param>
     /// <param name="disabledValues">List of strings of disabled values</param>
     /// <param name="name">Name of the checkbox list (same for all checkboxes)</param>
     /// <param name="itemValue">Value of the checkbox</param>
     /// <param name="itemText">Text to be displayed next to checkbox</param>
-    /// <param name="htmlHelper">HtmlHelper passed from view model</param>
     /// <param name="textLayout">Sets layout of a checkbox for right-to-left languages</param>
     /// <returns>String builder of checkbox list</returns>
     private StringBuilder _createCheckBoxListElement
-      (StringBuilder sb, HtmlHelper htmlHelper, ModelMetadata modelMetadata, htmlWrapperInfo htmlWrapper,
-       object htmlAttributesForCheckBox, IEnumerable<string> selectedValues, IEnumerable<string> disabledValues,
-       string name, string itemValue, string itemText, TextLayout textLayout) {
+      (StringBuilder sb, HtmlHelper htmlHelper, ModelMetadata modelMetadata,
+      htmlWrapperInfo htmlWrapper, IDictionary<string, object> htmlAttributesForCheckBox, 
+      List<string> selectedValues, string itemIsSelected, 
+      IEnumerable<string> disabledValues, string name, string itemValue, 
+      string itemText, TextLayout textLayout) {
       // get full name from view model
       var fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
 
       // create checkbox tag
       var checkbox_builder = new TagBuilder("input");
-      if (selectedValues.Any(x => x == itemValue)) checkbox_builder.MergeAttribute("checked", "checked");
+      
+      if (selectedValues.Any(value => value == itemValue)) checkbox_builder.MergeAttribute("checked", "checked");
+      bool selected;
+      if (bool.TryParse(itemIsSelected, out selected))
+        if (selected) checkbox_builder.MergeAttribute("checked", "checked");
+
       checkbox_builder.MergeAttributes(htmlAttributesForCheckBox.toDictionary());
       checkbox_builder.MergeAttribute("type", "checkbox");
       checkbox_builder.MergeAttribute("value", itemValue);

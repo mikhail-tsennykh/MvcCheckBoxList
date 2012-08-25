@@ -8,17 +8,13 @@ namespace MvcCheckBoxListSampleApp.Controllers {
 	public class HomeController : Controller {
 	  public HomeController() {
 	    ViewBag.AuthorUrl = "http://www.codeproject.com/Members/Mikhail-T";
-	    
 	    ViewBag.CodePrejectUrl = "http://www.codeproject.com/Articles/292050/CheckBoxList-For-a-missing-MVC-extension";
-	    
 	    ViewBag.GitHubZipSourceUrl = "https://github.com/mikhail-tsennykh/MVC3-Html.CheckBoxList-custom-extension/zipball/master";
 	    ViewBag.GitHubUrl = "https://github.com/mikhail-tsennykh/MVC3-Html.CheckBoxList-custom-extension";
-	    
 	    ViewBag.LicenseUrl = "http://www.codeproject.com/info/cpol10.aspx";
 	  }
 
     public ActionResult Index(string[] cities, PostedCities postedCities) {
-      ViewBag.HideMenu = true;
       return View(GetCitiesModel(cities, postedCities));
     }
 
@@ -60,7 +56,7 @@ namespace MvcCheckBoxListSampleApp.Controllers {
 					.Where(x => postedCityIDs.Any(s => x.Id.ToString().Equals(s))).ToList();
 
 			// setup a view model
-			model.AvailableCities = CityRepository.GetAll();
+			model.AvailableCities = CityRepository.GetAll().ToList();
 			model.SelectedCities = selectedCities;
 			model.PostedCities = postedCities;
 

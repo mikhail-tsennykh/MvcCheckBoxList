@@ -4,8 +4,8 @@ using MvcCheckBoxListSampleApp.Model;
 namespace MvcCheckBoxListSampleApp.ViewModels {
 	public class CitiesViewModel {
 		public bool WasPosted { get; set; }
-		public IEnumerable<City> AvailableCities { get; set; }
-		public IEnumerable<City> SelectedCities { get; set; }
+		public IList<City> AvailableCities { get; set; }
+		public IList<City> SelectedCities { get; set; }
 		public PostedCities PostedCities { get; set; }
 	}
 	public class PostedCities {

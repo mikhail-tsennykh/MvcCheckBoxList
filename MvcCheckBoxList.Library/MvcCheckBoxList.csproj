@@ -66,6 +66,7 @@
     <Compile Include="Internal\Assembly\MvcCheckBoxListInfo.cs" />
     <Compile Include="Internal\ExtensionsBase.cs" />
     <Compile Include="Internal\BuilderBase.cs" />
+    <Compile Include="Internal\Helpers\getHtmlAttributes.cs" />
     <Compile Include="Internal\Helpers\toDictionary.cs" />
     <Compile Include="Internal\Helpers\toProperty.cs" />
     <Compile Include="Internal\Model\htmlElementTag.cs" />

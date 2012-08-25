@@ -1,6 +1,6 @@
 ﻿@model MvcCheckBoxListSampleApp.ViewModels.CitiesViewModel
 @{
-  ViewBag.Title = "Test Area";
+  ViewBag.Title = "Experimental";
 }
 
 @if (Model.WasPosted) {
@@ -20,25 +20,94 @@
 }
 
 <div class="col_12">
-  <h3>@ViewBag.Title</h3>
+  <h3>@ViewBag.Title (testing new features)</h3>
 
-  @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
-    <section>
-      @Html.CheckBoxList("Cities",
-                         model => model.AvailableCities,
-                         city => city.Id,
-                         city => city.Name,
-                         model => model.SelectedCities,
-                         x => x.Tags)
-    </section>
+  <section>
+	  <div class="title">Select item by boolean value from Model list - Test 1</div>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
+		    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+													    x => x.AvailableCities,
+													    x => x.Id,
+													    x => x.Name,
+													    x => Model.SelectedCities.Any(s => x.Id == s.Id),
+							                null, null,
+													    new[] {"3", "5", "7"},
+							                x => x.Tags)
 
-    <button class="pop">SUBMIT</button>
-    <note>&nbsp; selection to controller</note>
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>
+  </section>  
 
-    <a href="@Url.Action("Examples")" class="button pop content_right">
-      <span class="icon" data-icon="g"></span>
-      See More Examples
-    </a>
-  }
+  <section>
+	  <div class="title">Select item by boolean value from database - Test 2</div>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
+        @Html.CheckBoxListFor(model => model.PostedCities.CityIDs,
+													    model => model.AvailableCities,
+													    city => city.Id,
+													    city => city.Name,
+													    city => city.IsSelected,
+							                null, null,
+													    new[] {"3", "5", "7"},
+							                city => city.Tags)
 
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>
+  </section>
+
+  <section>
+	  <div class="title">Full Example (with DisplayTemplate)</div>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
+        var htmlListInfo = new HtmlListInfo
+          (HtmlTag.vertical_columns, 2, null, TextLayout.Default, true);
+     
+		    @Html.CheckBoxListFor(model => model.PostedCities.CityIDs,
+													    model => model.AvailableCities,
+													    city => city.Id,
+													    city => city.Name,
+													    model => model.SelectedCities,
+							                null,
+													    htmlListInfo,
+													    new[] {"3", "5", "7"},
+							                city => city.Tags)
+
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>	
+    <p>
+      <label>How-To:</label>
+    </p>
+    <p>
+      First you need to create <strong>Views\Shared\DisplayTemplates\City.cshtml</strong>
+      file to hold a template for our base class <code>City</code>.
+      It must have same name as class <code>City</code> for which it templates,
+      and must have a <code>&#64;model</code> set to use <code>City</code>
+      (including applicable namespace).
+    </p>
+    <p>
+      <label>City.cshtml file used here:</label>
+<pre>
+&#64;model MvcCheckBoxListSampleApp.Model.City
+
+&lt;strong&gt;&#64;Model.Name&lt;/strong&gt; - test display template
+</pre>
+    </p>
+  </section>
+  
 </div>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('[what="smallCity"]').css("color", "blue");
+      $('[what="bigCity"]').css("color", "green");
+    });
+  </script>  
+}

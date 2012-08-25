@@ -1,18 +1,22 @@
 
-# MVC3 @Html.CheckBoxList() custom extension v.1.4.3.2 (development)
+# CheckBoxList(For) - a missing MVC extension v.1.4.4.0 (development)
 
 MVC3 source project for Visual Studio 2010 and .NET 4.0.
 
-By [Mikhail Tsennykh, 2011-2012](http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx)
+## What's new?
 
-Alternatively, you can simply install a NuGet package of this extension:
+Something
+
+## Installation
+
+#### NuGet:
 
     Install-Package MvcCheckBoxList
 
 #### Links:
 
 NuGet package on [NuGet.org](https://nuget.org/packages/MvcCheckBoxList) and
-full documentation on [CodeProject](http://www.codeproject.com/KB/user-controls/MvcCheckBoxList_Extension.aspx)
+full documentation on [CodeProject](http://www.codeproject.com/Articles/292050/CheckBoxList-For-a-missing-MVC-extension)
 
 ## Introduction
 
@@ -222,4 +226,11 @@ OR use 'CheckBoxListFor' method:
 
 #### And that's all, Folks!
 
+##### Join the discussion here:
 
+[CheckBoxList(For) - a missing MVC extension](http://www.codeproject.com/Articles/292050/CheckBoxList-For-a-missing-MVC-extension)
+
+Regards, 
+
+[Mikhail](http://www.codeproject.com/Members/Mikhail-T) and 
+[contributors] (http://www.codeproject.com/Articles/292050/CheckBoxList-For-a-missing-MVC-extension#Regards)
