@@ -21,9 +21,23 @@
 
 <div class="col_12">
   <h3>@ViewBag.Title (testing new features)</h3>
+  
+  <section>
+	  <div class="title">General playground</div>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
+		    
+        
+        
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>
+  </section>
+  
 
   <section>
-	  <div class="title">Select item by boolean value from Model list - Test 1</div>
+	  <div class="title">Select item by boolean value from Model list - Test 2</div>
 	  <p>
       <label>Output:</label>
 	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
@@ -40,9 +54,10 @@
 	    }
 	  </p>
   </section>  
+  
 
   <section>
-	  <div class="title">Select item by boolean value from database - Test 2</div>
+	  <div class="title">Select item by boolean value from database - Test 1</div>
 	  <p>
       <label>Output:</label>
 	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {

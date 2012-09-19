@@ -22,7 +22,7 @@ namespace MvcCheckBoxListSampleApp.Controllers {
 		  return View(GetCitiesModel(cities, postedCities));
 		}
 
-    public ActionResult Docs() {
+    public ActionResult Documentation() {
       return View();
     }
     

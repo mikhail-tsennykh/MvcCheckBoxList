@@ -3,7 +3,8 @@ using MvcCheckBoxListSampleApp.Model;
 
 namespace MvcCheckBoxListSampleApp.ViewModels {
 	public class CitiesViewModel {
-		public bool WasPosted { get; set; }
+	  public object CustomListName;
+	  public bool WasPosted { get; set; }
 		public IList<City> AvailableCities { get; set; }
 		public IList<City> SelectedCities { get; set; }
 		public PostedCities PostedCities { get; set; }

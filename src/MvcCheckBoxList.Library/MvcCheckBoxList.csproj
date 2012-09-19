@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experimental\Querator.cs" />
     <Compile Include="Internal\Assembly\MvcCheckBoxListInfo.cs" />
     <Compile Include="Internal\ExtensionsBase.cs" />
     <Compile Include="Internal\BuilderBase.cs" />
@@ -82,6 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\HtmlHelper.Basic.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\HtmlHelper.Base.cs" />
+    <None Include="MvcCheckBoxList.csproj.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

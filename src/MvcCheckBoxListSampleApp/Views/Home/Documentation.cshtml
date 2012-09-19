@@ -6,24 +6,55 @@
 
 <div class="col_12">
   <h3>@ViewBag.Title</h3>
+  
+  @Html.Partial("GivenPartial")
 
   <section>
     <title>Base overloads</title>
   
     <p>
-      <h6>1. Base checkbox list call:</h6>
-      <code>&#64;Html.CheckBoxListFor(LIST_NAME, LIST_DATA, VALUE_PROPERTY, TEXT_PROPERTY, IS_CHECKED)</code>
+      <h6>Base checkbox list call structure:</h6>
+<pre style="width: 45%;" class="content_left">
+&#64;Html.CheckBoxList("LIST_NAME", 
+                   model => model.LIST_DATA, 
+                   entity => entity.VALUE, 
+                   entity => entity.NAME, 
+                   model => model.SELECTED_VALUES)
+                   // or entity => entity.IS_CHECKED
+</pre>
+      <div class="margin_left17 margin_top40 content_left"><h6>OR</h6></div>
+<pre style="width: 45%;" class="content_right">
+&#64;Html.CheckBoxListFor(model => model.LIST_NAME, 
+                      model => model.LIST_DATA, 
+                      entity => entity.VALUE, 
+                      entity => entity.NAME, 
+                      model => model.SELECTED_VALUES)
+                      // or entity => entity.IS_CHECKED
+</pre>
+      <div class="clear"></div>
     </p>
   
     <p>
-      <h6>And in this example it looks like this:</h6>
-      <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => x.SelectedCities)</pre>
+      <h6>And in our example it looks like this:</h6>
+<pre>
+&#64;Html.CheckBoxListFor(model => model.PostedCities.CityIDs, 
+                      model => model.AvailableCities, 
+                      entity => entity.Id, 
+                      entity => entity.Name, 
+                      model => model.SelectedCities)
+</pre>
     </p>
     
     <p>
       <h6>Or if using boolean selector:</h6>
-      <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => x.IsSelected)</pre>
-      where <code>x.IsSelected</code> is a boolean value from database
+<pre>
+&#64;Html.CheckBoxListFor(model => model.PostedCities.CityIDs, 
+                      model => model.AvailableCities, 
+                      entity => entity.Id, 
+                      entity => entity.Name, 
+                      entity => entity.IsSelected)
+</pre>
+      where <code>entity.IsSelected</code> is a boolean value from database
     </p>
     
     <p>
@@ -31,7 +62,13 @@
       If we have a list of selected values on our View -
       <code>var selectedIds = new List&lt;int&gt;  { 1, 3, 5 };</code>
       it'll look like this:
-      <pre>&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs, x => x.AvailableCities, x => x.Id, x => x.Name, x => selectedIds.Contains(x.Id))</pre>
+<pre>
+&#64;Html.CheckBoxListFor(model => model.PostedCities.CityIDs, 
+                      model => model.AvailableCities, 
+                      entity => entity.Id, 
+                      entity => entity.Name, 
+                      entity => selectedIds.Contains(x.Id))
+</pre>
       where <code>selectedIds.Contains(x.Id)</code> returns bool if item Id matches the list
     </p>
 
@@ -46,7 +83,7 @@
     </p>
 
     <p>
-      <h6>2. Set position (direction) of the list:</h6>
+      <h6>1. Set position (direction) of the list:</h6>
       <pre>&#64;Html.CheckBoxListFor( ... , Position.Horizontal)</pre>
     </p>
     <p>
@@ -56,19 +93,19 @@
     </p>
   
     <p>
-      <h6>3. Set html attributes for both checkbox and label:</h6>
+      <h6>2. Set html attributes for both checkbox and label:</h6>
       <pre>&#64;Html.CheckBoxListFor( ... , x => new { &#64;class="class_name" }) // Tags will be applied to all checkbox/label combos</pre>
       or get Tags object from database:
       <pre>&#64;Html.CheckBoxListFor( ... , x => x.Tags) // x.Tags will be applied only to particular checkbox/label combo</pre>
     </p>
   
     <p>
-      <h6>4. Set html attributes and position:</h6>
+      <h6>3. Set html attributes and position:</h6>
       <pre>&#64;Html.CheckBoxListFor( ... , Position.Horizontal, x => new { &#64;class="class_name" })</pre>
     </p>
   
     <p>
-      <h6>5. Set html attributes for all, disabled values, position, and individual html attributes (all attributes will be merged together):</h6>
+      <h6>4. Set html attributes for all, disabled values, position, and individual html attributes (all attributes will be merged together):</h6>
       <pre>&#64;Html.CheckBoxListFor( ... , x => new { &#64;class="class_name" }, new[] {"3", "5", "7"}, Position.Horizontal, x => x.Tags)</pre>
     </p>
 
