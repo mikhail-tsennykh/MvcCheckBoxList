@@ -57,7 +57,7 @@ namespace MvcCheckBoxList.Library {
     /// <param name="selectedValuesExpr">Data list of selected items (should be of same data type as a source list)</param>
     /// <param name="selectedValueExpr">Boolean value from db or selector corresponding to each item to be selected</param>
     /// <param name="htmlAttributes">Each checkbox HTML tag attributes (e.g. 'new { class="somename" }')</param>
-    /// <param name="wrapInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { style="color:green;" })')</param>
+    /// <param name="htmlListInfo">Settings for HTML wrapper of the list (e.g. 'new HtmlListInfo2(HtmlTag2.vertical_columns, 2, new { style="color:green;" })')</param>
     /// <param name="disabledValues">String array of values to disable</param>
     /// <param name="position">Direction of the list (e.g. 'Position2.Horizontal' or 'Position2.Vertical')</param>
     /// <returns>HTML string containing checkbox list</returns>
@@ -72,7 +72,7 @@ namespace MvcCheckBoxList.Library {
        Expression<Func<TModel, IEnumerable<TItem>>> selectedValuesExpr,
        Expression<Func<TItem, bool>> selectedValueExpr,
        object htmlAttributes,
-       HtmlListInfo wrapInfo,
+       HtmlListInfo htmlListInfo,
        string[] disabledValues,
        Position position = Position.Horizontal) {
 
@@ -110,14 +110,14 @@ namespace MvcCheckBoxList.Library {
 
       // if HtmlListInfo is provided, then check for inverse text direction
       var textLayout = TextLayout.Default;
-      if (wrapInfo != null && wrapInfo.TextLayout == TextLayout.RightToLeft)
-        textLayout = wrapInfo.TextLayout;
+      if (htmlListInfo != null && htmlListInfo.TextLayout == TextLayout.RightToLeft)
+        textLayout = htmlListInfo.TextLayout;
       if (position == Position.Vertical_RightToLeft || position == Position.Horizontal_RightToLeft)
         textLayout = TextLayout.RightToLeft;
 
       // set up table/list html wrapper, if applicable
       var numberOfItems = sourceData.Count;
-      var htmlWrapper = _createHtmlWrapper(wrapInfo, numberOfItems, position, textLayout);
+      var htmlWrapper = _createHtmlWrapper(htmlListInfo, numberOfItems, position, textLayout);
 
       // create checkbox list
       var sb = new StringBuilder();
@@ -129,7 +129,7 @@ namespace MvcCheckBoxList.Library {
         // get checkbox value, text, and selectio from expressionFunction
         var itemValue = _valueFunc(item).ToString();
         string itemText;
-        if (wrapInfo != null && wrapInfo.UseTemplate) {
+        if (htmlListInfo != null && htmlListInfo.TemplateIsUsed == TemplateIsUsed.Yes) {
           // Use Shared\DisplayTemplates\City.cshtml to render template
           // (has to have same name as Class for which it templates)
 

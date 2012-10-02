@@ -28,6 +28,6 @@ _TeamCity*/
 *conflicted copy*
 *Publish.xml
 *.nupkg
-*.nuspec
 build/
 [Ee]xperimental/
+[Pp]ackages/

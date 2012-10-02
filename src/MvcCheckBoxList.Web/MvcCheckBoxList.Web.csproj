@@ -177,7 +177,7 @@
     <Content Include="Views\Home\Examples.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MvcCheckBoxList.Library\MvcCheckBoxList.csproj">
+    <ProjectReference Include="..\MvcCheckBoxList\MvcCheckBoxList.csproj">
       <Project>{C6A250AB-6963-47C4-A6BE-8153E4787DB5}</Project>
       <Name>MvcCheckBoxList</Name>
     </ProjectReference>

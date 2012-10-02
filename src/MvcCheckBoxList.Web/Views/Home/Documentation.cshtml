@@ -117,7 +117,7 @@
     <p>
       <h6>1. Set custom layout using <code>HtmlListInfo</code> class:</h6>
 <pre>
-var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_name" }, TextLayout.Default);
+var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_name" }, TextLayout.Default, TemplateIsUsed.Yes);
 
 &#64;Html.CheckBoxListFor( ... , htmlListInfo)
 </pre>

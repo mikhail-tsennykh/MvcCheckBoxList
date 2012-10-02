@@ -79,6 +79,7 @@
     <Compile Include="Model\TextLayout.cs" />
     <Compile Include="ListBuilder.cs" />
     <Compile Include="Extensions\HtmlHelper.Advanced.cs" />
+    <Compile Include="Model\TemplateIsUsed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
