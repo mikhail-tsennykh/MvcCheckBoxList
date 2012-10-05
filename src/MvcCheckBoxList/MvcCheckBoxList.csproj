@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Experimental\Querator.cs" />
     <Compile Include="Internal\Assembly\MvcCheckBoxListInfo.cs" />
     <Compile Include="Internal\ExtensionsBase.cs" />
     <Compile Include="Internal\BuilderBase.cs" />
