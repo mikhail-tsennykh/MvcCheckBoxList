@@ -1,6 +1,5 @@
 Thumbs.db
 *.obj
-*.exe
 *.pdb
 *.user
 *.aps
@@ -24,7 +23,11 @@ Thumbs.db
 obj/
 [Rr]elease*/
 _ReSharper*/
+_TeamCity*/
 [Tt]est[Rr]esult*
 *conflicted copy*
-*.nupkg
 *Publish.xml
+*.nupkg
+build/
+[Ee]xperimental/
+[Pp]ackages/
