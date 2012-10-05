@@ -12,7 +12,7 @@ this plugin adds it.
 
 #### Install via NuGet:
 
-    Install-Package MvcCheckBoxList
+    Install-Package MvcCheckBoxList -Pre
     
 #### How to use:
 
