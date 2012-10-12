@@ -98,6 +98,7 @@
     <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\City.cshtml" />
     <Content Include="Views\Home\GivenPartial.cshtml" />
+    <Content Include="Views\Home\Contributors.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\kickstart\chosen.css" />

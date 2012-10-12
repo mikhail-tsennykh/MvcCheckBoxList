@@ -63,5 +63,9 @@ namespace MvcCheckBoxListSampleApp.Controllers {
       return model;
     }
 
+	  public ActionResult Contributors() {
+	    return View();
+	  }
+
 	}
 }

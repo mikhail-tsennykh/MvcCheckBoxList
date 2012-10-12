@@ -45,6 +45,7 @@
         <li><a href="/"><span class="icon large gray" data-icon="I"></span></a></li>
         <li>@Html.ActionLink("Examples", "Examples", "Home")</li>
         <li>@Html.ActionLink("Documentation", "Documentation", "Home")</li>
+        <li>@Html.ActionLink("Contributors", "Contributors", "Home")</li>
         @*<li>@Html.ActionLink("Test Area", "Test", "Home")</li>*@
         <li><a target="_blank" title="... on CodeProject.com" href="@ViewBag.CodePrejectUrl">Discussion *</a></li>
       </ul>
@@ -59,7 +60,8 @@
 	
 	<div class="footer">
     © 2012 <a target="_blank" href="@ViewBag.AuthorUrl">Mikhail Tsennykh</a>. All Rights Reserved.
-    | Released under <a href="@ViewBag.LicenseUrl">CPOL License</a>
+    | @Html.ActionLink("Contributors", "Contributors", "Home")
+    | <a href="@ViewBag.LicenseUrl">License</a>
     | Built with <a href="http://www.99lime.com">HTML KickStart</a>
     and <a href="http://subtlepatterns.com">SubtlePatterns.com</a>
 	</div>
