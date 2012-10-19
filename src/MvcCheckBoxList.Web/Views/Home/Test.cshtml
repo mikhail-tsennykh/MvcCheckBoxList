@@ -27,7 +27,14 @@
 	  <p>
       <label>Output:</label>
 	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
-		    
+		    @Html.CheckBoxList("cities",
+													  x => x.AvailableCities,
+													  x => x.Id,
+													  x => x.Name,
+													  x => Model.SelectedCities.Any(s => x.Id == s.Id),
+							              null, null,
+													  null,
+							              x => x.Tags)
         
         
 		    <p><input class="green" type="submit" value="POST to controller" /></p>

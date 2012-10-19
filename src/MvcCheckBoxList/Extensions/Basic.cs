@@ -35,15 +35,15 @@ public static partial class Extensions {
     return _listBuilder.CheckBoxList
       (new listConstructor
          <TModel, TItem, TValue, TKey> {
-                                         htmlHelper = htmlHelper,
-                                         modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData),
-                                         listName = listNameExpr.toProperty(),
-                                         sourceDataExpr = sourceDataExpr,
-                                         valueExpr = valueExpr,
-                                         textToDisplayExpr = textToDisplayExpr,
-                                         selectedValuesExpr = selectedValuesExpr,
-                                         position = position
-                                       });
+           htmlHelper = htmlHelper,
+           modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData),
+           listName = listNameExpr.toProperty(),
+           sourceDataExpr = sourceDataExpr,
+           valueExpr = valueExpr,
+           textToDisplayExpr = textToDisplayExpr,
+           selectedValuesExpr = selectedValuesExpr,
+           position = position
+         });
   }
   /// <summary>
   /// Generates Model-based list of checkboxes (For...)
@@ -72,15 +72,15 @@ public static partial class Extensions {
     return _listBuilder.CheckBoxList
       (new listConstructor
          <TModel, TItem, TValue, TKey> {
-                                         htmlHelper = htmlHelper,
-                                         modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData),
-                                         listName = listNameExpr.toProperty(),
-                                         sourceDataExpr = sourceDataExpr,
-                                         valueExpr = valueExpr,
-                                         textToDisplayExpr = textToDisplayExpr,
-                                         selectedValueExpr = selectedValueExpr,
-                                         position = position
-                                       });
+           htmlHelper = htmlHelper,
+           modelMetadata = ModelMetadata.FromLambdaExpression(listNameExpr, htmlHelper.ViewData),
+           listName = listNameExpr.toProperty(),
+           sourceDataExpr = sourceDataExpr,
+           valueExpr = valueExpr,
+           textToDisplayExpr = textToDisplayExpr,
+           selectedValueExpr = selectedValueExpr,
+           position = position
+         });
   }
 
   // Level 2
@@ -113,15 +113,15 @@ public static partial class Extensions {
     return _listBuilder.CheckBoxList
       (new listConstructor
          <TModel, TItem, TValue, TKey> {
-                                         htmlHelper = htmlHelper,
-                                         modelMetadata = modelMetadata,
-                                         listName = listNameExpr.toProperty(),
-                                         sourceDataExpr = sourceDataExpr,
-                                         valueExpr = valueExpr,
-                                         textToDisplayExpr = textToDisplayExpr,
-                                         htmlAttributesExpr = htmlAttributesExpr,
-                                         selectedValuesExpr = selectedValuesExpr,
-                                       });
+           htmlHelper = htmlHelper,
+           modelMetadata = modelMetadata,
+           listName = listNameExpr.toProperty(),
+           sourceDataExpr = sourceDataExpr,
+           valueExpr = valueExpr,
+           textToDisplayExpr = textToDisplayExpr,
+           htmlAttributesExpr = htmlAttributesExpr,
+           selectedValuesExpr = selectedValuesExpr,
+         });
   }
   /// <summary>
   /// Generates Model-based list of checkboxes (For...)
@@ -151,15 +151,15 @@ public static partial class Extensions {
     return _listBuilder.CheckBoxList
       (new listConstructor
          <TModel, TItem, TValue, TKey> {
-                                         htmlHelper = htmlHelper,
-                                         modelMetadata = modelMetadata,
-                                         listName = listNameExpr.toProperty(),
-                                         sourceDataExpr = sourceDataExpr,
-                                         valueExpr = valueExpr,
-                                         textToDisplayExpr = textToDisplayExpr,
-                                         htmlAttributesExpr = htmlAttributesExpr,
-                                         selectedValueExpr = selectedValueExpr,
-                                       });
+           htmlHelper = htmlHelper,
+           modelMetadata = modelMetadata,
+           listName = listNameExpr.toProperty(),
+           sourceDataExpr = sourceDataExpr,
+           valueExpr = valueExpr,
+           textToDisplayExpr = textToDisplayExpr,
+           htmlAttributesExpr = htmlAttributesExpr,
+           selectedValueExpr = selectedValueExpr,
+         });
   }
 
   // Level 3
@@ -194,16 +194,16 @@ public static partial class Extensions {
     return _listBuilder.CheckBoxList
       (new listConstructor
          <TModel, TItem, TValue, TKey> {
-                                         htmlHelper = htmlHelper,
-                                         modelMetadata = modelMetadata,
-                                         listName = listNameExpr.toProperty(),
-                                         sourceDataExpr = sourceDataExpr,
-                                         valueExpr = valueExpr,
-                                         textToDisplayExpr = textToDisplayExpr,
-                                         htmlAttributesExpr = htmlAttributesExpr,
-                                         selectedValuesExpr = selectedValuesExpr,
-                                         position = position
-                                       });
+           htmlHelper = htmlHelper,
+           modelMetadata = modelMetadata,
+           listName = listNameExpr.toProperty(),
+           sourceDataExpr = sourceDataExpr,
+           valueExpr = valueExpr,
+           textToDisplayExpr = textToDisplayExpr,
+           htmlAttributesExpr = htmlAttributesExpr,
+           selectedValuesExpr = selectedValuesExpr,
+           position = position
+         });
   }
   /// <summary>
   /// Generates Model-based list of checkboxes (For...)
@@ -235,16 +235,16 @@ public static partial class Extensions {
     return _listBuilder.CheckBoxList
       (new listConstructor
          <TModel, TItem, TValue, TKey> {
-                                         htmlHelper = htmlHelper,
-                                         modelMetadata = modelMetadata,
-                                         listName = listNameExpr.toProperty(),
-                                         sourceDataExpr = sourceDataExpr,
-                                         valueExpr = valueExpr,
-                                         textToDisplayExpr = textToDisplayExpr,
-                                         htmlAttributesExpr = htmlAttributesExpr,
-                                         selectedValueExpr = selectedValueExpr,
-                                         position = position
-                                       });
+           htmlHelper = htmlHelper,
+           modelMetadata = modelMetadata,
+           listName = listNameExpr.toProperty(),
+           sourceDataExpr = sourceDataExpr,
+           valueExpr = valueExpr,
+           textToDisplayExpr = textToDisplayExpr,
+           htmlAttributesExpr = htmlAttributesExpr,
+           selectedValueExpr = selectedValueExpr,
+           position = position
+         });
   }
 
   // Level 4 - Full
@@ -283,18 +283,18 @@ public static partial class Extensions {
     return _listBuilder.CheckBoxList
       (new listConstructor
          <TModel, TItem, TValue, TKey> {
-                                         htmlHelper = htmlHelper,
-                                         modelMetadata = modelMetadata,
-                                         listName = listNameExpr.toProperty(),
-                                         sourceDataExpr = sourceDataExpr,
-                                         valueExpr = valueExpr,
-                                         textToDisplayExpr = textToDisplayExpr,
-                                         htmlAttributesExpr = htmlAttributesExpr,
-                                         selectedValuesExpr = selectedValuesExpr,
-                                         htmlAttributes = htmlAttributes,
-                                         disabledValues = disabledValues,
-                                         position = position
-                                       });
+           htmlHelper = htmlHelper,
+           modelMetadata = modelMetadata,
+           listName = listNameExpr.toProperty(),
+           sourceDataExpr = sourceDataExpr,
+           valueExpr = valueExpr,
+           textToDisplayExpr = textToDisplayExpr,
+           htmlAttributesExpr = htmlAttributesExpr,
+           selectedValuesExpr = selectedValuesExpr,
+           htmlAttributes = htmlAttributes,
+           disabledValues = disabledValues,
+           position = position
+         });
   }
   /// <summary>
   /// Generates Model-based list of checkboxes (For...)
@@ -330,17 +330,17 @@ public static partial class Extensions {
     return _listBuilder.CheckBoxList
       (new listConstructor
          <TModel, TItem, TValue, TKey> {
-                                         htmlHelper = htmlHelper,
-                                         modelMetadata = modelMetadata,
-                                         listName = listNameExpr.toProperty(),
-                                         sourceDataExpr = sourceDataExpr,
-                                         valueExpr = valueExpr,
-                                         textToDisplayExpr = textToDisplayExpr,
-                                         htmlAttributesExpr = htmlAttributesExpr,
-                                         selectedValueExpr = selectedValueExpr,
-                                         htmlAttributes = htmlAttributes,
-                                         disabledValues = disabledValues,
-                                         position = position
-                                       });
+           htmlHelper = htmlHelper,
+           modelMetadata = modelMetadata,
+           listName = listNameExpr.toProperty(),
+           sourceDataExpr = sourceDataExpr,
+           valueExpr = valueExpr,
+           textToDisplayExpr = textToDisplayExpr,
+           htmlAttributesExpr = htmlAttributesExpr,
+           selectedValueExpr = selectedValueExpr,
+           htmlAttributes = htmlAttributes,
+           disabledValues = disabledValues,
+           position = position
+         });
   }
 }

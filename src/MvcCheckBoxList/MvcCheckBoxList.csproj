@@ -63,6 +63,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\CheckBoxList\Advanced.cs" />
+    <Compile Include="Extensions\CheckBoxList\Base.cs" />
+    <Compile Include="Extensions\CheckBoxList\Basic.cs" />
     <Compile Include="Internal\Assembly\MvcCheckBoxListInfo.cs" />
     <Compile Include="Internal\ExtensionsBase.cs" />
     <Compile Include="Internal\BuilderBase.cs" />
@@ -77,15 +80,15 @@
     <Compile Include="Model\Position.cs" />
     <Compile Include="Model\TextLayout.cs" />
     <Compile Include="ListBuilder.cs" />
-    <Compile Include="Extensions\HtmlHelper.Advanced.cs" />
+    <Compile Include="Extensions\Advanced.cs" />
     <Compile Include="Model\TemplateIsUsed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\HtmlHelper.Basic.cs" />
+    <Compile Include="Extensions\Basic.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\HtmlHelper.Base.cs" />
+    <Compile Include="Extensions\Base.cs" />
     <None Include="MvcCheckBoxList.csproj.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
