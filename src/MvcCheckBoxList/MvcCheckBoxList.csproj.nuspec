@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MvcCheckBoxList</id>
-    <version>1.4.4.0-beta</version>
+    <version>1.4.4.1-beta</version>
     <authors>Mikhail Tsennykh</authors>
     <owners>Mikhail Tsennykh</owners>
     <licenseUrl>http://www.codeproject.com/info/cpol10.aspx</licenseUrl>
@@ -13,6 +13,7 @@
       An extension for MVC HtmlHelper class to create POSTable checkbox list on a view, based on the data passed from the view model, or defined locally.
     </description>
     <releaseNotes>
+      This beta release restored CheckBoxList(string name, ... ) HtmlHelper extensions.
       ATTENTION! There are some breaking changes in this version, please refer to documentation before before updating!
     </releaseNotes>
     <copyright>Copyright 2011-2012</copyright>
