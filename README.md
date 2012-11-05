@@ -1,7 +1,7 @@
 
-## CheckBoxList(For) - a missing MVC extension v.1.4.4.1 (beta)
+## CheckBoxList(For) - a missing MVC extension v.1.4.4.3 (beta)
 
-MVC3 source project for Visual Studio 2012 and .NET 4.0.
+MVC3 source project for Visual Studio 2012, .NET framework 4.0 and 4.5.
 
 #### Introduction
 
