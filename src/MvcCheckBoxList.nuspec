@@ -2,19 +2,18 @@
 <package >
   <metadata>
     <id>MvcCheckBoxList</id>
-    <version>1.4.4.1-beta</version>
+    <version>1.4.4.2-beta</version>
     <authors>Mikhail Tsennykh</authors>
     <owners>Mikhail Tsennykh</owners>
     <licenseUrl>http://www.codeproject.com/info/cpol10.aspx</licenseUrl>
-    <projectUrl>http://mvccbl.azurewebsites.net</projectUrl>
+    <projectUrl>http://mvccbl.com</projectUrl>
     <!--<iconUrl></iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
       An extension for MVC HtmlHelper class to create POSTable checkbox list on a view, based on the data passed from the view model, or defined locally.
     </description>
     <releaseNotes>
-      This beta release restored CheckBoxList(string name, ... ) HtmlHelper extensions.
-      ATTENTION! There are some breaking changes in this version, please refer to documentation before before updating!
+      This update adds separate packages for .NET framework 4.0 and 4.5 (selected automatically based on your project). ATTENTION! There are some breaking changes in this version, please refer to documentation before before using in production projects!
     </releaseNotes>
     <copyright>Copyright 2011-2012</copyright>
     <tags>MVC CheckBoxList HtmlHelper Extension Razor View Check Box List</tags>
@@ -25,6 +24,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\MvcCheckBoxList.dll" target="lib\MvcCheckBoxList.dll" />
+    <file src="MvcCheckBoxList\bin\Release\MvcCheckBoxList.dll" target="lib\net45\MvcCheckBoxList.dll" />
+    <file src="MvcCheckBoxList.net40\bin\Release\MvcCheckBoxList.dll" target="lib\net40\MvcCheckBoxList.dll" />
   </files>
 </package>

@@ -16,18 +16,17 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
-[Bb]in
-[Dd]ebug*/
 *.lib
 *.sbr
 obj/
+[Bb]in
+[Dd]ebug*/
 [Rr]elease*/
 _ReSharper*/
-_TeamCity*/
 [Tt]est[Rr]esult*
-*conflicted copy*
-*Publish.xml
+*.vssscc
+$tf*/
+/[Dd]eploy
 *.nupkg
-build/
-[Ee]xperimental/
+[Ff]iles/
 [Pp]ackages/
