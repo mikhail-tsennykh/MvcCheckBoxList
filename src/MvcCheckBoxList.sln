@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{862991
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcCheckBoxList.net40", "MvcCheckBoxList.net40\MvcCheckBoxList.net40.csproj", "{B52D66BA-3958-4C65-861B-393FA70C6ADE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{C6A250AB-6963-47C4-A6BE-8153E4787DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6A250AB-6963-47C4-A6BE-8153E4787DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6A250AB-6963-47C4-A6BE-8153E4787DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B52D66BA-3958-4C65-861B-393FA70C6ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B52D66BA-3958-4C65-861B-393FA70C6ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B52D66BA-3958-4C65-861B-393FA70C6ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B52D66BA-3958-4C65-861B-393FA70C6ADE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
