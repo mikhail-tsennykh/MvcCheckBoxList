@@ -9,6 +9,7 @@
     li,
     div,
     table,
-    ul
+    ul,
+    label
   }
 }

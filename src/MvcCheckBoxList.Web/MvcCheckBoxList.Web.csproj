@@ -102,6 +102,8 @@
     <Content Include="Views\Shared\DisplayTemplates\City.cshtml" />
     <Content Include="Views\Home\GivenPartial.cshtml" />
     <Content Include="Views\Home\Contributors.cshtml" />
+    <Content Include="Views\Home\ExampleBootstrapVertical.cshtml" />
+    <Content Include="Views\Home\ExampleBootstrapHorizontal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\kickstart\chosen.css" />

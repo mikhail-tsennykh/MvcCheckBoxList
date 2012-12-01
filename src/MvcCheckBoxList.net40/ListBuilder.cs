@@ -160,7 +160,7 @@ namespace MvcCheckBoxList.Library {
         sb = _createCheckBoxListElement
           (sb, htmlHelper, modelMetadata, htmlWrapper, htmlAttributesForCheckBox,
            selectedValues, itemIsSelected, disabledValues, listName, itemValue,
-           itemText, textLayout);
+           itemText, textLayout, position);
       }
       sb.Append(htmlWrapper.wrap_close);
 
@@ -259,6 +259,10 @@ namespace MvcCheckBoxList.Library {
           w.wrap_rowbreak = string.Empty;
           w.wrap_close = "</" + wrapRow + ">";
         }
+
+        if (position == Position.Vertical_Bootstrap) {
+          
+        }
       }
 
       // return completed check box list wrapper
@@ -280,13 +284,14 @@ namespace MvcCheckBoxList.Library {
     /// <param name="itemValue">Value of the checkbox</param>
     /// <param name="itemText">Text to be displayed next to checkbox</param>
     /// <param name="textLayout">Sets layout of a checkbox for right-to-left languages</param>
+    /// <param name="position">The style of the checkbox list</param>
     /// <returns>String builder of checkbox list</returns>
     private StringBuilder _createCheckBoxListElement
       (StringBuilder sb, HtmlHelper htmlHelper, ModelMetadata modelMetadata,
       htmlWrapperInfo htmlWrapper, IDictionary<string, object> htmlAttributesForCheckBox, 
       List<string> selectedValues, string itemIsSelected, 
       IEnumerable<string> disabledValues, string name, string itemValue, 
-      string itemText, TextLayout textLayout) {
+      string itemText, TextLayout textLayout, Position position) {
       // get full name from view model
       var fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
 
@@ -319,18 +324,26 @@ namespace MvcCheckBoxList.Library {
       checkbox_builder.MergeAttributes(htmlHelper.GetUnobtrusiveValidationAttributes(name, modelMetadata));
 
       // open checkbox tag wrapper
-      if (textLayout == TextLayout.RightToLeft) {
-        // then set style for displaying checkbox for right-to-left languages
-        var defaultSectionStyle = "style=\"text-align: right;\"";
-        sb.Append(htmlWrapper.wrap_element != htmlElementTag.None
-                    ? "<" + htmlWrapper.wrap_element + " " + defaultSectionStyle + ">"
-                    : "");
+      string defaultSectionStyle = "";
+
+      if (position == Position.Horizontal_Bootstrap || position == Position.Vertical_Bootstrap)
+        htmlWrapper.wrap_element = htmlElementTag.label;
+
+      if (position == Position.Horizontal_Bootstrap)
+        defaultSectionStyle += " class=\"checkbox inline\"";
+
+      if (position == Position.Vertical_Bootstrap)
+        defaultSectionStyle += " class=\"checkbox\"";
+
+      if (textLayout == TextLayout.RightToLeft)
+      {
+          // then set style for displaying checkbox for right-to-left languages
+          defaultSectionStyle += " style=\"text-align: right;\"";
       }
-      else {
-        sb.Append(htmlWrapper.wrap_element != htmlElementTag.None
-                    ? "<" + htmlWrapper.wrap_element + ">"
-                    : "");
-      }
+
+      sb.Append(htmlWrapper.wrap_element != htmlElementTag.None
+          ? "<" + htmlWrapper.wrap_element + defaultSectionStyle + ">"
+          : "");
 
       // build hidden tag for disabled checkbox (so the value will post)
       if (disabledValues != null && disabledValues.ToList().Any(x => x == itemValue)) {

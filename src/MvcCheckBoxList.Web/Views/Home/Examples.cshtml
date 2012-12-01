@@ -25,7 +25,7 @@
   <p class="margin_top30">
     <h4>We can use examples below to create our checkbox list:</h4>
   </p>
-  
+
   @* Base example *@
   <section>
 	  <title>Base example</title>
@@ -104,7 +104,7 @@
   <section>
 	  <title>Vertical Checkbox List</title>
     <p>
-	    <label>Output:</label>
+        <label>Output:</label>
 	    @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
 		    <div class="margin_bottom10">
 			    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
@@ -127,6 +127,52 @@
                       x => x.Name,               
                       x => x.SelectedCities,
                       Position.Vertical)
+</pre>
+    </p>
+  </section>
+  @* end Vertical Checkbox List *@
+
+
+  @* Twitter Bootstrap Checkbox List *@
+  <section>
+      <title>Twitter Bootstrap Checkbox List</title>
+    <p>
+	    <label>Output:</label>
+        <iframe src="ExampleBootstrapHorizontal" width="100%" height="30px" seamless="seamless" scrolling="no"></iframe>
+	  </p>
+
+    <p>
+	    <label>Source Code:</label>
+<pre>
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                      x => x.AvailableCities,          
+                      x => x.Id,               
+                      x => x.Name,               
+                      x => x.SelectedCities,
+                      Position.Horizontal_Bootstrap)
+</pre>
+    </p>
+  </section>
+  @* end Vertical Checkbox List *@
+
+
+  @* Vertical Twitter Bootstrap Checkbox List *@
+  <section>
+      <title>Vertical Twitter Bootstrap Checkbox List</title>
+    <p>
+	    <label>Output:</label>
+        <iframe src="ExampleBootstrapVertical" width="100%" height="200px" seamless="seamless" scrolling="no"></iframe>
+	  </p>
+
+    <p>
+	    <label>Source Code:</label>
+<pre>
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                      x => x.AvailableCities,          
+                      x => x.Id,               
+                      x => x.Name,               
+                      x => x.SelectedCities,
+                      Position.Vertical_Bootstrap)
 </pre>
     </p>
   </section>

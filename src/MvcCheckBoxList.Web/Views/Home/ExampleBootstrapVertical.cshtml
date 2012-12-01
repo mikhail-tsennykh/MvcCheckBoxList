@@ -1,0 +1,22 @@
+﻿@model MvcCheckBoxListSampleApp.ViewModels.CitiesViewModel
+           
+@{ Layout = null; }
+
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap.no-responsive.no-icons.min.css" rel="stylesheet">
+  
+<style type="text/css">
+    body {
+        background-color: transparent;
+    }
+</style>
+
+@using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
+		    <div class="margin_bottom10">
+			    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+														    x => x.AvailableCities,
+														    x => x.Id,
+														    x => x.Name,
+														    x => x.SelectedCities,
+                                Position.Vertical_Bootstrap)
+		    </div>
+	    }
