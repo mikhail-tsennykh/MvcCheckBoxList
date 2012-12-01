@@ -11,9 +11,17 @@ namespace MvcCheckBoxListSampleApp.Controllers {
       return View(GetCitiesModel(cities, postedCities));
     }
 
-		public ActionResult Examples(string[] cities, PostedCities postedCities) {
-		  return View(GetCitiesModel(cities, postedCities));
-		}
+    public ActionResult Examples(string[] cities, PostedCities postedCities) {
+      return View(GetCitiesModel(cities, postedCities));
+    }
+
+    public ActionResult ExampleBootstrapHorizontal(string[] cities, PostedCities postedCities) {
+      return View(GetCitiesModel(cities, postedCities));
+    }
+
+    public ActionResult ExampleBootstrapVertical(string[] cities, PostedCities postedCities) {
+      return View(GetCitiesModel(cities, postedCities));
+    }
 
     public ActionResult Documentation() {
       return View();
