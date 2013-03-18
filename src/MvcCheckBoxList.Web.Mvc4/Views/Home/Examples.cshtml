@@ -1,0 +1,360 @@
+﻿@using MvcCheckBoxList.Model
+@model MvcCheckBoxList.Web.Mvc4.ViewModels.CitiesViewModel
+@{
+    ViewBag.Title = "Examples";
+}
+
+@if (Model.WasPosted) {
+	<div class="notice success clearfix">
+    <div class="content_left margin_top13">
+      <span class="icon medium" data-icon="C"></span>
+    </div>
+    <div class="content_left">
+      <h4>
+		    @if (Model.PostedCities.CityIDs != null) {
+			    <span>@string.Join(", ", Model.SelectedCities.Select(x => x.Name))</span>
+		    }
+      </h4>
+    </div>
+	</div>
+}
+<div class="col_12">
+<h3>@ViewBag.Title</h3>
+
+  @Html.Partial("GivenPartial")
+
+  <p class="margin_top30">
+    <h4>We can use examples below to create our checkbox list:</h4>
+  </p>
+  
+  @* Base example *@
+  <section>
+	  <title>Base example</title>
+    <p>
+	    <label>Output:</label>
+	    @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
+		    <div class="margin_bottom10">
+			    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+														    x => x.AvailableCities,
+														    x => x.Id,
+														    x => x.Name,
+														    x => x.SelectedCities)
+		    </div>
+		    <input class="green" type="submit" value="POST to controller" />
+	    }
+	  </p>
+
+    <p>
+	    <label>Source Code:</label>
+<pre>
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // checkbox list name, 'PostedCities.CityIDs' in this case
+                      x => x.AvailableCities,       // List&lt;City&gt;()
+                      x => x.Id,                    // City.Id
+                      x => x.Name,                  // City.Name
+                      x => x.SelectedCities)        // List&lt;City&gt;() - should contain only cities to be selected
+</pre>
+    </p>
+  </section>
+  @* end Base example *@
+  
+
+  @* Base example (boolean selector) *@
+  <section>
+	  <title>Base example (boolean selector)</title>
+    <p>
+	    <label>Output:</label>
+	    @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
+		    <div class="margin_bottom10">
+			    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+														    x => x.AvailableCities,
+														    x => x.Id,
+														    x => x.Name,
+														    x => x.IsSelected)
+		    </div>
+		    <input class="green" type="submit" value="POST to controller" />
+	    }
+	  </p>
+
+    <p>
+	    <label>Source Code:</label>
+<pre>
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // Checkbox list name, 'PostedCities.CityIDs' in this case
+                      x => x.AvailableCities,       // List&lt;City&gt;()
+                      x => x.Id,                    // City.Id
+                      x => x.Name,                  // City.Name
+                      x => x.IsSelected)            // City.IsSelected - boolean property in the database
+</pre>
+	    <label>
+        Or if we have a list of selected values on our View -
+        <code>var selectedIds = new List&lt;int&gt;  { 1, 3, 5 };</code>
+        you can do this:
+      </label>
+<pre>
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,        // Checkbox list name, 'PostedCities.CityIDs' in this case
+                      x => x.AvailableCities,             // List&lt;City&gt;()
+                      x => x.Id,                          // City.Id
+                      x => x.Name,                        // City.Name
+                      x => selectedIds.Contains(x.Id))    // Linq query returns bool if item Id matches the list
+</pre>
+    </p>
+  </section>
+  @* end Base example (boolean selector) *@
+
+
+  @* Vertical Checkbox List *@
+  <section>
+	  <title>Vertical Checkbox List</title>
+    <p>
+	    <label>Output:</label>
+	    @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
+		    <div class="margin_bottom10">
+			    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+														    x => x.AvailableCities,
+														    x => x.Id,
+														    x => x.Name,
+														    x => x.SelectedCities,
+                                Position.Vertical)
+		    </div>
+		    <input class="green" type="submit" value="POST to controller" />
+	    }
+	  </p>
+
+    <p>
+	    <label>Source Code:</label>
+<pre>
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                      x => x.AvailableCities,          
+                      x => x.Id,               
+                      x => x.Name,               
+                      x => x.SelectedCities,
+                      Position.Vertical)
+</pre>
+    </p>
+  </section>
+  @* end Vertical Checkbox List *@
+
+
+  @* Custom HTML tags for individual checkboxes *@
+  <section>
+	  <title>Custom HTML tags for individual checkboxes from Model (Database)</title>
+    <p>
+      <label>Output:</label><br/><br/>
+	    <em>Some cities will have custom tags from database:</em>
+	    <em>('<i>new {what = "smallCity"}</i>' for Monroe, and '<i>new {what = "bigCity"}</i>' for Moscow)</em>
+	    @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
+		    <div class="custom_tags margin_bottom10">
+			    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+														    x => x.AvailableCities,
+														    x => x.Id,
+														    x => x.Name,
+														    x => x.SelectedCities,
+														    x => x.Tags)
+		    </div>
+		    <input class="green" type="submit" value="POST to controller" />
+	    }
+    </p>
+
+    <p>
+	    <label>Source Code:</label><br/><br/>
+	    <em>We have this jquery code which will apply to certain custom tags from db:</em>
+<pre>
+$('[what="smallCity"]').css("color", "blue");
+$('[what="bigCity"]').css("color", "green");
+</pre>
+      <em>And we call the control like this:</em>
+<pre class="cs">
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                      x => x.AvailableCities,
+                      x => x.Id,
+                      x => x.Name,
+                      x => x.SelectedCities,
+                      x => x.Tags)            // Tags is a database/model field of type 'object'
+                                              // with value similar to: 'new {tagName = "tagValue"}'
+                                              // they will be merged with other tags and applied to checkbox and its label
+</pre>
+    </p>
+  </section>
+  @* end Custom HTML tags for individual checkboxes *@
+  
+
+  @* Display templates *@
+  <section>
+	  <title>Display templates to render html for checkbox</title>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
+        var htmlListInfo = new HtmlListInfo
+          (HtmlTag.vertical_columns, 2, null, TextLayout.Default, TemplateIsUsed.Yes);
+        
+		    @Html.CheckBoxListFor(model => model.PostedCities.CityIDs,
+													    model => model.AvailableCities,
+													    city => city.Id,
+													    city => city.Name,
+													    model => model.SelectedCities,
+							                htmlListInfo)
+
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>	
+    <p>
+      <label>How-To:</label>
+    </p>
+    <p>
+      First you need to create <strong>Views\Shared\DisplayTemplates\City.cshtml</strong>
+      file to hold a template for our base class <code>City</code>.
+      It must have same name as class <code>City</code> for which it templates,
+      and must have a <code>&#64;model</code> set to use <code>City</code>
+      (including applicable namespace).
+    </p>
+    <p>
+      <label><strong>City.cshtml</strong> file used for this example:</label>
+<pre>
+&#64;model MvcCheckBoxListSampleApp.Model.City
+
+&lt;strong&gt;&#64;Model.Name&lt;/strong&gt; - text from display template
+</pre>
+    </p>
+    <p>
+      <label>
+        Then we create list using an instance of <code>HtmlListInfo</code> configuration class 
+        with <code>TemplateIsUsed.Yes</code> parameter:
+      </label>
+    </p>
+    <p>
+<pre>
+var htmlListInfo = new HtmlListInfo(HtmlTag.vertical_columns, 2, null, TextLayout.Default, TemplateIsUsed.Yes);
+
+&#64;Html.CheckBoxListFor(model => model.PostedCities.CityIDs,
+                      model => model.AvailableCities,
+                      city => city.Id,
+                      city => city.Name,
+                      model => model.SelectedCities,
+                      htmlListInfo)
+</pre>      
+    </p>
+  </section>  
+  @* end Display templates *@
+  
+
+  @* Full Example *@
+  <section>
+	  <title>Full Example</title>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
+        var htmlListInfo = new HtmlListInfo(HtmlTag.vertical_columns, 2, new {@class="styled_list"});
+     
+		    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+													    x => x.AvailableCities,
+													    x => x.Id,
+													    x => x.Name,
+													    x => x.SelectedCities,
+							                new { @class="styled_checkbox" },
+													    htmlListInfo,
+													    new[] {"3", "5", "7"},
+							                x => x.Tags)
+
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>	
+
+	  <p>
+      <label>Source Code:</label><br/><br/>
+      <em>We have this style for each checkbox:</em>
+<pre>
+.styled_checkbox {
+  background: wheat; cursor:pointer; border-radius:5px;
+  margin: 3px; padding: 0px 5px;
+}
+</pre>
+	    <em>Also we have this style for the list wrapper (applies to each column):</em>
+<pre>
+.styled_list {
+  color:green; background:lightblue; border-radius:5px;
+  margin-right: 15px; padding:3px 5px 3px 5px; line-height: 25px;
+}
+</pre>
+	    <em>And we apply them below:</em>
+<pre class="cs">
+&#64;&#123;
+  var htmlListInfo = new HtmlListInfo(HtmlTag.vertical_columns, 2, new { &#64;class="styled_list" };
+
+  &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                        x => x.AvailableCities,
+                        x => x.Id,
+                        x => x.Name,
+                        x => x.SelectedCities,
+                        new { &#64;class="styled_checkbox" },      // additional html attributes (for each checkbox and label)
+                        htmlListInfo),                         // formatting
+                        new[] {"3", "5", "7"},                 // disabled values
+                        x => x.Tags)                           // html tags from database
+&#125;
+</pre>
+    </p>
+  </section>
+  @* end Full Example *@
+  
+
+  @* Right-to-left Checkbox/Label direction *@
+  <section>
+	  <title>Right-to-left Checkbox/Label direction (e.g. for Arabic, Hebrew and other right-to-left languages)</title>
+    <p>
+	    <label>Output:</label>
+	    @using (Html.BeginForm("Examples", "Home", FormMethod.Get)) {
+		    <div style="width: 150px;margin: 5px 0;">
+			    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+														    x => x.AvailableCities,
+														    x => x.Id,
+														    x => x.Name,
+														    x => x.SelectedCities,
+                                Position.Vertical_RightToLeft)
+		    </div>
+		    <input class="green" type="submit" value="POST to controller" />
+	    }
+	  </p>
+
+    <p>
+	    <label>Source Code:</label>
+<pre>
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                      x => x.AvailableCities,          
+                      x => x.Id,               
+                      x => x.Name,               
+                      x => x.SelectedCities,
+                      Position.Vertical_RightToLeft)
+</pre>
+    </p>
+  
+    <p>
+	    <label>Or same vertical layout, but using 'HtmlListInfo' instead of 'Position':</label>
+<pre>
+&#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+                      x => x.AvailableCities,          
+                      x => x.Id,               
+                      x => x.Name,               
+                      x => x.SelectedCities,
+                      new HtmlListInfo(HtmlTag.vertical_columns, 0, null, TextLayout.RightToLeft))
+</pre>
+    </p>
+  </section>
+  @* end Right-to-left Checkbox/Label direction *@
+
+  
+  <h4 class="col_12 center">For more information and discussion see</h4>
+  <div class="col_12 center">
+    <a href="@ViewBag.CodePrejectUrl" class="button large pop">
+      <span class="icon" data-icon="?"></span>
+      Extension's Article on CodeProject.com
+    </a>
+  </div>
+
+</div>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.custom_tags [what="smallCity"]').css("color", "blue");
+      $('.custom_tags [what="bigCity"]').css("color", "green");
+    });
+  </script>  
+}

@@ -1,0 +1,98 @@
+﻿@model MvcCheckBoxList.Web.Mvc4.ViewModels.CitiesViewModel
+@{
+  ViewBag.Title = "Experimental";
+}
+
+@if (Model.WasPosted) {
+	<div class="notice success clearfix">
+    <div class="content_left margin_top13">
+      <span class="icon medium" data-icon="C"></span>
+    </div>
+    <div class="content_left">
+      <h4>
+		    @if (Model.PostedCities.CityIDs != null) {
+		      <span>@string.Join(", ", Model.SelectedCities.Select(x => x.Name))</span>
+          @:- received by controller!
+		    }
+      </h4>
+    </div>
+	</div>
+}
+
+<div class="col_12">
+  <h3>@ViewBag.Title (testing new features)</h3>
+  
+  <section>
+	  <div class="title">General playground</div>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
+		    var htmlListInfo = new HtmlListInfo
+          (HtmlTag.vertical_columns, 0, null, TextLayout.Default, TemplateIsUsed.Yes);
+        
+		    @Html.CheckBoxListFor(model => model.PostedCities.CityIDs,
+													    model => model.AvailableCities,
+													    city => city.Id,
+													    city => city.Name,
+													    model => model.SelectedCities,
+							                htmlListInfo)
+        
+        
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>
+  </section>
+  
+
+  <section>
+	  <div class="title">Select item by boolean value from Model list - Test 2</div>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
+		    @Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
+													    x => x.AvailableCities,
+													    x => x.Id,
+													    x => x.Name,
+													    x => Model.SelectedCities.Any(s => x.Id == s.Id),
+							                null, null,
+													    new[] {"3", "5", "7"},
+							                x => x.Tags)
+
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>
+  </section>  
+  
+
+  <section>
+	  <div class="title">Select item by boolean value from database - Test 1</div>
+	  <p>
+      <label>Output:</label>
+	    @using (Html.BeginForm("Test", "Home", FormMethod.Get)) {
+        @Html.CheckBoxListFor(model => model.PostedCities.CityIDs,
+													    model => model.AvailableCities,
+													    city => city.Id,
+													    city => city.Name,
+													    city => city.IsSelected,
+							                null, null,
+													    new[] {"3", "5", "7"},
+							                city => city.Tags)
+
+		    <p><input class="green" type="submit" value="POST to controller" /></p>
+	    }
+	  </p>
+  </section>
+  
+
+
+  
+</div>
+
+@section Scripts {
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('[what="smallCity"]').css("color", "blue");
+      $('[what="bigCity"]').css("color", "green");
+    });
+  </script>  
+}

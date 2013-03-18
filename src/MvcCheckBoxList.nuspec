@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MvcCheckBoxList</id>
-    <version>1.4.4.3-beta</version>
+    <version>1.4.4.3-beta2</version>
     <authors>Mikhail Tsennykh</authors>
     <owners>Mikhail Tsennykh</owners>
     <licenseUrl>http://www.codeproject.com/info/cpol10.aspx</licenseUrl>
@@ -19,7 +19,7 @@
     <tags>MVC CheckBoxList HtmlHelper Extension Razor View Check Box List</tags>
   </metadata>
   <files>
-    <file src="MvcCheckBoxList\bin\Release\MvcCheckBoxList.dll" target="lib\net45\MvcCheckBoxList.dll" />
-    <file src="MvcCheckBoxList.net40\bin\Release\MvcCheckBoxList.dll" target="lib\net40\MvcCheckBoxList.dll" />
+    <file src="MvcCheckBoxList\bin\Debug\MvcCheckBoxList.dll" target="lib\net45\MvcCheckBoxList.dll" />
+    <file src="MvcCheckBoxList.net40\bin\Debug\MvcCheckBoxList.dll" target="lib\net40\MvcCheckBoxList.dll" />
   </files>
 </package>

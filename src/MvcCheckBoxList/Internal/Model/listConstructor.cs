@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using MvcCheckBoxList.Model;
 
 namespace MvcCheckBoxList.Library {
   internal class listConstructor<TModel, TItem, TValue, TKey> {
