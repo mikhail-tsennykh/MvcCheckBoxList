@@ -1,0 +1,136 @@
+﻿@model MvcCheckBoxList.Web.Mvc4.ViewModels.CitiesViewModel
+@{
+  ViewBag.Title = "Home";
+}
+
+@if (Model.WasPosted) {
+	<div class="notice success clearfix">
+    <div class="content_left margin_top13">
+      <span class="icon medium" data-icon="C"></span>
+    </div>
+    <div class="content_left">
+      <h4>
+		    @if (Model.PostedCities.CityIDs != null) {
+			    <span>@string.Join(", ", Model.SelectedCities.Select(x => x.Name))</span>
+          @:- received by controller!
+		    }
+      </h4>
+    </div>
+	</div>
+}
+
+@*<section class="clearfix">*@
+  
+  <div class="col_12">
+    <title>What is it?</title>
+    <p>
+      It is a custom extension of Microsoft MVC Framework's <code>HtmlHelper</code> class,
+      which creates a postable Model-based list of check boxes.
+    </p>
+    <p>
+      It was created because there is no built-in MVC way to do this at all
+      (including MVC4).
+    </p>
+  </div>
+  <hr/>
+
+  <div class="col_4">
+    <title>Features:</title>
+    <ul class="checks">
+      <li title="IMHO ;)">Easy to use</li>
+      <li>Creates POSTable checkboxes from any set of data</li>
+      <li>Strongly-typed, based on View Model</li>
+      <li>Extensive control over layout and appearence</li>
+      <li>Right-to-left language support</li>
+      <li>Open source (<a href="@ViewBag.LicenseUrl">CPOL License</a>)</li>
+    </ul>
+  </div>
+
+  <div class="col_8">
+    <title>See it in action:</title>
+    <p>
+      <label>MVC View code:</label>
+  <pre>
+  &#64;Html.CheckBoxListFor(model => model.CheckBoxListName,
+                        model => model.ListOfYourData,
+                        entity => entity.FieldToUseAsCheckBoxValue,
+                        entity => entity.FieldToUseAsCheckBoxName,
+                        model => model.ListOfYourSelectedData)
+  </pre>  
+    </p>
+
+    <label>Will create a checkbox list:</label>
+	  @using (Html.BeginForm("Index", "Home", FormMethod.Get)) {
+      <section>
+        @Html.CheckBoxListFor(model => model.PostedCities.CityIDs,
+                              model => model.AvailableCities,
+                              city => city.Id,
+                              city => city.Name,
+                              model => model.SelectedCities)
+      </section>
+      
+      <button class="pop">SUBMIT</button>
+      <note>&nbsp; selection to controller</note>
+     
+      <a href="@Url.Action("Examples")" class="button pop content_right">
+        <span class="icon" data-icon="g"></span>
+        See More Examples
+      </a>
+    }
+
+  </div>
+  <hr/>
+@*</section>*@
+
+<h4 class="col_12 center">Install it</h4>
+
+<div class="col_12">
+  <div style="width: 525px; margin: 0 auto;">
+    <nuget title="NuGet Package Manager console command">
+      PM> Install-Package MvcCheckBoxList
+    </nuget>
+  </div>
+</div>
+
+
+<h4 class="col_12 center">Source it</h4>
+
+<div class="col_5 center">
+  <a href="@ViewBag.GitHubZipSourceUrl" class="button large pop orange">
+    <span class="icon x-large" data-icon="("></span>
+    Download Source .zip
+  </a>
+</div>
+<div style="font-size:3em; font-weight: bold; color: gray;" class="col_2 center">
+  < >
+</div>
+<div class="col_5 center">
+  <a href="@ViewBag.GitHubUrl" class="button large pop blue">
+    <span class="icon x-large" data-icon="]"></span>
+    Fork me on GitHub
+  </a>
+</div>
+
+
+<h4 class="col_12 center">Learn it</h4>
+
+<div class="col_12 center">
+  <a href="@Url.Action("Examples")" class="button large pop">
+    <span class="icon" data-icon="g"></span>
+    See More Examples
+  </a>
+  <a href="@Url.Action("Documentation")" class="button large pop">
+    <span class="icon" data-icon="."></span>
+    Read Documentation
+  </a>
+</div>
+
+
+<h4 class="col_12 center">Discuss it</h4>
+
+<div class="col_12 center">
+  <a href="@ViewBag.CodePrejectUrl" class="button large pop">
+    <span class="icon" data-icon="?"></span>
+    Extension's Article on CodeProject.com
+  </a>
+</div>

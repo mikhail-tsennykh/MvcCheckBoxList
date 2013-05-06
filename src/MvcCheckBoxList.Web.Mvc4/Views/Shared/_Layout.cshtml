@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>CBL(F) | @ViewBag.Title</title>
+
+  @* Let's help search engines a bit *@
+  <meta name="robots" content="NOODP" />
+  <meta name="description" content="HtmlHelper custom extension, which creates a postable Model-based list of check boxes for Microsoft MVC Framework." />
+  <meta name="keywords" content="MvcCheckBoxList,CheckBoxList,CheckBoxListFor,POST,Postable,Check Box,Checkbox,List,Lists,MVC,MVC3,Microsoft,Framework,Web Development,Extension,Package,NuGet,Install,Download,Source,Code,Source Code,Visual Studio,CodeProject,Mikhail Tsennykh" />
+  <meta property="og:title" content="Html.CheckBoxList()" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_EN" />
+  <meta property="og:site_name" content="MVC Html.CheckBoxList() extension" />
+  <meta property="og:description" content="HtmlHelper custom extension, which creates a postable Model-based list of check boxes for Microsoft MVC Framework." />
+  
+  @* Styles *@
+  <link href="~/Content/kickstart/kickstart.css" rel="stylesheet" />
+  <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+  <link href="~/Content/style.css" rel="stylesheet" />
+  <link href="~/Content/style.lib.css" rel="stylesheet" />
+  <link href="~/Content/style.local.css" rel="stylesheet" />
+  <link href="~/Content/style.examples.css" rel="stylesheet" />
+  
+  @* Scripts *@
+  <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+  <script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+  <script src="~/Scripts/kickstart.js"></script>
+  <script src="~/Scripts/prettify.js"></script>
+
+</head>
+<body>
+	<div class="header clearfix">
+    @*<div class="top_menu"><a href="/">Home</a></div>*@
+    
+    <div class="col_12">
+      <div  class="content_left">
+		    <h1>@Html.ActionLink("CheckBoxList(For)", "Index", "Home")</h1>
+        <p><label>a missing .NET MVC extension</label></p>
+      </div>
+      <h1 class="content_right">
+        <note>v.@CheckBoxListInfo.AssemblyInfo.Version</note>
+      </h1>
+    </div>
+    
+    <div class="col_12">
+      <ul class="nav">
+        <li><a href="/"><img style="width: 28px;" src="~/Content/Images/home.png"/></a></li>
+        <li>@Html.ActionLink("Examples", "Examples", "Home")</li>
+        <li>@Html.ActionLink("Documentation", "Documentation", "Home")</li>
+        <li>@Html.ActionLink("Contributors", "Contributors", "Home")</li>
+        @*<li>@Html.ActionLink("Test Area", "Test", "Home")</li>*@
+        <li><a target="_blank" title="... on CodeProject.com" href="@ViewBag.CodePrejectUrl">Discussion *</a></li>
+      </ul>
+    </div>
+	</div>
+	
+	<div class="content">
+    <hr/>  
+  @RenderBody()
+    <div class="clear"></div>
+	</div>
+	
+	<div class="footer">
+    © 2012 <a target="_blank" href="@ViewBag.AuthorUrl">Mikhail Tsennykh</a>. All Rights Reserved.
+    | @Html.ActionLink("Contributors", "Contributors", "Home")
+    | <a href="@ViewBag.LicenseUrl">License</a>
+    | Built with <a href="http://www.99lime.com">HTML KickStart</a>
+    and <a href="http://subtlepatterns.com">SubtlePatterns.com</a>
+	</div>
+  
+  
+  @* Scripts (at bottom to speed up page load) *@ 
+  @Scripts.Render("~/bundles/jquery")
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+  <![endif]-->
+
+  @Scripts.Render("~/bundles/kickstart")
+  @RenderSection("scripts", required: false)
+  
+  @* Google Analytics *@
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-10476128-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+</body>
+</html>
