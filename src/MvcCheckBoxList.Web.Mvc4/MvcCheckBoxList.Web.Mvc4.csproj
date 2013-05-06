@@ -136,6 +136,7 @@
   <ItemGroup>
     <Content Include="Content\Images\bg.png" />
     <Content Include="Content\Images\double_lined.png" />
+    <Content Include="Content\Images\home.png" />
     <Content Include="Content\Images\light_wool.png" />
     <Content Include="Content\kickstart\chosen.css" />
     <Content Include="Content\kickstart\fonts\base\icomoon-webfont.svg" />
