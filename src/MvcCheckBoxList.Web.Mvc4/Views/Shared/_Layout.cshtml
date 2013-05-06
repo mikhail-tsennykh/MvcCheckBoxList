@@ -15,8 +15,19 @@
   <meta property="og:site_name" content="MVC Html.CheckBoxList() extension" />
   <meta property="og:description" content="HtmlHelper custom extension, which creates a postable Model-based list of check boxes for Microsoft MVC Framework." />
   
-  @Styles.Render("~/Content/kickstart")
-  @Styles.Render("~/Content/css")
+  @* Styles *@
+  <link href="~/Content/kickstart/kickstart.css" rel="stylesheet" />
+  <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+  <link href="~/Content/style.css" rel="stylesheet" />
+  <link href="~/Content/style.lib.css" rel="stylesheet" />
+  <link href="~/Content/style.local.css" rel="stylesheet" />
+  <link href="~/Content/style.examples.css" rel="stylesheet" />
+  
+  @* Scripts *@
+  <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+  <script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+  <script src="~/Scripts/kickstart.js"></script>
+  <script src="~/Scripts/prettify.js"></script>
 
 </head>
 <body>
@@ -29,13 +40,13 @@
         <p><label>a missing .NET MVC extension</label></p>
       </div>
       <h1 class="content_right">
-        <note>v.@CheckBoxListInfo.AssemblyInfo.Version (beta)</note>
+        <note>v.@CheckBoxListInfo.AssemblyInfo.Version</note>
       </h1>
     </div>
     
     <div class="col_12">
       <ul class="nav">
-        <li><a href="/"><span class="icon large gray" data-icon="I"></span></a></li>
+        <li><a href="/"><img style="width: 28px;" src="~/Content/Images/home.png"/></a></li>
         <li>@Html.ActionLink("Examples", "Examples", "Home")</li>
         <li>@Html.ActionLink("Documentation", "Documentation", "Home")</li>
         <li>@Html.ActionLink("Contributors", "Contributors", "Home")</li>
