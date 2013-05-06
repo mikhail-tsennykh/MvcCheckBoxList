@@ -9,7 +9,7 @@ namespace MvcCheckBoxList.Web.Mvc4.Controllers {
         "http://www.codeproject.com/Articles/292050/CheckBoxList-For-a-missing-MVC-extension";
 
       ViewBag.GitHubZipSourceUrl =
-        "https://github.com/mikhail-tsennykh/MvcCheckBoxList/archive/dev.zip";
+        "https://github.com/mikhail-tsennykh/MvcCheckBoxList/archive/master.zip";
 
       ViewBag.GitHubUrl = "https://github.com/mikhail-tsennykh/MvcCheckBoxList";
 

@@ -1,5 +1,5 @@
 
-## CheckBoxList(For) - a missing MVC extension v.1.4.4.3 (beta)
+## CheckBoxList(For) - a missing MVC extension v.1.4.4.4
 
 Extension source code and MVC source project for Visual Studio 2012, .NET framework 4.0 and 4.5.
 
@@ -12,11 +12,11 @@ this plugin adds it.
 
 #### Install via NuGet:
 
-    Install-Package MvcCheckBoxList -Pre
+    Install-Package MvcCheckBoxList
     
 #### How to use:
 
-Please refer to [Documentaton](http://mvccbl.com/Home/Documentation)
+Please refer to [Documentaton](http://mvccbl.com/Documentation)
 
 ##### Join the discussion here:
 
