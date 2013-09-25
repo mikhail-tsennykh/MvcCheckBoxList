@@ -67,9 +67,9 @@
                       model => model.AvailableCities, 
                       entity => entity.Id, 
                       entity => entity.Name, 
-                      entity => selectedIds.Contains(x.Id))
+                      entity => selectedIds.Contains(entity.Id))
 </pre>
-      where <code>selectedIds.Contains(x.Id)</code> returns bool if item Id matches the list
+      where <code>selectedIds.Contains(entity.Id)</code> returns bool if item Id matches the list
     </p>
 
   </section>
