@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MvcCheckBoxList</id>
-    <version>1.4.4.4</version>
+    <version>1.4.4.5</version>
     <authors>Mikhail Tsennykh</authors>
     <owners>Mikhail Tsennykh</owners>
     <licenseUrl>http://www.codeproject.com/info/cpol10.aspx</licenseUrl>
@@ -13,7 +13,7 @@
       An extension for MVC HtmlHelper class to create POSTable checkbox list on a view, based on the data passed from the view model, or defined locally.
     </description>
     <releaseNotes>
-      This update adds separate packages for .NET framework 4.0 and 4.5 (selected automatically based on your project). ATTENTION! There are some breaking changes in this version, please refer to documentation before before using in production projects!
+      Fix for a better compatibility with MVC4+.
     </releaseNotes>
     <copyright>Copyright 2011-2012</copyright>
     <tags>MVC CheckBoxList HtmlHelper Extension Razor View Check Box List</tags>

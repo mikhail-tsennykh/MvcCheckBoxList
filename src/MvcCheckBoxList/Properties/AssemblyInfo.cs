@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.4.4.4")]
-[assembly: AssemblyFileVersion("1.4.4.4")]
+[assembly: AssemblyVersion("1.4.4.5")]
+[assembly: AssemblyFileVersion("1.4.4.5")]
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mikhail Tsennykh")]
 [assembly: AssemblyProduct("@Html.CheckBoxList() custom extension")]
-[assembly: AssemblyCopyright("Copyright © 2011-2012 Mikhail Tsennykh")]
+[assembly: AssemblyCopyright("Copyright © 2011-2014 Mikhail Tsennykh")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
