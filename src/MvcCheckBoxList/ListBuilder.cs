@@ -305,10 +305,10 @@ namespace MvcCheckBoxList.Library {
       checkbox_builder.MergeAttribute("name", fullName);
 
       // create linked label tag
-      var link_name = name + linked_label_counter++;
-      checkbox_builder.GenerateId(link_name);
+      var link_id = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId(name) + linked_label_counter++;
+      checkbox_builder.GenerateId(link_id);
       var linked_label_builder = new TagBuilder("label");
-      linked_label_builder.MergeAttribute("for", link_name.Replace(".", "_"));
+      linked_label_builder.MergeAttribute("for", link_id);
       linked_label_builder.MergeAttributes(htmlAttributesForCheckBox.toDictionary());
       linked_label_builder.InnerHtml = itemText;
 
