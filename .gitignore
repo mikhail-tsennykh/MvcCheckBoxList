@@ -27,6 +27,9 @@ _ReSharper*/
 *.vssscc
 $tf*/
 /[Dd]eploy
+[Bb]ackup/
 *.nupkg
 [Ff]iles/
 [Pp]ackages/
+src/.vs
+UpgradeLog.html
