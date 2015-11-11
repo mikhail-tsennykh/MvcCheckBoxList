@@ -56,7 +56,17 @@ section {
   /* -8px -8px 70px -28px black inset, 8px -8px 70px -28px black inset; */
 }
 
-title {
+section div {
+    margin: 10px 0;
+}
+section div:last-of-type {
+    margin-bottom: 0;
+}
+section input[type="submit"] {
+    margin-top: 10px;
+}
+
+title, .title {
   display: inline-block; font-weight: bold;
   font-size:1.5em; padding:10px 0;
 } 
