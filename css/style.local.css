@@ -1,0 +1,10 @@
+/* updated framework elements */
+body { background: url(../images/bg.png); }
+.footer { background: url(../images/double_lined.png); }
+section { background: url(../images/double_lined.png);}
+pre { background: url(../images/light_wool.png) }
+
+/* local classes */
+.clear {clear: both;}
+.pointer {cursor: pointer;}
+.remove_edges {padding:0; margin:0;}
