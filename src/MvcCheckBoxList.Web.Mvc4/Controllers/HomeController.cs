@@ -9,29 +9,28 @@ namespace MvcCheckBoxList.Web.Mvc4.Controllers {
 
         public ActionResult Index(string[] cities, PostedCities postedCities) {
             Response.AddHeader("Access-Control-Allow-Origin", "*");
-            return View(GetCitiesModel(cities, postedCities));
+            return View(getCitiesModel(cities, postedCities));
         }
 
         public ActionResult Examples(string[] cities, PostedCities postedCities) {
-            return View(GetCitiesModel(cities, postedCities));
+            return View(getCitiesModel(cities, postedCities));
         }
 
         [ActionName("examples-content")]
         public ActionResult ExamplesContent(string[] cities, PostedCities postedCities) {
             Response.AddHeader("Access-Control-Allow-Origin", "*");
-            return View("ExamplesContent", GetCitiesModel(cities, postedCities));
+            return View("ExamplesContent", getCitiesModel(cities, postedCities));
         }
 
         public ActionResult Documentation() {
             return View();
         }
 
-        public ActionResult Test(string[] cities, PostedCities postedCities) {
-            return View(GetCitiesModel(cities, postedCities));
+        public ActionResult Contributors() {
+            return View();
         }
 
-        // todo: move to Data Service
-        private CitiesViewModel GetCitiesModel(string[] cities, PostedCities postedCities) {
+        private CitiesViewModel getCitiesModel(string[] cities, PostedCities postedCities) {
             // setup properties
             var model = new CitiesViewModel();
             var selectedCities = new List<City>();
@@ -62,10 +61,5 @@ namespace MvcCheckBoxList.Web.Mvc4.Controllers {
 
             return model;
         }
-
-        public ActionResult Contributors() {
-            return View();
-        }
-
     }
 }

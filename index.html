@@ -30,9 +30,6 @@
                 <h1><a href="/">CheckBoxList(For)</a></h1>
                 <p><label>a missing .NET MVC extension</label></p>
             </div>
-            <!--<h1 class="content_right">
-                <note>v.1.4.4.5</note>
-            </h1>-->
         </div>
 
         <div class="col_12">
@@ -425,7 +422,6 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_na
         and <a href="http://subtlepatterns.com">SubtlePatterns.com</a>
     </div>
 
-
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
@@ -435,48 +431,7 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_na
     <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.min.js"></script>
     <script src="js/kickstart.js"></script>
     <script src="js/prettify.js"></script>
-
-
-    <script type="text/javascript">
-        $(function() {
-            $('.custom_tags [what="smallCity"]').css("color", "blue");
-            $('.custom_tags [what="bigCity"]').css("color", "green");
-
-            var url = 'http://mvccbl.azurewebsites.net/examples-content';
-            //var url = 'http://localhost:52997/examples-content';
-
-            loadExamplesData();
-
-            function loadExamplesData() {
-                $.get(url, function(data) {
-                    setContainerData(data);
-                    setFormSubmit();
-                });
-            }
-
-            function setFormSubmit() {
-                $('form').submit(function(e) {
-                    e.preventDefault();
-
-                    var postData = $(this).serialize();
-
-                    $.post(url, postData, function(data) {
-                        setContainerData(data);
-                        setFormSubmit();
-                    });
-                });
-            }
-
-            function setContainerData(data) {
-                $('.examples-container').empty().append(data);
-
-                $('form').each(function(element) {
-                    $(this).attr('action', url);
-                });
-            }
-        });
-    </script>
-
+    <script src="js/scripts.js"></script>
 
 </body>
 </html>

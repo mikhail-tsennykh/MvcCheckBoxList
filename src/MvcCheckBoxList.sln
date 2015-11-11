@@ -29,6 +29,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{B827141D-E27
 		..\css\style.local.css = ..\css\style.local.css
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{08F71399-4726-49DA-AE82-ED97B46D3A21}"
+	ProjectSection(SolutionItems) = preProject
+		..\js\scripts.js = ..\js\scripts.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,5 +58,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B827141D-E275-43FA-A638-2A818337B8BD} = {CF45E074-4875-4CE3-AA2A-074763674C48}
+		{08F71399-4726-49DA-AE82-ED97B46D3A21} = {CF45E074-4875-4CE3-AA2A-074763674C48}
 	EndGlobalSection
 EndGlobal
