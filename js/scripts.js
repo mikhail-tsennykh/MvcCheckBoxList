@@ -1,7 +1,4 @@
 $(function() {
-    $('.custom_tags [what="smallCity"]').css("color", "blue");
-    $('.custom_tags [what="bigCity"]').css("color", "green");
-
     var url = 'http://mvccbl.azurewebsites.net/examples-content';
     //var url = 'http://localhost:52997/examples-content';
 
@@ -33,5 +30,8 @@ $(function() {
         $('form').each(function(element) {
             $(this).attr('action', url);
         });
+
+        $('pre').addClass('prettyprint');
+        prettyPrint();
     }
 });

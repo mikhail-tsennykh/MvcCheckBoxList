@@ -350,11 +350,9 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.vertical_columns, 2, null, TextLayou
 
 </div>
 
-@section Scripts {
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('.custom_tags [what="smallCity"]').css("color", "blue");
-      $('.custom_tags [what="bigCity"]').css("color", "green");
+<script type="text/javascript">
+    $(function () {
+        $('.custom_tags [what="smallCity"]').css("color", "blue");
+        $('.custom_tags [what="bigCity"]').css("color", "green");
     });
-  </script>  
-}
+</script>
