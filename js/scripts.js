@@ -1,6 +1,6 @@
 $(function() {
-    var url = 'http://mvccbl.azurewebsites.net/examples-content';
-    //var url = 'http://localhost:52997/examples-content';
+    //var url = 'http://mvccbl.azurewebsites.net/examples-content';
+    var url = 'http://localhost:52997/examples-content';
 
     loadExamplesData();
 

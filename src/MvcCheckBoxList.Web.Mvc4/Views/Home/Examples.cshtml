@@ -5,18 +5,27 @@
 }
 
 @if (Model.WasPosted) {
-    <div class="notice success clearfix">
-        <div class="content_left margin_top13">
-            <span class="icon medium" data-icon="C"></span>
-        </div>
-        <div class="content_left">
-            <h4>
-                @if (Model.PostedCities.CityIDs != null) {
-                    <span>@string.Join(", ", Model.SelectedCities.Select(x => x.Name))</span>
-                }
-            </h4>
-        </div>
-    </div>
+    var postedCities = "";
+    if (Model.PostedCities.CityIDs != null) {
+        postedCities = string.Join(", ", Model.SelectedCities.Select(x => x.Name));
+    }
+    @*<div class="notice success clearfix">
+            <div class="content_left margin_top13">
+                <span class="icon medium" data-icon="C"></span>
+            </div>
+            <div class="content_left">
+                <h4>@postedCities</h4>
+            </div>
+        </div>*@
+
+    <script>
+        noty({
+            text: '<span class="noty-message">@postedCities</span>',
+            type: 'success',
+            layout: 'topCenter',
+            timeout: 3000
+        });
+    </script>
 }
 <div class="col_12">
     <h3>@ViewBag.Title</h3>

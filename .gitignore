@@ -31,5 +31,6 @@ $tf*/
 *.nupkg
 [Ff]iles/
 [Pp]ackages/
+node_modules
 src/.vs
 UpgradeLog.html
