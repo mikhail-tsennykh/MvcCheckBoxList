@@ -157,333 +157,9 @@
             </a>
         </div>
 
-
-
-        <!--<div class="notice success clearfix">
-          <div class="content_left margin_top13">
-            <span class="icon medium" data-icon="C"></span>
-          </div>
-          <div class="content_left">
-            <h4>
-                <span>Monroe, New Orleans, Mumbai, Rio</span>
-            </h4>
-          </div>
-        </div>-->
         <!-- Examples -->
         <div class="examples-container"></div>
-        <!--<div class="col_12">
-                    <h3>Examples</h3>
 
-                    <p class="margin_top30">
-                        <h4>Given we have...</h4>
-                    </p>
-                    <p class="margin_top30">
-                        <h5>Base class <code>City</code></h5>
-        <pre>
-        public class City {
-          public int Id { get; set; }           // Integer value of a checkbox
-          public string Name { get; set; }      // String name of a checkbox
-          public object Tags { get; set; }      // Object of html tags to be applied to checkbox, e.g.: 'new { tagName = "tagValue" }'
-          public bool IsSelected { get; set; }  // Boolean value to select a checkbox on the list
-        }
-        </pre>
-                        <h5>And we use <code>CitiesViewModel</code> view model on our view</h5>
-        <pre>
-        public class CitiesViewModel {
-          public IList&lt;City&gt; AvailableCities { get; set; }
-          public IList&lt;City&gt; SelectedCities { get; set; }
-          public PostedCities PostedCities { get; set; }
-        }
-        // Helper class to make posting back selected values easier
-        public class PostedCities {
-          public string[] CityIDs { get; set; }
-        }
-        </pre>
-                        <h5>And our controller accepts class <code>PostedCities</code></h5>
-        <pre>
-        public ActionResult Examples(PostedCities postedCities) {
-          return View(/* Create View Model */);
-        }
-        </pre>
-                    </p>
-
-
-                    <p class="margin_top30">
-                        <h4>We can use examples below to create our checkbox list:</h4>
-                    </p>
-
-
-                    <section id="base">
-                        <title>Base example</title>
-                        <p>
-                            <label>Output:</label>
-                            <form action="/Examples" method="get">
-                                <div class="margin_bottom10">
-                                    <input checked="checked" id="PostedCities_CityIDs4795" name="PostedCities.CityIDs" type="checkbox" value="1"></input><label for="PostedCities_CityIDs4795">Monroe</label> &nbsp; <input id="PostedCities_CityIDs4796" name="PostedCities.CityIDs" type="checkbox" value="2"></input><label for="PostedCities_CityIDs4796">Moscow</label> &nbsp; <input checked="checked" id="PostedCities_CityIDs4797" name="PostedCities.CityIDs" type="checkbox" value="3"></input><label for="PostedCities_CityIDs4797">New Orleans</label> &nbsp; <input id="PostedCities_CityIDs4798" name="PostedCities.CityIDs" type="checkbox" value="4"></input><label for="PostedCities_CityIDs4798">Ottawa</label> &nbsp; <input checked="checked" id="PostedCities_CityIDs4799" name="PostedCities.CityIDs" type="checkbox" value="5"></input><label for="PostedCities_CityIDs4799">Mumbai</label> &nbsp; <input id="PostedCities_CityIDs4800" name="PostedCities.CityIDs" type="checkbox" value="6"></input><label for="PostedCities_CityIDs4800">Rome</label> &nbsp; <input checked="checked" id="PostedCities_CityIDs4801" name="PostedCities.CityIDs" type="checkbox" value="7"></input><label for="PostedCities_CityIDs4801">Rio</label> &nbsp;
-                                </div>
-                                <input class="green" type="submit" value="POST to controller" />
-                            </form>
-                        </p>
-
-                        <p>
-                            <label>Source Code:</label>
-        <pre>
-        &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // checkbox list name, 'PostedCities.CityIDs' in this case
-                              x => x.AvailableCities,       // List&lt;City&gt;()
-                              x => x.Id,                    // City.Id
-                              x => x.Name,                  // City.Name
-                              x => x.SelectedCities)        // List&lt;City&gt;() - should contain only cities to be selected
-        </pre>
-                        </p>
-                    </section>
-
-
-
-
-                    <section id="baseBoolean">
-                        <title>Base example (boolean selector)</title>
-                        <p>
-                            <label>Output:</label>
-                            <form action="/Examples" method="get">
-                                <div class="margin_bottom10">
-                                    <input id="PostedCities_CityIDs4802" name="PostedCities.CityIDs" type="checkbox" value="1"></input><label for="PostedCities_CityIDs4802">Monroe</label> &nbsp; <input checked="checked" id="PostedCities_CityIDs4803" name="PostedCities.CityIDs" type="checkbox" value="2"></input><label for="PostedCities_CityIDs4803">Moscow</label> &nbsp; <input id="PostedCities_CityIDs4804" name="PostedCities.CityIDs" type="checkbox" value="3"></input><label for="PostedCities_CityIDs4804">New Orleans</label> &nbsp; <input checked="checked" id="PostedCities_CityIDs4805" name="PostedCities.CityIDs" type="checkbox" value="4"></input><label for="PostedCities_CityIDs4805">Ottawa</label> &nbsp; <input id="PostedCities_CityIDs4806" name="PostedCities.CityIDs" type="checkbox" value="5"></input><label for="PostedCities_CityIDs4806">Mumbai</label> &nbsp; <input checked="checked" id="PostedCities_CityIDs4807" name="PostedCities.CityIDs" type="checkbox" value="6"></input><label for="PostedCities_CityIDs4807">Rome</label> &nbsp; <input id="PostedCities_CityIDs4808" name="PostedCities.CityIDs" type="checkbox" value="7"></input><label for="PostedCities_CityIDs4808">Rio</label> &nbsp;
-                                </div>
-                                <input class="green" type="submit" value="POST to controller" />
-                            </form>
-                        </p>
-
-                        <p>
-                            <label>Source Code:</label>
-        <pre>
-        &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,  // Checkbox list name, 'PostedCities.CityIDs' in this case
-                              x => x.AvailableCities,       // List&lt;City&gt;()
-                              x => x.Id,                    // City.Id
-                              x => x.Name,                  // City.Name
-                              x => x.IsSelected)            // City.IsSelected - boolean property in the database
-        </pre>
-                            <label>
-                                Or if we have a list of selected values on our View -
-                                <code>var selectedIds = new List&lt;int&gt;  { 1, 3, 5 };</code>
-                                you can do this:
-                            </label>
-        <pre>
-        &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,        // Checkbox list name, 'PostedCities.CityIDs' in this case
-                              x => x.AvailableCities,             // List&lt;City&gt;()
-                              x => x.Id,                          // City.Id
-                              x => x.Name,                        // City.Name
-                              x => selectedIds.Contains(x.Id))    // Linq query returns bool if item Id matches the list
-        </pre>
-                        </p>
-                    </section>
-
-
-
-
-                    <section id="verticalList">
-                        <title>Vertical Checkbox List</title>
-                        <p>
-                            <label>Output:</label>
-                            <form action="/Examples" method="get">
-                                <div class="margin_bottom10">
-                                    <input checked="checked" id="PostedCities_CityIDs4809" name="PostedCities.CityIDs" type="checkbox" value="1"></input><label for="PostedCities_CityIDs4809">Monroe</label><br /><input id="PostedCities_CityIDs4810" name="PostedCities.CityIDs" type="checkbox" value="2"></input><label for="PostedCities_CityIDs4810">Moscow</label><br /><input checked="checked" id="PostedCities_CityIDs4811" name="PostedCities.CityIDs" type="checkbox" value="3"></input><label for="PostedCities_CityIDs4811">New Orleans</label><br /><input id="PostedCities_CityIDs4812" name="PostedCities.CityIDs" type="checkbox" value="4"></input><label for="PostedCities_CityIDs4812">Ottawa</label><br /><input checked="checked" id="PostedCities_CityIDs4813" name="PostedCities.CityIDs" type="checkbox" value="5"></input><label for="PostedCities_CityIDs4813">Mumbai</label><br /><input id="PostedCities_CityIDs4814" name="PostedCities.CityIDs" type="checkbox" value="6"></input><label for="PostedCities_CityIDs4814">Rome</label><br /><input checked="checked" id="PostedCities_CityIDs4815" name="PostedCities.CityIDs" type="checkbox" value="7"></input><label for="PostedCities_CityIDs4815">Rio</label><br />
-                                </div>
-                                <input class="green" type="submit" value="POST to controller" />
-                            </form>
-                        </p>
-
-                        <p>
-                            <label>Source Code:</label>
-        <pre>
-        &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
-                              x => x.AvailableCities,
-                              x => x.Id,
-                              x => x.Name,
-                              x => x.SelectedCities,
-                              Position.Vertical)
-        </pre>
-                        </p>
-                    </section>
-
-
-
-
-                    <section id="customHtml">
-                        <title>Custom HTML tags for individual checkboxes from Model (Database)</title>
-                        <p>
-                            <label>Output:</label><br /><br />
-                            <em>Some cities will have custom tags from database:</em>
-                            <em>('<i>new {what = "smallCity"}</i>' for Monroe, and '<i>new {what = "bigCity"}</i>' for Moscow)</em>
-                            <form action="/Examples" method="get">
-                                <div class="custom_tags margin_bottom10">
-                                    <input checked="checked" id="PostedCities_CityIDs4816" name="PostedCities.CityIDs" type="checkbox" value="1" what="smallCity"></input><label for="PostedCities_CityIDs4816" what="smallCity">Monroe</label> &nbsp; <input id="PostedCities_CityIDs4817" name="PostedCities.CityIDs" type="checkbox" value="2" what="bigCity"></input><label for="PostedCities_CityIDs4817" what="bigCity">Moscow</label> &nbsp; <input length="0" checked="checked" id="PostedCities_CityIDs4818" name="PostedCities.CityIDs" type="checkbox" value="3"></input><label length="0" for="PostedCities_CityIDs4818">New Orleans</label> &nbsp; <input length="0" id="PostedCities_CityIDs4819" name="PostedCities.CityIDs" type="checkbox" value="4"></input><label length="0" for="PostedCities_CityIDs4819">Ottawa</label> &nbsp; <input length="0" checked="checked" id="PostedCities_CityIDs4820" name="PostedCities.CityIDs" type="checkbox" value="5"></input><label length="0" for="PostedCities_CityIDs4820">Mumbai</label> &nbsp; <input length="0" id="PostedCities_CityIDs4821" name="PostedCities.CityIDs" type="checkbox" value="6"></input><label length="0" for="PostedCities_CityIDs4821">Rome</label> &nbsp; <input length="0" checked="checked" id="PostedCities_CityIDs4822" name="PostedCities.CityIDs" type="checkbox" value="7"></input><label length="0" for="PostedCities_CityIDs4822">Rio</label> &nbsp;
-                                </div>
-                                <input class="green" type="submit" value="POST to controller" />
-                            </form>
-                        </p>
-
-                        <p>
-                            <label>Source Code:</label><br /><br />
-                            <em>We have this jquery code which will apply to certain custom tags from db:</em>
-        <pre>
-        $('[what="smallCity"]').css("color", "blue");
-        $('[what="bigCity"]').css("color", "green");
-        </pre>
-                            <em>And we call the control like this:</em>
-        <pre class="cs">
-        &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
-                              x => x.AvailableCities,
-                              x => x.Id,
-                              x => x.Name,
-                              x => x.SelectedCities,
-                              x => x.Tags)            // Tags is a database/model field of type 'object'
-                                                      // with value similar to: 'new {tagName = "tagValue"}'
-                                                      // they will be merged with other tags and applied to checkbox and its label
-        </pre>
-                        </p>
-                    </section>
-
-
-
-
-                    <section id="displayTemplates">
-                        <title>Display templates to render html for checkbox</title>
-                        <p>
-                            <label>Output:</label>
-                            <form action="/Examples" method="get"><div style="float:left;"><input checked="checked" id="PostedCities_CityIDs4823" name="PostedCities.CityIDs" type="checkbox" value="1"></input><label for="PostedCities_CityIDs4823"><strong>Monroe</strong> - text from display template</label><br /><input id="PostedCities_CityIDs4824" name="PostedCities.CityIDs" type="checkbox" value="2"></input><label for="PostedCities_CityIDs4824"><strong>Moscow</strong> - text from display template</label><br /><input checked="checked" id="PostedCities_CityIDs4825" name="PostedCities.CityIDs" type="checkbox" value="3"></input><label for="PostedCities_CityIDs4825"><strong>New Orleans</strong> - text from display template</label><br /><input id="PostedCities_CityIDs4826" name="PostedCities.CityIDs" type="checkbox" value="4"></input><label for="PostedCities_CityIDs4826"><strong>Ottawa</strong> - text from display template</label><br /></div> <div style="float:left;"><input checked="checked" id="PostedCities_CityIDs4827" name="PostedCities.CityIDs" type="checkbox" value="5"></input><label for="PostedCities_CityIDs4827"><strong>Mumbai</strong> - text from display template</label><br /><input id="PostedCities_CityIDs4828" name="PostedCities.CityIDs" type="checkbox" value="6"></input><label for="PostedCities_CityIDs4828"><strong>Rome</strong> - text from display template</label><br /><input checked="checked" id="PostedCities_CityIDs4829" name="PostedCities.CityIDs" type="checkbox" value="7"></input><label for="PostedCities_CityIDs4829"><strong>Rio</strong> - text from display template</label><br /></div> <div style="clear:both;"></div>
-                        <p><input class="green" type="submit" value="POST to controller" /></p>
-                        </form>	  </p>
-                        <p>
-                            <label>How-To:</label>
-                        </p>
-                        <p>
-                            First you need to create <strong>Views\Shared\DisplayTemplates\City.cshtml</strong>
-                            file to hold a template for our base class <code>City</code>.
-                            It must have same name as class <code>City</code> for which it templates,
-                            and must have a <code>&#64;model</code> set to use <code>City</code>
-                            (including applicable namespace).
-                        </p>
-                        <p>
-                            <label><strong>City.cshtml</strong> file used for this example:</label>
-        <pre>
-        &#64;model MvcCheckBoxListSampleApp.Model.City
-        &lt;strong&gt;&#64;Model.Name&lt;/strong&gt; - text from display template
-        </pre>
-                        </p>
-                        <p>
-                            <label>
-                                Then we create list using an instance of <code>HtmlListInfo</code> configuration class
-                                with <code>TemplateIsUsed.Yes</code> parameter:
-                            </label>
-                        </p>
-                        <p>
-        <pre>
-        var htmlListInfo = new HtmlListInfo(HtmlTag.vertical_columns, 2, null, TextLayout.Default, TemplateIsUsed.Yes);
-        &#64;Html.CheckBoxListFor(model => model.PostedCities.CityIDs,
-                              model => model.AvailableCities,
-                              city => city.Id,
-                              city => city.Name,
-                              model => model.SelectedCities,
-                              htmlListInfo)
-        </pre>
-                        </p>
-                    </section>
-
-
-
-
-                    <section id="fullExample">
-                        <title>Full Example</title>
-                        <p>
-                            <label>Output:</label>
-                            <form action="/Examples" method="get"><div class="styled_list" style="float:left;"><input checked="checked" class="styled_checkbox" id="PostedCities_CityIDs4830" name="PostedCities.CityIDs" type="checkbox" value="1" what="smallCity"></input><label class="styled_checkbox" for="PostedCities_CityIDs4830" what="smallCity">Monroe</label><br /><input class="styled_checkbox" id="PostedCities_CityIDs4831" name="PostedCities.CityIDs" type="checkbox" value="2" what="bigCity"></input><label class="styled_checkbox" for="PostedCities_CityIDs4831" what="bigCity">Moscow</label><br /><input name="PostedCities.CityIDs" type="hidden" value="3"></input><input length="0" checked="checked" class="styled_checkbox" disabled="disabled" id="PostedCities_CityIDs4832" name="PostedCities.CityIDs" type="checkbox" value="3"></input><label length="0" class="styled_checkbox" for="PostedCities_CityIDs4832">New Orleans</label><br /><input length="0" class="styled_checkbox" id="PostedCities_CityIDs4833" name="PostedCities.CityIDs" type="checkbox" value="4"></input><label length="0" class="styled_checkbox" for="PostedCities_CityIDs4833">Ottawa</label><br /></div> <div class="styled_list" style="float:left;"><input name="PostedCities.CityIDs" type="hidden" value="5"></input><input length="0" checked="checked" class="styled_checkbox" disabled="disabled" id="PostedCities_CityIDs4834" name="PostedCities.CityIDs" type="checkbox" value="5"></input><label length="0" class="styled_checkbox" for="PostedCities_CityIDs4834">Mumbai</label><br /><input length="0" class="styled_checkbox" id="PostedCities_CityIDs4835" name="PostedCities.CityIDs" type="checkbox" value="6"></input><label length="0" class="styled_checkbox" for="PostedCities_CityIDs4835">Rome</label><br /><input name="PostedCities.CityIDs" type="hidden" value="7"></input><input length="0" checked="checked" class="styled_checkbox" disabled="disabled" id="PostedCities_CityIDs4836" name="PostedCities.CityIDs" type="checkbox" value="7"></input><label length="0" class="styled_checkbox" for="PostedCities_CityIDs4836">Rio</label><br /></div> <div style="clear:both;"></div>
-                        <p><input class="green" type="submit" value="POST to controller" /></p>
-                        </form>	  </p>
-
-                        <p>
-                            <label>Source Code:</label><br /><br />
-                            <em>We have this style for each checkbox:</em>
-        <pre>
-        .styled_checkbox {
-          background: wheat; cursor:pointer; border-radius:5px;
-          margin: 3px; padding: 0px 5px;
-        }
-        </pre>
-                            <em>Also we have this style for the list wrapper (applies to each column):</em>
-        <pre>
-        .styled_list {
-          color:green; background:lightblue; border-radius:5px;
-          margin-right: 15px; padding:3px 5px 3px 5px; line-height: 25px;
-        }
-        </pre>
-                            <em>And we apply them below:</em>
-        <pre class="cs">
-        &#64;&#123;
-          var htmlListInfo = new HtmlListInfo(HtmlTag.vertical_columns, 2, new { &#64;class="styled_list" };
-          &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
-                                x => x.AvailableCities,
-                                x => x.Id,
-                                x => x.Name,
-                                x => x.SelectedCities,
-                                new { &#64;class="styled_checkbox" },      // additional html attributes (for each checkbox and label)
-                                htmlListInfo),                         // formatting
-                                new[] {"3", "5", "7"},                 // disabled values
-                                x => x.Tags)                           // html tags from database
-        &#125;
-        </pre>
-                        </p>
-                    </section>
-
-
-
-
-                    <section id="rightToLeft">
-                        <title>Right-to-left Checkbox/Label direction (e.g. for Arabic, Hebrew and other right-to-left languages)</title>
-                        <p>
-                            <label>Output:</label>
-                            <form action="/Examples" method="get">
-                                <div style="width: 150px;margin: 5px 0;">
-                                    <div style="text-align: right;"><label for="PostedCities_CityIDs4837">Monroe</label><input checked="checked" id="PostedCities_CityIDs4837" name="PostedCities.CityIDs" type="checkbox" value="1"></input><br /><label for="PostedCities_CityIDs4838">Moscow</label><input id="PostedCities_CityIDs4838" name="PostedCities.CityIDs" type="checkbox" value="2"></input><br /><label for="PostedCities_CityIDs4839">New Orleans</label><input checked="checked" id="PostedCities_CityIDs4839" name="PostedCities.CityIDs" type="checkbox" value="3"></input><br /><label for="PostedCities_CityIDs4840">Ottawa</label><input id="PostedCities_CityIDs4840" name="PostedCities.CityIDs" type="checkbox" value="4"></input><br /><label for="PostedCities_CityIDs4841">Mumbai</label><input checked="checked" id="PostedCities_CityIDs4841" name="PostedCities.CityIDs" type="checkbox" value="5"></input><br /><label for="PostedCities_CityIDs4842">Rome</label><input id="PostedCities_CityIDs4842" name="PostedCities.CityIDs" type="checkbox" value="6"></input><br /><label for="PostedCities_CityIDs4843">Rio</label><input checked="checked" id="PostedCities_CityIDs4843" name="PostedCities.CityIDs" type="checkbox" value="7"></input><br /></div>
-                                </div>
-                                <input class="green" type="submit" value="POST to controller" />
-                            </form>
-                        </p>
-
-                        <p>
-                            <label>Source Code:</label>
-        <pre>
-        &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
-                              x => x.AvailableCities,
-                              x => x.Id,
-                              x => x.Name,
-                              x => x.SelectedCities,
-                              Position.Vertical_RightToLeft)
-        </pre>
-                        </p>
-
-                        <p>
-                            <label>Or same vertical layout, but using 'HtmlListInfo' instead of 'Position':</label>
-        <pre>
-        &#64;Html.CheckBoxListFor(x => x.PostedCities.CityIDs,
-                              x => x.AvailableCities,
-                              x => x.Id,
-                              x => x.Name,
-                              x => x.SelectedCities,
-                              new HtmlListInfo(HtmlTag.vertical_columns, 0, null, TextLayout.RightToLeft))
-        </pre>
-                        </p>
-                    </section>
-
-
-
-                    <h4 class="col_12 center">For more information and discussion see</h4>
-                    <div class="col_12 center">
-                        <a href="http://www.codeproject.com/Articles/292050/CheckBoxList-For-a-missing-MVC-extension" class="button large pop">
-                            <span class="icon" data-icon="?"></span>
-                            Extension's Article on CodeProject.com
-                        </a>
-                    </div>
-
-                </div>-->
         <!-- Documentation -->
         <div class="col_12">
             <h3>Documentation</h3>
@@ -766,11 +442,38 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_na
             $('.custom_tags [what="smallCity"]').css("color", "blue");
             $('.custom_tags [what="bigCity"]').css("color", "green");
 
-            var url = 'http://localhost:52997/examples-content';
+            var url = 'http://mvccbl.azurewebsites.net/examples-content';
+            //var url = 'http://localhost:52997/examples-content';
 
-            $.get(url, function(data) {
+            loadExamplesData();
+
+            function loadExamplesData() {
+                $.get(url, function(data) {
+                    setContainerData(data);
+                    setFormSubmit();
+                });
+            }
+
+            function setFormSubmit() {
+                $('form').submit(function(e) {
+                    e.preventDefault();
+
+                    var postData = $(this).serialize();
+
+                    $.post(url, postData, function(data) {
+                        setContainerData(data);
+                        setFormSubmit();
+                    });
+                });
+            }
+
+            function setContainerData(data) {
                 $('.examples-container').empty().append(data);
-            });
+
+                $('form').each(function(element) {
+                    $(this).attr('action', url);
+                });
+            }
         });
     </script>
 

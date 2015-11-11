@@ -8,6 +8,7 @@ namespace MvcCheckBoxList.Web.Mvc4.Controllers {
     public class HomeController : BaseController {
 
         public ActionResult Index(string[] cities, PostedCities postedCities) {
+            Response.AddHeader("Access-Control-Allow-Origin", "*");
             return View(GetCitiesModel(cities, postedCities));
         }
 
@@ -17,6 +18,7 @@ namespace MvcCheckBoxList.Web.Mvc4.Controllers {
 
         [ActionName("examples-content")]
         public ActionResult ExamplesContent(string[] cities, PostedCities postedCities) {
+            Response.AddHeader("Access-Control-Allow-Origin", "*");
             return View("ExamplesContent", GetCitiesModel(cities, postedCities));
         }
 
