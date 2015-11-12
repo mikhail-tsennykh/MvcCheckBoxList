@@ -1,6 +1,6 @@
 $(function() {
-    //var url = 'http://mvccbl.azurewebsites.net/examples-content';
-    var url = 'http://localhost:52997/examples-content';
+    var url = 'http://mvccbl.azurewebsites.net/examples-content';
+    //var url = 'http://localhost:52997/examples-content';
 
     loadExamplesData();
 
@@ -12,16 +12,19 @@ $(function() {
     }
 
     function setFormSubmit() {
-        $('form').submit(function(e) {
-            e.preventDefault();
+        $('form')
+            .unbind('submit')
+            .submit(function(e) {
 
-            var postData = $(this).serialize();
+                e.preventDefault();
 
-            $.post(url, postData, function(data) {
-                setContainerData(data);
-                setFormSubmit();
+                var postData = $(this).serialize();
+
+                $.post(url, postData, function(data) {
+                    setContainerData(data);
+                    setFormSubmit();
+                });
             });
-        });
     }
 
     function setContainerData(data) {

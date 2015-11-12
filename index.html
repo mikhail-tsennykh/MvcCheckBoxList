@@ -27,18 +27,17 @@
 
         <div class="col_12">
             <div class="content_left">
-                <h1><a href="/">CheckBoxList(For)</a></h1>
+                <h1><a href="">CheckBoxList(For)</a></h1>
                 <p><label>a missing .NET MVC extension</label></p>
             </div>
         </div>
 
         <div class="col_12">
             <ul class="nav">
-                <li><a href="/"><img style="width: 28px;" src="images/home.png" /></a></li>
-                <li><a href="/Examples">Examples</a></li>
-                <li><a href="/Documentation">Documentation</a></li>
-                <li><a href="/Contributors">Contributors</a></li>
-
+                <li><a href=""><img style="width: 28px;" src="images/home.png" /></a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="#documentation">Documentation</a></li>
+                <li><a href="#contributors">Contributors</a></li>
                 <li><a target="_blank" title="... on CodeProject.com" href="http://www.codeproject.com/Articles/292050/CheckBoxList-For-a-missing-MVC-extension">Discussion *</a></li>
             </ul>
         </div>
@@ -48,7 +47,7 @@
         <hr />
 
         <div class="col_12">
-            <title>What is it?</title>
+            <span class="title">What is it?</span>
             <p>
                 It is a custom extension of Microsoft MVC Framework's <code>HtmlHelper</code> class,
                 which creates a postable Model-based list of check boxes.
@@ -61,7 +60,7 @@
         <hr />
 
         <div class="col_4">
-            <title>Features:</title>
+            <span class="title">Features:</span>
             <ul class="checks">
                 <li title="IMHO ;)">Easy to use</li>
                 <li>Creates POSTable checkboxes from any set of data</li>
@@ -73,8 +72,8 @@
         </div>
 
         <div class="col_8">
-            <title>See it in action:</title>
-            <p>
+            <span class="title">See it in action:</span>
+            <div>
                 <label>MVC View code:</label>
                 <pre>
   &#64;Html.CheckBoxListFor(model => model.CheckBoxListName,
@@ -83,23 +82,35 @@
                         entity => entity.FieldToUseAsCheckBoxName,
                         model => model.ListOfYourSelectedData)
   </pre>
-            </p>
+            </div>
 
             <label>Will create a checkbox list:</label>
             <form action="/" method="get">
                 <section>
-                    <input id="PostedCities_CityIDs4858" name="PostedCities.CityIDs" type="checkbox" value="1"></input><label for="PostedCities_CityIDs4858">Monroe</label> &nbsp; <input id="PostedCities_CityIDs4859" name="PostedCities.CityIDs" type="checkbox" value="2"></input><label for="PostedCities_CityIDs4859">Moscow</label> &nbsp; <input id="PostedCities_CityIDs4860" name="PostedCities.CityIDs" type="checkbox" value="3"></input><label for="PostedCities_CityIDs4860">New Orleans</label> &nbsp; <input id="PostedCities_CityIDs4861" name="PostedCities.CityIDs" type="checkbox" value="4"></input><label for="PostedCities_CityIDs4861">Ottawa</label> &nbsp; <input id="PostedCities_CityIDs4862" name="PostedCities.CityIDs" type="checkbox" value="5"></input><label for="PostedCities_CityIDs4862">Mumbai</label> &nbsp; <input id="PostedCities_CityIDs4863" name="PostedCities.CityIDs" type="checkbox" value="6"></input><label for="PostedCities_CityIDs4863">Rome</label> &nbsp; <input id="PostedCities_CityIDs4864" name="PostedCities.CityIDs" type="checkbox" value="7"></input><label for="PostedCities_CityIDs4864">Rio</label> &nbsp;
+                    <input id="PostedCities_CityIDs4858" name="PostedCities.CityIDs" type="checkbox" value="1" />
+                    <label for="PostedCities_CityIDs4858">Monroe</label> &nbsp;
+                    <input id="PostedCities_CityIDs4859" name="PostedCities.CityIDs" type="checkbox" value="2" />
+                    <label for="PostedCities_CityIDs4859">Moscow</label> &nbsp;
+                    <input id="PostedCities_CityIDs4860" name="PostedCities.CityIDs" type="checkbox" value="3" />
+                    <label for="PostedCities_CityIDs4860">New Orleans</label> &nbsp;
+                    <input id="PostedCities_CityIDs4861" name="PostedCities.CityIDs" type="checkbox" value="4" />
+                    <label for="PostedCities_CityIDs4861">Ottawa</label> &nbsp;
+                    <input id="PostedCities_CityIDs4862" name="PostedCities.CityIDs" type="checkbox" value="5" />
+                    <label for="PostedCities_CityIDs4862">Mumbai</label> &nbsp;
+                    <input id="PostedCities_CityIDs4863" name="PostedCities.CityIDs" type="checkbox" value="6" />
+                    <label for="PostedCities_CityIDs4863">Rome</label> &nbsp;
+                    <input id="PostedCities_CityIDs4864" name="PostedCities.CityIDs" type="checkbox" value="7" />
+                    <label for="PostedCities_CityIDs4864">Rio</label> &nbsp;
                 </section>
                 <button class="pop">SUBMIT</button>
                 <note>&nbsp; selection to controller</note>
-                <a href="/Examples" class="button pop content_right">
+                <a href="#examples" class="button pop content_right">
                     <span class="icon" data-icon="g"></span>
                     See More Examples
                 </a>
             </form>
         </div>
         <hr />
-
 
         <h4 class="col_12 center">Install it</h4>
 
@@ -110,7 +121,6 @@
                 </nuget>
             </div>
         </div>
-
 
         <h4 class="col_12 center">Source it</h4>
 
@@ -130,20 +140,18 @@
             </a>
         </div>
 
-
         <h4 class="col_12 center">Learn it</h4>
 
         <div class="col_12 center">
-            <a href="/Examples" class="button large pop">
+            <a href="#examples" class="button large pop">
                 <span class="icon" data-icon="g"></span>
                 See More Examples
             </a>
-            <a href="/Documentation" class="button large pop">
+            <a href="#documentation" class="button large pop">
                 <span class="icon" data-icon="."></span>
                 Read Documentation
             </a>
         </div>
-
 
         <h4 class="col_12 center">Discuss it</h4>
 
@@ -158,13 +166,13 @@
         <div class="examples-container"></div>
 
         <!-- Documentation -->
-        <div class="col_12">
+        <div id="documentation" class="col_12">
             <h3>Documentation</h3>
 
-            <p class="margin_top30">
+            <div class="margin_top30">
                 <h4>Given we have...</h4>
-            </p>
-            <p class="margin_top30">
+            </div>
+            <div class="margin_top30">
                 <h5>Base class <code>City</code></h5>
 <pre>
 public class City {
@@ -192,13 +200,12 @@ public ActionResult Examples(PostedCities postedCities) {
   return View(/* Create View Model */);
 }
 </pre>
-            </p>
+            </div>
 
 
             <section>
-                <title>Base overloads</title>
-
-                <p>
+                <span class="title">Base overloads</span>
+                <div>
                     <h6>Base checkbox list call structure:</h6>
 <pre style="width: 45%;" class="content_left">
 &#64;Html.CheckBoxList("LIST_NAME", 
@@ -218,9 +225,9 @@ public ActionResult Examples(PostedCities postedCities) {
                       // or entity => entity.IS_CHECKED
 </pre>
                     <div class="clear"></div>
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>And in our example it looks like this:</h6>
 <pre>
 &#64;Html.CheckBoxListFor(model => model.PostedCities.CityIDs, 
@@ -229,9 +236,9 @@ public ActionResult Examples(PostedCities postedCities) {
                       entity => entity.Name, 
                       model => model.SelectedCities)
 </pre>
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>Or if using boolean selector:</h6>
 <pre>
 &#64;Html.CheckBoxListFor(model => model.PostedCities.CityIDs, 
@@ -241,9 +248,9 @@ public ActionResult Examples(PostedCities postedCities) {
                       entity => entity.IsSelected)
 </pre>
                     where <code>entity.IsSelected</code> is a boolean value from database
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>And another way to use boolean selector:</h6>
                     If we have a list of selected values on our View -
                     <code>var selectedIds = new List&lt;int&gt;  { 1, 3, 5 };</code>
@@ -256,78 +263,78 @@ public ActionResult Examples(PostedCities postedCities) {
                       entity => selectedIds.Contains(entity.Id))
 </pre>
                     where <code>selectedIds.Contains(entity.Id)</code> returns bool if item Id matches the list
-                </p>
+                </div>
 
             </section>
 
             <section>
-                <title>Basic Settings</title>
+                <span class="title">Basic Settings</span>
 
-                <p>
+                <div>
                     Since five base properties don't change, only extra ones will be shown, so placeholder
                     <code>...</code> means usage of five base properties
-                </p>
+                </div>
 
-                <p>
+                <div>
                     You might need to add this reference to your view first (namespace for <code>Position</code> <strong>enum</strong> and others):
                     <pre>&#64;using MvcCheckBoxList.Model</pre>
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>1. Set position (direction) of the list:</h6>
                     <pre>&#64;Html.CheckBoxListFor( ... , Position.Horizontal)</pre>
-                </p>
-                <p>
+                </div>
+                <div>
                     <code>Position</code> Can be <code>Position.Horizontal</code>, <code>Position.Vertical</code>,
                     <code>Position.Horizontal_RightToLeft</code>, or <code>Position.Vertical_RightToLeft</code>
                     where last two are to reverse checkbox and label for right-to-left languages
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>2. Set html attributes for both checkbox and label:</h6>
                     <pre>&#64;Html.CheckBoxListFor( ... , x => new { &#64;class="class_name" }) // Tags will be applied to all checkbox/label combos</pre>
                     or get Tags object from database:
                     <pre>&#64;Html.CheckBoxListFor( ... , x => x.Tags) // x.Tags will be applied only to particular checkbox/label combo</pre>
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>3. Set html attributes and position:</h6>
                     <pre>&#64;Html.CheckBoxListFor( ... , Position.Horizontal, x => new { &#64;class="class_name" })</pre>
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>4. Set html attributes for all, disabled values, position, and individual html attributes (all attributes will be merged together):</h6>
                     <pre>&#64;Html.CheckBoxListFor( ... , x => new { &#64;class="class_name" }, new[] {"3", "5", "7"}, Position.Horizontal, x => x.Tags)</pre>
-                </p>
+                </div>
 
             </section>
 
             <section>
-                <title>Advanced Settings</title>
+                <span class="title">Advanced Settings</span>
 
-                <p>
+                <div>
                     You might need to add this reference to your view first (namespace for <code>HtmlListInfo</code> <strong>class</strong> and others):
                     <pre>&#64;using MvcCheckBoxList.Model</pre>
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>1. Set custom layout using <code>HtmlListInfo</code> class:</h6>
 <pre>
 var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_name" }, TextLayout.Default, TemplateIsUsed.Yes);
 &#64;Html.CheckBoxListFor( ... , htmlListInfo)
 </pre>
-                </p>
-                <p>
+                </div>
+                <div>
                     There, in <code>HtmlListInfo</code> class, <code>HtmlTag</code> can be
                     <code>HtmlTag.table</code> or <code>HtmlTag.vertical_columns</code>;
                     <code>2</code> is a number of columns;
-                </p>
-                <p>
+                </div>
+                <div>
                     <code>TextLayout</code> can be <code>TextLayout.Default</code>
                     or <code>TextLayout.RightToLeft</code> (for right to left languages)
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>2. Set layout with <code>HtmlListInfo</code> class and set html attributes:</h6>
 <pre>
 &#64;Html.CheckBoxListFor( ... , htmlListInfo, x => new { tagName = "tagValue" })  // Tags will be applied to all checkbox/label combos
@@ -336,9 +343,9 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_na
 <pre>
 &#64;Html.CheckBoxListFor( ... , htmlListInfo, x => x.Tags })  // x.Tags will be applied only to particular checkbox/label combo
 </pre>
-                </p>
+                </div>
 
-                <p>
+                <div>
                     <h6>
                         3. Set html attributes for all, set layout with <code>HtmlListInfo</code>,
                         set disabled values, and individual html attributes (all attributes will be merged together):
@@ -350,7 +357,7 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_na
                     equal to something similar to this <code>new { tag1 = "value1", tag2="value2" }</code>
                     and represent one or more custom html attributes, and will be applied to both
                     checkbox and label
-                </p>
+                </div>
 
                 <h6>
                     Also note that <code>x.Tags</code> is an optional parameter for <strong>each</strong>
@@ -373,11 +380,10 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_na
         </div>
 
         <!-- Contributors -->
-        <div class="col_12">
+        <div id="contributors" class="col_12">
             <h3>Contributors</h3>
 
             <section>
-                <p></p>
                 <ul>
                     <li>
                         <a href="http://www.codeproject.com/Members/Sacha-Barber">Sacha Barber</a>
@@ -416,7 +422,7 @@ var htmlListInfo = new HtmlListInfo(HtmlTag.table, 2, new { &#64;class="class_na
 
     <div class="footer">
         © 2012 <a target="_blank" href="http://www.codeproject.com/Members/Mikhail-T">Mikhail Tsennykh</a>. All Rights Reserved.
-        | <a href="/Contributors">Contributors</a>
+        | <a href="#contributors">Contributors</a>
         | <a href="http://www.codeproject.com/info/cpol10.aspx">License</a>
         | Built with <a href="http://www.99lime.com">HTML KickStart</a>
         and <a href="http://subtlepatterns.com">SubtlePatterns.com</a>
