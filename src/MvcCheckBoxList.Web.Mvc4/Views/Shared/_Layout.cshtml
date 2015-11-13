@@ -17,11 +17,25 @@
 
     @* Styles *@
     <link href="~/Content/kickstart/kickstart.css" rel="stylesheet" />
-    <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link href="https://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet" />
     <link href="~/Content/style.lib.css" rel="stylesheet" />
     <link href="~/Content/style.local.css" rel="stylesheet" />
     <link href="~/Content/style.examples.css" rel="stylesheet" />
+    
+    @* Scripts *@
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+    <![endif]-->
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.noty.packaged.min.js"></script>
+    <script src="~/Scripts/kickstart.js"></script>
+    <script src="~/Scripts/prettify.js"></script>
 
 </head>
 <body>
@@ -34,8 +48,8 @@
                 <p><label>a missing .NET MVC extension</label></p>
             </div>
             @*<h1 class="content_right">
-                <note>v.@CheckBoxListInfo.AssemblyInfo.Version</note>
-            </h1>*@
+                    <note>v.@CheckBoxListInfo.AssemblyInfo.Version</note>
+                </h1>*@
         </div>
 
         <div class="col_12">
@@ -63,19 +77,6 @@
         | Built with <a href="http://www.99lime.com">HTML KickStart</a>
         and <a href="http://subtlepatterns.com">SubtlePatterns.com</a>
     </div>
-
-
-    @* Scripts *@
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-    <![endif]-->
-
-    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
-    <script src="~/Scripts/kickstart.js"></script>
-    <script src="~/Scripts/prettify.js"></script>
 
     @RenderSection("scripts", required: false)
 
