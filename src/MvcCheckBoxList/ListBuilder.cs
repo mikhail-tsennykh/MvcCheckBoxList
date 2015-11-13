@@ -345,7 +345,7 @@ namespace MvcCheckBoxList.Library {
           hidden_input_builder.MergeAttribute("type", "hidden");
           hidden_input_builder.MergeAttribute("value", itemValue);
           hidden_input_builder.MergeAttribute("name", name);
-          sb.Append(hidden_input_builder.ToString(TagRenderMode.Normal));
+          sb.Append(hidden_input_builder.ToString(TagRenderMode.SelfClosing));
         }
       }
 
@@ -353,10 +353,10 @@ namespace MvcCheckBoxList.Library {
       if (textLayout == TextLayout.RightToLeft) {
         // then display checkbox for right-to-left languages
         sb.Append(linked_label_builder.ToString(TagRenderMode.Normal));
-        sb.Append(checkbox_builder.ToString(TagRenderMode.Normal));
+        sb.Append(checkbox_builder.ToString(TagRenderMode.SelfClosing));
       }
       else {
-        sb.Append(checkbox_builder.ToString(TagRenderMode.Normal));
+        sb.Append(checkbox_builder.ToString(TagRenderMode.SelfClosing));
         sb.Append(linked_label_builder.ToString(TagRenderMode.Normal));
       }
 
