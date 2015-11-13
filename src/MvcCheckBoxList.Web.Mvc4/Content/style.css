@@ -91,3 +91,9 @@ nuget {
   display: block; font: 1.5em 'andale mono', 'lucida console', monospace;
   line-height: 1.5em; overflow: auto; padding: 15px;
 }
+
+/* Noty styles */
+.noty-message {
+    font-weight: 700;
+    font-size: 1.5em;
+}
