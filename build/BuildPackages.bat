@@ -1,1 +1,0 @@
-..\src\.nuget\nuget pack ..\src\MvcCheckBoxList.nuspec

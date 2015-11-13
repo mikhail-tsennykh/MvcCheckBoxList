@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{862991EB-7C08-4600-9178-F847226F1FE4}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,6 +15,24 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcCheckBoxList.net40", "MvcCheckBoxList.net40\MvcCheckBoxList.net40.csproj", "{B52D66BA-3958-4C65-861B-393FA70C6ADE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcCheckBoxList.Web.Mvc4", "MvcCheckBoxList.Web.Mvc4\MvcCheckBoxList.Web.Mvc4.csproj", "{A26CFCD8-35FB-4BCA-9C62-D232ECF2DA77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF45E074-4875-4CE3-AA2A-074763674C48}"
+	ProjectSection(SolutionItems) = preProject
+		..\index.html = ..\index.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{B827141D-E275-43FA-A638-2A818337B8BD}"
+	ProjectSection(SolutionItems) = preProject
+		..\css\style.css = ..\css\style.css
+		..\css\style.examples.css = ..\css\style.examples.css
+		..\css\style.lib.css = ..\css\style.lib.css
+		..\css\style.local.css = ..\css\style.local.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{08F71399-4726-49DA-AE82-ED97B46D3A21}"
+	ProjectSection(SolutionItems) = preProject
+		..\js\scripts.js = ..\js\scripts.js
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,5 +55,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B827141D-E275-43FA-A638-2A818337B8BD} = {CF45E074-4875-4CE3-AA2A-074763674C48}
+		{08F71399-4726-49DA-AE82-ED97B46D3A21} = {CF45E074-4875-4CE3-AA2A-074763674C48}
 	EndGlobalSection
 EndGlobal

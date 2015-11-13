@@ -1,0 +1,22 @@
+{
+  "name": "mvccbl",
+  "version": "1.0.0",
+  "description": "Extension source code and MVC source project for Visual Studio 2012+, .NET framework 4.0 and 4.5.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikhail-tsennykh/MvcCheckBoxList.git"
+  },
+  "author": "Mikhail Tsennykh",
+  "license": "CPOL-1.02",
+  "bugs": {
+    "url": "https://github.com/mikhail-tsennykh/MvcCheckBoxList/issues"
+  },
+  "homepage": "https://github.com/mikhail-tsennykh/MvcCheckBoxList#readme",
+  "devDependencies": {
+    "noty": "^2.3.7"
+  }
+}
