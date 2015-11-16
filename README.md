@@ -14,10 +14,25 @@ this plugin adds it.
 
     Install-Package MvcCheckBoxList
     
+#### Insert into your Razor view:
+
+    @Html.CheckBoxListFor(model => model.CheckBoxListName,                  // Checkbox name value, can be inline string
+                          model => model.ListOfYourData,                    // List<YourDataObject>() of checkboxlist options
+                            entity => entity.FieldToUseAsCheckBoxValue,     // Each option value field (from 'YourDataObject')
+                            entity => entity.FieldToUseAsCheckBoxName,      // Each option text field (from 'YourDataObject')
+                          model => model.ListOfYourSelectedData)            // List<YourDataObject>() of selected checkboxlist options
+                          
+#### This will render input:checkbox and label pairs, e.g.:
+
+    <input checked="checked" id="CheckBoxListName123" name="CheckBoxListName" type="checkbox" value="1">
+    <label for="CheckBoxListName123">Text 1</label>
+    
+    <input id="CheckBoxListName124" name="CheckBoxListName" type="checkbox" value="2">
+    <label for="CheckBoxListName124">Text 2</label>
+    
+    <input id="CheckBoxListName125" name="CheckBoxListName" type="checkbox" value="3">
+    <label for="CheckBoxListName125">Text 3</label>
+    
 #### How to use:
 
-Please refer to [Documentaton](http://mvccbl.com/Documentation)
-
-##### Join the discussion here:
-
-[CheckBoxList(For) - a missing MVC extension](http://www.codeproject.com/Articles/292050/CheckBoxList-For-a-missing-MVC-extension)
+See Examples and Documentation on [Extension's Site](http://mikhail-tsennykh.github.io/MvcCheckBoxList/)
