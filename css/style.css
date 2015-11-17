@@ -85,6 +85,7 @@ textarea {
 }
 em {font-style: normal; color: gray;}
 label {font-weight: bold; margin-right: 10px;}
+form label {cursor: pointer;}
 input[type="checkbox"] {margin-right: 4px; height: 15px;}
 pre { margin: 10px 0;}
 

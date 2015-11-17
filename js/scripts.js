@@ -1,40 +1,27 @@
 $(function() {
-    var url = 'http://mvccbl.azurewebsites.net/examples-content';
-    //var url = 'http://localhost:52997/examples-content';
+	$('.custom_tags [what="smallCity"]').css("color", "blue");
+	$('.custom_tags [what="bigCity"]').css("color", "green");
+        
+    $('form').submit(function(e) {
+		e.preventDefault();
+		var cities = [];
+		
+		$(this).find('input:checked').each(function() {
+			var checkboxId = $(this).attr('id'),
+				labelText = $('label[for="' + checkboxId + '"]').text();
+			cities.push(labelText);
+		});
+		
+		if (cities.length > 0) {
+			noty({
+				text: '<span class="noty-message">' + cities.join(', ') + '</span>',
+				type: 'success',
+				layout: 'topCenter',
+				timeout: 3000
+			});
+        }
+    });
 
-    loadExamplesData();
-
-    function loadExamplesData() {
-        $.get(url, function(data) {
-            setContainerData(data);
-            setFormSubmit();
-        });
-    }
-
-    function setFormSubmit() {
-        $('form')
-            .unbind('submit')
-            .submit(function(e) {
-
-                e.preventDefault();
-
-                var postData = $(this).serialize();
-
-                $.post(url, postData, function(data) {
-                    setContainerData(data);
-                    setFormSubmit();
-                });
-            });
-    }
-
-    function setContainerData(data) {
-        $('.examples-container').empty().append(data);
-
-        $('form').each(function(element) {
-            $(this).attr('action', url);
-        });
-
-        $('pre').addClass('prettyprint');
-        prettyPrint();
-    }
+	$('pre').addClass('prettyprint');
+    prettyPrint();
 });
