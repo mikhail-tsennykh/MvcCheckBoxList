@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.4.4.5")]
-[assembly: AssemblyFileVersion("1.4.4.5")]
+[assembly: AssemblyVersion("1.4.5")]
+[assembly: AssemblyFileVersion("1.4.5")]
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -18,8 +18,8 @@ using System.Runtime.InteropServices;
                                "POSTable checkbox list.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mikhail Tsennykh")]
-[assembly: AssemblyProduct("@Html.CheckBoxList() custom extension")]
-[assembly: AssemblyCopyright("Copyright © 2011-2012 Mikhail Tsennykh")]
+[assembly: AssemblyProduct("MvcCheckBoxList custom extension")]
+[assembly: AssemblyCopyright("Copyright © 2011-2015 Mikhail Tsennykh")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
