@@ -35,4 +35,4 @@ this plugin adds it.
     
 #### How to use:
 
-See Examples and Documentation on [Extension's Site](http://mvccbl.com/)
+See Examples and Documentation on [Extension's Site](https://mikhail-tsennykh.github.io/MvcCheckBoxList/)
