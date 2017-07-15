@@ -1,3 +1,4 @@
+# This extension is no longer supported, no new versions are being developed or planned to be released.
 
 ## CheckBoxList(For) - a missing .NET MVC extension
 
